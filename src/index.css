@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .bg-pink-gradient {
+    @apply bg-gradient-to-br from-blue-300 to-pink-300;
+  }
+}
