@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 import axios from "axios";
 
 const initialState = {
-    loading:'idle'
+  loading: "idle",
 };
 const URL = import.meta.env.VITE_BACKEND_URL;
-
 const adminFeaturesSlice = createSlice({
   name: "admin/features",
   initialState,
@@ -41,7 +41,7 @@ export const SignupAdmin = createAsyncThunk(
           },
         }
       );
-      return response.data
+      return response.data;
     } catch (e) {
       console.log(e);
     }
@@ -61,8 +61,31 @@ export const SigninAdmin = createAsyncThunk(
           },
         }
       );
-      console.log(response.data)
-      return response.data
+      console.log(response.data);
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+);
+
+export const createSchoolInvite = createAsyncThunk(
+  "admin/features/invite/school",
+  async (schooldata) => {
+    const csrfToken = Cookies.get("csrf_token");    
+    try {
+      const response = await axios.post(
+        `${URL}/api/sysadmin/invite/create`,
+        schooldata,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
+        }
+      );
+      return response.data;
     } catch (e) {
       console.log(e);
     }

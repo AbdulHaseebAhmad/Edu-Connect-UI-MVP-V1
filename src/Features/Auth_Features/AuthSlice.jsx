@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { SigninAdmin } from "../Features/Admin_Features/adminSlice";
+import { SigninAdmin } from "../Admin_Features/adminSlice";
 
 const initialState = {
   authenticated: false,
@@ -12,11 +12,11 @@ const initialState = {
 
 const URL = import.meta.env.VITE_BACKEND_URL;
 
-const authFeatuureSlice = createSlice({
+const authFeaturesSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logoutAdmin() {
+    logoutAdmin(state) {
       state.authenticated = false;
       state.role = null;
       state.email = null;
@@ -44,5 +44,5 @@ const authFeatuureSlice = createSlice({
   },
 });
 
-export const { logout } = authFeatuureSlice.actions;
-export default authFeatuureSlice.reducer;
+export const { logoutAdmin } = authFeaturesSlice.actions;
+export default authFeaturesSlice.reducer;

@@ -1,9 +1,9 @@
-import { configureStore, combineReducers  } from '@reduxjs/toolkit';
-import adminFeaturesSlice from "../Features/Admin_Features/AdminSlice"
-import authFeatuureSlice from "../Authentication/AuthSlice"
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import adminFeaturesSlice from "../Features/Admin_Features/AdminSlice";
+import authFeaturesSlice from "../Features/Auth_Features/AuthSlice";
+import schoolFeaturesSlice from "../Features/School_Features/SchoolSlice";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-
 
 const authPersistConfig = {
   key: "authReducer",
@@ -11,10 +11,10 @@ const authPersistConfig = {
 };
 
 const rootReducer = combineReducers({
-  authReducer: persistReducer(authPersistConfig, authFeatuureSlice), //  persisted
-  adminReducer:adminFeaturesSlice, // not persisted
+  authReducer: persistReducer(authPersistConfig, authFeaturesSlice), //  persisted
+  adminReducer: adminFeaturesSlice, // not persisted
+  schoolReducer: schoolFeaturesSlice, // not persisted
 });
-
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -25,8 +25,8 @@ export const store = configureStore({
 // const store = configureStore({
 //   reducer: {
 //     adminFeaturesSlice,
-//     authFeatuureSlice
-    
+//     authFeaturesSlice
+
 //   },
 // });
 

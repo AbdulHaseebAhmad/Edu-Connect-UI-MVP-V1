@@ -1,8 +1,12 @@
 import { createBrowserRouter, Outlet } from "react-router-dom";
 import Login from "../Authentication/Login";
 import Signup from "../Authentication/Signup";
-import SysAdminRootElement from "./SysAdminRootElement";
-import AuthElement from "../Authentication/AuthElement";
+import SysAdminRoot from "./SysAdminRoot";
+import AuthRoot from "./AuthRoot";
+import GuestRoot from "./GuestRoot";
+import SysAdminDashboard from "../Pages/SysAdmin/SysAdminDashboard";
+import SysAdminInvitation from "../Pages/SysAdmin/SysAdminInvitation";
+import SchoolInvite from "../Pages/SchoolAdmin/SchoolInvite";
 
 const router = createBrowserRouter([
   {
@@ -10,17 +14,29 @@ const router = createBrowserRouter([
     element: <Outlet />,
     children: [
       {
-        element: <AuthElement />,
+        element: <AuthRoot />,
         children: [
           {
-            element: <SysAdminRootElement />,
+            element: <SysAdminRoot />,
             children: [
               {
                 path: "sysadmin",
                 children: [
                   {
+                    path: "dashboard",
+                    element:<SysAdminDashboard/>,
+                  },
+                  {
+                    path: "approvals",
+                    element: <SysAdminInvitation/>,
+                  },
+                  {
+                    path: "invitations",
+                    element: <SysAdminInvitation/>,
+                  },
+                  {
                     path: "settings",
-                    element: <p>Settings Pagge For SysAdmins</p>,
+                    element: <SysAdminInvitation/>,
                   },
                 ],
               },
@@ -28,15 +44,29 @@ const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path:"invites",
+        children:[
+          {
+            path:":id/:email",
+            element:<SchoolInvite/>
+          }
+        ]
+      }
     ],
   },
   {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/signup",
-    element: <Signup />,
+    element: <GuestRoot />,
+    children: [
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+      },
+    ],
   },
 ]);
 
