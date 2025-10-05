@@ -1,11 +1,23 @@
 import { FaUserEdit,FaEnvelope, FaLink } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { sendSchoolInvite } from "../../Features/Admin_Features/AdminSlice";
+import {Link, useNavigate } from "react-router-dom"
 
-export default function InviteOptiCard({copyLink}) {
+export default function InviteOptiCard({token,copyLink}) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const sendLinkHandle = () =>{
+    dispatch(sendSchoolInvite({token:token,link:copyLink})).unwrap().then((res)=>{
+      console.log(res)
+    })
+  }
+
+  
   return (
     <div className="bg-white rounded-xl shadow-md p-8">
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
         
-        <div className="bg-gray-50 border border-gray-200 shadow rounded-lg p-6 text-center hover:-translate-y-1 transition cursor-pointer">
+        <div onClick={()=> sendLinkHandle()} className="bg-gray-50 border border-gray-200 shadow rounded-lg p-6 text-center hover:-translate-y-1 transition cursor-pointer">
           <div className="w-16 h-16 mx-auto mb-3 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 text-2xl">
             <FaLink className="text-xl text-blue-500" />;
           </div>
@@ -29,7 +41,7 @@ export default function InviteOptiCard({copyLink}) {
           </p>
         </div>
 
-        <div className="bg-gray-50 border border-gray-200 shadow rounded-lg p-6 text-center hover:-translate-y-1 transition cursor-pointer">
+        <Link to={`${copyLink}`} className="bg-gray-50 border border-gray-200 shadow rounded-lg p-6 text-center hover:-translate-y-1 transition cursor-pointer">
           <div className="w-16 h-16 mx-auto mb-3 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 text-2xl">
             <FaUserEdit className="text-xl text-blue-500" />;
           </div>
@@ -39,7 +51,7 @@ export default function InviteOptiCard({copyLink}) {
           <p className="text-gray-500 text-sm">
             Fill out school details yourself
           </p>
-        </div>
+        </Link>
       </div>
     </div>
   );

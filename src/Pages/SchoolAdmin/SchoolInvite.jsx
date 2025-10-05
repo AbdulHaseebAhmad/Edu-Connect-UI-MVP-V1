@@ -100,7 +100,7 @@ export default function SchoolInvite() {
                   <h3 className="font-semibold text-gray-800 mb-1">
                     Your {code} Invitation Code
                   </h3>
-                  {status != "pending" && (
+                  {status != "completed" && (
                     <p className="text-gray-500 text-sm ">
                       This link was sent to{" "}
                       <span className="text-blue-600">{email}</span> - Fields
@@ -117,7 +117,7 @@ export default function SchoolInvite() {
                     <span>Pending Application</span>
                   </div>
                 ) : (
-                  <InviteForm />
+                  <InviteForm token={code} statusChange={()=>setStatus('completed')}/>
                 )
               ) : (
                 <div className="flex items-center justify-center gap-2 text-red-600 font-semibold text-lg ">

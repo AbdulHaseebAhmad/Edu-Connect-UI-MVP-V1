@@ -47,6 +47,7 @@ export const SignupAdmin = createAsyncThunk(
     }
   }
 );
+
 export const SigninAdmin = createAsyncThunk(
   "admin/features/signup",
   async (credentials) => {
@@ -70,13 +71,36 @@ export const SigninAdmin = createAsyncThunk(
 );
 
 export const createSchoolInvite = createAsyncThunk(
-  "admin/features/invite/school",
+  "admin/features/invite/create",
   async (schooldata) => {
     const csrfToken = Cookies.get("csrf_token");    
     try {
       const response = await axios.post(
         `${URL}/api/sysadmin/invite/create`,
         schooldata,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
+        }
+      );
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+);
+
+export const sendSchoolInvite = createAsyncThunk(
+  "admin/features/invite/send",
+  async ({token,link}) => {
+    const csrfToken = Cookies.get("csrf_token");    
+    try {
+      const response = await axios.post(
+        `${URL}/api/sysadmin/invite/send/${token}`,
+        link,
         {
           withCredentials: true,
           headers: {

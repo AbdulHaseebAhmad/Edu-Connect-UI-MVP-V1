@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import Cookies from "js-cookie";
 import axios from "axios";
 
 const initialState = {
@@ -31,7 +30,6 @@ export default schoolFeaturesSlice.reducer;
 export const validateSchoolInviteLink = createAsyncThunk(
   "school/features/invite/validate",
   async (token) => {
-    const csrfToken = Cookies.get("csrf_token");    
     try {
       const response = await axios.get(
         `${URL}/api/schooladmin/invite/validate?token=${token}`,
@@ -39,11 +37,30 @@ export const validateSchoolInviteLink = createAsyncThunk(
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
-            "X-CSRF-Token": csrfToken,
           },
         }
       );
       return response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+);
+
+export const submitSchoolInfo = createAsyncThunk(
+  "school/features/invite/accept",
+  async ({formData,token}) => {
+    try {
+      const response = await axios.post(
+        `${URL}/api/schooladmin/invite/${token}/accept`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return response;
     } catch (e) {
       console.log(e);
     }

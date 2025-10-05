@@ -1,10 +1,21 @@
 import InviteOptiCard from "./InviteOptiCard";
 import { handleCopy } from "../../Utillities/helpFunctions";
+import { useEffect, useState } from "react";
 
 export default function InviteCardSucc({ message }) {
+  const [link,setLink] = useState("");
+
+
   const copyLink = () => {
-    handleCopy(`${window.location.origin}/invites/${message.token}/${message.name}`);
+    handleCopy(link);
   };
+
+  useEffect(()=>{
+    const link = `${window.location.origin}/invites/${message.token}/${message.name}`
+    setLink(link)
+  },message)
+
+
   return (
     <div className="bg-white rounded-xl shadow-md p-8">
       <div className="text-center mb-6">
@@ -28,7 +39,7 @@ export default function InviteCardSucc({ message }) {
 
       <div className="flex items-center justify-between bg-gray-50 border border-gray-300 rounded-lg p-4 mb-6">
         <span className="font-mono text-gray-800 truncate pr-4">
-          {`${window.location.origin}/invites/${message.token}/${message.name}`}
+          {link}
         </span>
         <button
           className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700"
@@ -49,7 +60,7 @@ export default function InviteCardSucc({ message }) {
         </ul>
       </div>
 
-      <InviteOptiCard copyLink={copyLink} />
+      <InviteOptiCard token={message.token} copyLink={link} />
     </div>
   );
 }

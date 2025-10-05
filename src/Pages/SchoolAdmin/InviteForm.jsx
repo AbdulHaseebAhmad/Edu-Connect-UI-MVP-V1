@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { InviteFormInputs } from "../SysAdmin/constants";
+import { useState } from "react";
+import { submitSchoolInfo } from "../../Features/School_Features/SchoolSlice";
 
-export default function InviteForm() {
-      const [formData, setFormData] = useState({});
-    
+export default function InviteForm({token,statusChange}) {
+  const [formData,setFormData] = useState({});
+
+  const disptach = useDispatch();
   const onChangeandle = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => {
@@ -13,6 +16,11 @@ export default function InviteForm() {
 
   const onSubmitHandle = (e) => {
     e.preventDefault()
+    disptach(submitSchoolInfo({formData:formData,token:token})).unwrap().then((res)=>{
+      if(res){
+        statusChange()
+      }
+    })
   }
   return (
     <form className="space-y-6" onSubmit={(e)=>{onSubmitHandle(e)}}>
@@ -57,7 +65,7 @@ export default function InviteForm() {
         <button className="px-6 py-3 rounded-lg border-2 border-blue-600 text-blue-600 font-semibold hover:bg-blue-600 hover:text-white transition">
           Cancel
         </button>
-        <button className="px-6 py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">
+        <button type="submit" className="px-6 py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">
           Continue to Verification
         </button>
       </div>
