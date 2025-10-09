@@ -8,51 +8,49 @@ const Sidebar = () => {
         <span className="text-xl font-bold">EduAI</span>
       </div>
 
-      <nav className="mt-6 flex flex-col gap-[10px]">
+      <nav className="mt-6 flex flex-col gap-2">
         {SideBarLinks.map((eachLink, index) => (
-          <div key={index} className="">
+          <div key={index}>
             <NavLink
               to={`/sysadmin/${eachLink.link}`}
               className={({ isActive }) =>
-                ` flex items-center gap-4 px-5 h-[50px] cursor-pointer hover:bg-blue-600 hover:bg-opacity-20  ${
-                  isActive
-                    ? "bg-blue-600 bg-opacity-20 border-l-4 border-blue-500"
-                    : ""
-                }`
+                `flex items-center gap-4 px-5 h-[50px] rounded-lg cursor-pointer hover:bg-blue-600 hover:bg-opacity-20 transition-colors
+           ${
+             isActive
+               ? "bg-blue-600 bg-opacity-20 border-l-4 border-blue-500"
+               : ""
+           }`
               }
             >
               {eachLink.name}
             </NavLink>
+            {eachLink?.subLinks?.length > 0 && (
+              <div className="mt-2 ml-5 flex flex-col gap-2 border-l-2 border-blue-100 pl-3">
+                {eachLink.subLinks.map((eachSubLink, idx) => (
+                  <NavLink
+                    key={idx}
+                    to={`${eachSubLink.link}`}
+                    className={({ isActive }) =>
+                      `flex items-center gap-4 px-5 h-[50px] rounded-lg cursor-pointer hover:bg-blue-600 hover:bg-opacity-20 transition-colors
+           ${
+             isActive
+               ? "bg-blue-600 bg-opacity-20 border-l-4 border-blue-500"
+               : ""
+           }`
+                    }
+                  >
+                    {eachSubLink.name}
+                  </NavLink>
+                ))}
+              </div>
+            )}
           </div>
         ))}
 
-        <div className="border-t border-gray-700 my-4" />
+        <div className="border-t border-gray-200 my-4" />
       </nav>
     </aside>
   );
 };
 
 export default Sidebar;
-
-{
-  /**
- * <aside className="flex-[0.25]  text-gray-200 flex flex-col justify-between">
-      <div className="flex-1">
-        <nav className="mt-6 flex flex-col space-y-2 px-4">
-          {SideBarLinks.map((eachLink, index) => (
-            <NavLink
-              key={index}
-              to={`/sysadmin/${eachLink.link}`}
-              className={({ isActive }) =>
-                `text-[#545454] flex items-center gap-3 px-4 py-2 rounded-lg transition-colors ${
-                  isActive ? "bg-[#404040] text-[white]" : "hover:bg-[#545454] hover:text-[white] font-semibold"
-                }`
-              }
-            >
-              {eachLink.name}
-            </NavLink>
-          ))}
-        </nav>
-      </div>
-    </aside> */
-}

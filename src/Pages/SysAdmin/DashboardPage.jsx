@@ -1,6 +1,6 @@
 import 'font-awesome/css/font-awesome.min.css';
 
-export default function SysAdminDashboard() {
+export default function DashboardPage() {
   return (
     <section className="flex-2/2 p-6 overflow-y-auto">
       
@@ -8,7 +8,6 @@ export default function SysAdminDashboard() {
             <i className="fa fa-tachometer" /> System Dashboard
           </h2>
 
-          {/* Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {[
               ["fa-school", "342", "Active Schools", "bg-blue-100 text-blue-600"],

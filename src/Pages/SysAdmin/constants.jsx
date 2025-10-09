@@ -72,3 +72,55 @@ export const InviteFormInputs = [
     required: true,
   },
 ];
+
+export const Documents = [
+  {
+    name: "Accreditation Certificate",
+    status: "verified",
+  },
+  {
+    name: "Safety Compliance",
+    status: "verified",
+  },
+  {
+    name: "Health Department Cert",
+    status: "pending",
+  },
+  {
+    name: "Curriculum Document",
+    status: "missing",
+  },
+];
+
+export const Universities = [
+  {
+    school: "Marine Coastal Academy",
+    subtitle: "Registration overdue by 2 days",
+    priority: "urgent",
+  },
+  {
+    school: "Summit Preparatory",
+    subtitle: "Waiting for director approval",
+    priority: "urgent",
+  },
+  {
+    school: "Riverside High School",
+    subtitle: "Pending principal signature",
+    priority: "medium",
+  },
+  {
+    school: "Greenwood Elementary",
+    subtitle: "Submitted 5 days ago",
+    priority: "low",
+  },
+  {
+    school: "Lakeside Preparatory",
+    subtitle: "Requires counselor review",
+    priority: "high",
+  },
+  {
+    school: "Sunnyvale Middle School",
+    subtitle: "Submitted 2 days ago",
+    priority: "medium",
+  },
+];

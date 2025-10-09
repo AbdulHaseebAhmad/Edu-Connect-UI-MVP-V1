@@ -4,9 +4,10 @@ import Signup from "../Authentication/Signup";
 import SysAdminRoot from "./SysAdminRoot";
 import AuthRoot from "./AuthRoot";
 import GuestRoot from "./GuestRoot";
-import SysAdminDashboard from "../Pages/SysAdmin/SysAdminDashboard";
-import SysAdminInvitation from "../Pages/SysAdmin/SysAdminInvitation";
+import DashboardPage from "../Pages/SysAdmin/DashboardPage";
+import SendInvitePage from "../Pages/SysAdmin/SendInvitePage";
 import SchoolInvite from "../Pages/SchoolAdmin/SchoolInvite";
+import InvitationDashboard from "../Pages/SysAdmin/InvitationDashboard";
 
 const router = createBrowserRouter([
   {
@@ -24,19 +25,49 @@ const router = createBrowserRouter([
                 children: [
                   {
                     path: "dashboard",
-                    element:<SysAdminDashboard/>,
-                  },
-                  {
-                    path: "approvals",
-                    element: <SysAdminInvitation/>,
+                    element: <DashboardPage />,
                   },
                   {
                     path: "invitations",
-                    element: <SysAdminInvitation/>,
+                    children: [
+                      {
+                        index: true,
+                        element: <InvitationDashboard />,
+                      },
+                      {
+                        path: "generate",
+                        element: <SendInvitePage />,
+                      },
+                      {
+                        path: "pending",
+                        element: <p>pending invitations</p>,
+                      },
+                      {
+                        path: "requests",
+                        element: <p>requests</p>,
+                      },
+                      {
+                        path: "approved",
+                        element: <p>approved Invitations</p>,
+                      },
+                      {
+                        path: "approvals",
+                        children:[
+                          {
+                            path:'pending',
+                            element:<p>pending approvals</p>
+                          },
+                          {
+                            path:'approved',
+                            element:<p>approved approvals</p>
+                          },
+                        ],
+                      },
+                    ],
                   },
                   {
                     path: "settings",
-                    element: <SysAdminInvitation/>,
+                    element: <SendInvitePage />,
                   },
                 ],
               },
@@ -45,14 +76,14 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path:"invites",
-        children:[
+        path: "invites",
+        children: [
           {
-            path:":id/:email",
-            element:<SchoolInvite/>
-          }
-        ]
-      }
+            path: ":id/:email",
+            element: <SchoolInvite />,
+          },
+        ],
+      },
     ],
   },
   {
