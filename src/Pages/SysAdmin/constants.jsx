@@ -78,18 +78,7 @@ export const Documents = [
     name: "Accreditation Certificate",
     status: "verified",
   },
-  {
-    name: "Safety Compliance",
-    status: "verified",
-  },
-  {
-    name: "Health Department Cert",
-    status: "pending",
-  },
-  {
-    name: "Curriculum Document",
-    status: "missing",
-  },
+  
 ];
 
 export const Universities = [

@@ -1,6 +1,6 @@
 import { FaExclamationCircle, FaClock } from "react-icons/fa";
 
-export default function InvitePendingRow({school,subtitle,priority,}) {
+export default function InvitePendingRow({school,subtitle,priority,onClick}) {
 
   const badge =  priority === 'urgent' ? 'High Priority' : priority == 'medium' ? 'Medium Priority' : 'Low Priortiy';
   const icon = priority != "urgent" ? priority != "medium" ? <FaClock className="text-indigo-600" /> : <FaClock className="text-yellow-500" /> :<FaExclamationCircle className="text-pink-500" />
@@ -21,7 +21,7 @@ export default function InvitePendingRow({school,subtitle,priority,}) {
         </div>
       </div>
       <div>
-        <button className="bg-indigo-600 text-white rounded-lg px-3 py-2 text-sm font-medium flex items-center gap-2 cursor-pointer">
+        <button onClick={onClick} className="bg-indigo-600 text-white rounded-lg px-3 py-2 text-sm font-medium flex items-center gap-2 cursor-pointer">
           <i className="fa fa-eye"></i>
           <span>Review</span>
         </button>

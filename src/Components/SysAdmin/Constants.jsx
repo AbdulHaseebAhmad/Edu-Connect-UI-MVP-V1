@@ -1,6 +1,5 @@
 export const SideBarLinks = [
   { link: "dashboard", name: "Dshboard" },
-  { link: "approvals", name: "Approvals" },
   {
     link: "invitations",
     name: "Invitations",
@@ -15,16 +14,9 @@ export const SideBarLinks = [
       },
       {
         link: "/sysadmin/invitations/approved",
-        name: "Approved Invitations",
+        name: "Approved & Rejected ",
       },
-      {
-        link: "/sysadmin/invitations/approvals/pending",
-        name: "Pending Approvals",
-      },
-      {
-        link: "/sysadmin/invitations/approvals/approved",
-        name: "Approved Approvals",
-      },
+      
       {
         link: "/sysadmin/invitations/requests",
         name: "View Requests",
@@ -49,4 +41,12 @@ export const InviteFormFields = [
     required: true,
     holder: "Enter contact email",
   },
+];
+
+export const Documents = [
+  {
+    name: "Accreditation Certificate",
+    status: "Pending",
+  },
+  
 ];

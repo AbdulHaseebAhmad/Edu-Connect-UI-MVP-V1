@@ -9,11 +9,11 @@ import {
 } from "react-icons/fa";
 export default function InviteAnalyticscard({name,quantity,action,stats}) {
   
-  const cardIcon = name === 'Pending Approvals'? <FaClock className="text-[#4361ee]"/> : name === "Document Status" ? <FaFileAlt className="text-[#e6b400]"/>:<FaChartLine className="text-[#06b288]"/>
-  const iconBackground = name === 'Pending Approvals'? 'bg-[#4361ee26]' : name === "Document Status" ? "bg-[#ffd16626]":"bg-[#06d6a026]"
+  const cardIcon = name === 'Pending Invitations' || name === 'Pending Verifications'? <FaClock className="text-[#4361ee]"/> : name === "Document Status" ? <FaFileAlt className="text-[#e6b400]"/>:<FaChartLine className="text-[#06b288]"/>
+  const iconBackground = name === 'Pending Invitations' || name === 'Pending Verifications'? 'bg-[#4361ee26]' : name === "Document Status" ? "bg-[#ffd16626]":"bg-[#06d6a026]"
 
-  const actionIcon =  name === 'Pending Approvals'? <FaExclamationCircle className="text-[#4361ee]"/> : name === "Document Status" ? <FaExclamationTriangle className="text-[#e6b400]"/>:<FaArrowUp className="text-[#06b288]"/>
-  const actionIconbgcolor =  name === 'Pending Approvals'? "bg-[#e0e7ff] text-[#4361ee]" : name === "Document Status" ? "bg-[#fef9c3] text-[#e6b400]" : "bg-[#f3f4f6] text-[#06b288]"
+  const actionIcon =  name === 'Pending Invitations' || name === 'Pending Verifications'? <FaExclamationCircle className="text-[#4361ee]"/> : name === "Document Status" ? <FaExclamationTriangle className="text-[#e6b400]"/>:<FaArrowUp className="text-[#06b288]"/>
+  const actionIconbgcolor =  name === 'Pending Invitations' || name === 'Pending Verifications'? "bg-[#e0e7ff] text-[#4361ee]" : name === "Document Status" ? "bg-[#fef9c3] text-[#e6b400]" : "bg-[#f3f4f6] text-[#06b288]"
  
   return (
     <div className="bg-white rounded-2xl p-6 shadow">
