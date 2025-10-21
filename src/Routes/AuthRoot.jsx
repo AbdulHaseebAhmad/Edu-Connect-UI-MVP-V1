@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router";
 
@@ -6,9 +7,12 @@ export default function AuthElement() {
     (state) => state.authReducer.authenticated
   );
 
+  let role = useSelector((state) => state.authReducer.role);
+
   const location = useLocation();
 
-  if (!isAuthenticated) {
+    
+   if (!isAuthenticated) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 

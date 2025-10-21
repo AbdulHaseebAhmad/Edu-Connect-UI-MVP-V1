@@ -1,6 +1,5 @@
 
 import InviteAnalyticscard from "../../Components/SysAdmin/InviteAnalyticscard";
-import InvitePendingRow from "../../Components/SysAdmin/InvitePendingRow";
 import { useEffect } from "react";
 import {useDispatch, useSelector} from "react-redux";
 import { getInviteAnalytics, getInvites } from "../../Features/Admin_Features/AdminSlice";

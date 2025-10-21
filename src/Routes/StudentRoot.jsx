@@ -7,7 +7,7 @@ export default function StudentRoot() {
   let role = useSelector((state) => state.authReducer.role);
   const location = useLocation();
   if (role !== "student") {
-    return <Navigate to="/login" replace state={{ from: location }} />;
+    return <Navigate to={`/${role}`} replace state={{ from: location }} />;
   }
 
   return (

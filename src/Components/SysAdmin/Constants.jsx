@@ -50,3 +50,5 @@ export const Documents = [
   },
   
 ];
+
+export const reviewSchoolFormFields = ['School Name','Admin Name','Email','Phone','Country','School Id','Curriculum','Branch','City',]

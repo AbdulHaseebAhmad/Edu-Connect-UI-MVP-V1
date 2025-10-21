@@ -50,7 +50,7 @@ export const SignupAdmin = createAsyncThunk(
 );
 
 export const SigninAdmin = createAsyncThunk(
-  "admin/features/signup",
+  "admin/features/signin",
   async (credentials) => {
     try {
       const response = await axios.post(
@@ -149,6 +149,29 @@ export const getInvites = createAsyncThunk(
     try {
       const response = await axios.get(
         `${URL}/api/sysadmin/invite/applications?limit=${limit}&offlimit=${offlimit}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
+        }
+      );
+      console.log(response.data)
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+);
+
+export const respondToInvite = createAsyncThunk(
+  "admin/features/invite/applications",
+  async ({appid,status}) => {
+    const csrfToken = Cookies.get("csrf_token");    
+    try {
+      const response = await axios.get(
+        `${URL}/api/sysadmin/invite/respond?appid=${appid}&status=${status}`,
         {
           withCredentials: true,
           headers: {

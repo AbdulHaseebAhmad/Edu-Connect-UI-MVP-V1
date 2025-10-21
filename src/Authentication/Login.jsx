@@ -1,11 +1,18 @@
 import { SigninAdmin } from "../Features/Admin_Features/adminSlice";
 import { loginFormDetails } from "./Constants";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
+import { SigninSchool } from "../Features/School_Features/SchoolSlice";
+import { useNavigate } from "react-router";
+
 export default function Login() {
+  const navigate = useNavigate();
   const [formDetails, setFormDetails] = useState({});
+  const [role,setRole] = useState();
+
   const dispatch = useDispatch();
+
   const onChangeHandle = (e) => {
     const { name, value } = e.target;
     setFormDetails((prev) => {
@@ -14,16 +21,47 @@ export default function Login() {
         [name]: value,
       };
     });
+    if (name === "email"){
+      checkRole(value)
+    }
   };
+
   const onSubmitHandle = (e) => {
     e.preventDefault();
-    dispatch(SigninAdmin(formDetails));
+    console.log(role)
+    if (role !== ""){
+      if (role != "school" ) {
+        dispatch(SigninAdmin(formDetails)).unwrap().then((res)=>{
+          if (res) {
+            navigate("/sysadmin/dashboard")
+          }
+        });
+      } else {
+        dispatch(SigninSchool(formDetails)).unwrap().then((res)=>{
+          if (res) {
+            navigate("/schooladmin")
+          }
+        });
+      }
+    }
   };
+
+  const checkRole = (value) => {
+    let parseEmail = value.split("@")
+    let parseRole = parseEmail[1].split(".");
+    
+    if (parseRole.includes("school")){
+      setRole("school")
+    } else {
+      setRole("admin")
+    }
+  }
+
+
   return (
     <div className="min-h-screen bg-pink-gradient pt-10 lg:pt-[100px] px-4">
   <div className="flex flex-col gap-6 w-full max-w-[500px] mx-auto min-h-[450px] border-4 border-white rounded-md bg-white bg-opacity-[30.5%] p-6">
     
-    {/* Header */}
     <div className="w-full flex flex-col mt-6 text-center lg:text-left">
       <h2 className="text-2xl lg:text-3xl font-poppins font-bold text-[#404040]">
         System Administration
@@ -33,7 +71,6 @@ export default function Login() {
       </h2>
     </div>
 
-    {/* Form */}
     <form
       onSubmit={(e) => onSubmitHandle(e)}
       className="w-full flex flex-col items-center justify-center gap-6 min-h-[250px]"

@@ -27,6 +27,27 @@ const schoolFeaturesSlice = createSlice({
 
 export default schoolFeaturesSlice.reducer;
 
+export const SigninSchool = createAsyncThunk(
+  "school/features/signin",
+  async (credentials) => {
+    try {
+      const response = await axios.post(
+        `${URL}/api/schooladmin/login`,
+        credentials,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+);
 export const validateSchoolInviteLink = createAsyncThunk(
   "school/features/invite/validate",
   async (token) => {

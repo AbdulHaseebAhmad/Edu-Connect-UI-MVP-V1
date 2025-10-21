@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 const Modal = ({ isOpen, onClose, title, children }) => {
   if (!isOpen) return null;
 
+  
   return createPortal(
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-xl shadow-lg max-w-[90%] p-6 relative">
@@ -10,7 +11,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
         {children}
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+          className="absolute top-6 right-6 text-gray-500 hover:text-gray-700"
         >
           ✖
         </button>

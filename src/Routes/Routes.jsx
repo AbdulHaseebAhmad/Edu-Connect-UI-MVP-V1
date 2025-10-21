@@ -8,6 +8,7 @@ import DashboardPage from "../Pages/SysAdmin/DashboardPage";
 import SendInvitePage from "../Pages/SysAdmin/SendInvitePage";
 import SchoolInvite from "../Pages/SchoolAdmin/SchoolInvite";
 import InvitationDashboard from "../Pages/SysAdmin/InvitationDashboard";
+import SchoolAdminRoot from "./SchoolAdminRoot";
 
 const router = createBrowserRouter([
   {
@@ -52,14 +53,14 @@ const router = createBrowserRouter([
                       },
                       {
                         path: "approvals",
-                        children:[
+                        children: [
                           {
-                            path:'pending',
-                            element:<p>pending approvals</p>
+                            path: "pending",
+                            element: <p>pending approvals</p>,
                           },
                           {
-                            path:'approved',
-                            element:<p>approved approvals</p>
+                            path: "approved",
+                            element: <p>approved approvals</p>,
                           },
                         ],
                       },
@@ -70,6 +71,15 @@ const router = createBrowserRouter([
                     element: <SendInvitePage />,
                   },
                 ],
+              },
+            ],
+          },
+          {
+            element: <SchoolAdminRoot />,
+            children: [
+              {
+                path: "schooladmin",
+                element: <h2>Hello School</h2>,
               },
             ],
           },

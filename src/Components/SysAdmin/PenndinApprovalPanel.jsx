@@ -12,13 +12,16 @@ export default function PenndinApprovalPanel() {
     dispatch(setApplicationInReview(applicationData));
     
   };
+
+  const isListValid = applications && applications.length  > 0 ? true : false;
+
   return (
     <div className="bg-white rounded-2xl shadow max-h-[750px] overflow-auto">
       <div className="p-6 py-8 font-semibold text-lg border-b border-slate-200 sticky top-0 bg-[white]">
         Pending Verifications
       </div>
       <div className="p-6">
-        {applications.map((item, index) => (
+        {isListValid && applications.map((item, index) => (
           <InvitePendingRow
             key={index}
             school={item.schoolName}

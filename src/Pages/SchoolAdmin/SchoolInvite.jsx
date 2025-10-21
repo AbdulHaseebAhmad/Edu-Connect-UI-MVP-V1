@@ -8,6 +8,7 @@ import {
   FaInfoCircle,
   FaHourglassHalf,
   FaExclamationTriangle,
+  FaThumbsUp,
 } from "react-icons/fa";
 import InviteStep from "../../Components/SysAdmin/InviteStep";
 import { useLocation } from "react-router-dom";
@@ -31,6 +32,7 @@ export default function SchoolInvite() {
       .unwrap()
       .then((res) => {
         if (res) {
+          console.log(res)
           setIsValid(true);
           setStatus(res);
         } else {
@@ -115,6 +117,11 @@ export default function SchoolInvite() {
                   <div className="flex items-center justify-center gap-2 text-yellow-600 font-semibold text-lg ">
                     <FaHourglassHalf className="animate-spin text-2xl" />
                     <span>Pending Application</span>
+                  </div>
+                ) : status == "approved" ? (
+                  <div className="flex items-center justify-center gap-2 text-yellow-600 font-semibold text-lg ">
+                    <FaThumbsUp className=" text-2xl" />
+                    <span>Application Approved</span>
                   </div>
                 ) : (
                   <InviteForm token={code} statusChange={()=>setStatus('completed')}/>
