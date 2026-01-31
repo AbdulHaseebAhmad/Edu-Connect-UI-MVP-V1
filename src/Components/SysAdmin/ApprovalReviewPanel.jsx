@@ -5,14 +5,19 @@ import { Documents } from "./Constants";
 import { useEffect, useState } from "react";
 import Modal from "../../Modals/ModalContainer";
 import ReviewAppForm from "./ReviewAppForm";
-import { respondToInvite } from "../../Features/Admin_Features/AdminSlice";
+import {
+  getSchoolApplications,
+  respondToInvite,
+} from "../../Features/Admin_Features/AdminSlice";
 
 export default function ApprovalReviewPanel() {
   const [openModal, setOpenModal] = useState(false);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
   const applications = useSelector(
     (state) => state.analyticsReducer.applications
   );
+  
   const applicationinreview = useSelector(
     (state) => state.analyticsReducer.applicationinreview
   );
@@ -25,25 +30,50 @@ export default function ApprovalReviewPanel() {
     );
   };
 
-  const showEditPanelHandle = () =>{
-    setOpenModal(!openModal)
-  }
+  const showEditPanelHandle = () => {
+    setOpenModal(!openModal);
+  };
 
   const approveHandle = () => {
-    dispatch(respondToInvite({appid:applicationinreview.token,status:'approved'}))
-    }
+    dispatch(
+      respondToInvite({
+        appid: applicationinreview.school_id,
+        status: "approved",
+      })
+    )
+      .unwrap()
+      .then((res) => {
+        if (res) {
+          dispatch(getSchoolApplications({ limit: 10, offlimit: 0 }));
+        }
+      });
+  };
 
   const rejectHandle = () => {
-    dispatch(respondToInvite({appid:applicationinreview.token,status:'rejected'}))
-
-  }
+    dispatch(
+      respondToInvite({
+        appid: applicationinreview.school_id,
+        status: "rejected",
+      })
+    )
+      .unwrap()
+      .then((res) => {
+        if (res) {
+          dispatch(getSchoolApplications({ limit: 10, offlimit: 0 }));
+        }
+      });
+  };
   return (
     <div className="bg-white rounded-2xl shadow overflow-hidden h-[750px]">
       <div className="p-6 font-semibold text-lg border-b border-slate-200 flex items-center justify-between">
         <span>Document Review</span>
         <select className="bg-white rounded-lg px-4 py-2 font-medium border border-slate-200 min-w-[200px]">
-          {applications.map((eachApplication, index) => {
-            return <option key={index}>{applicationinreview.schoolName || eachApplication.schoolName}</option>;
+          {applications?.length > 0 && applications.map((eachApplication, index) => {
+            return (
+              <option key={index}>
+                {applicationinreview.schoolName || eachApplication.schoolName}
+              </option>
+            );
           })}
         </select>
       </div>
@@ -77,24 +107,36 @@ export default function ApprovalReviewPanel() {
             </div>
           </div>
           <div className="flex gap-2 justify-center  py-6 border-t border-slate-200 mt-[45%]">
-            <button onClick={approveHandle} className="bg-indigo-600 text-white rounded-lg px-4 py-2 font-medium flex items-center gap-3 cursor-pointer">
-                <FaCheckCircle className="text-white-600 " />
-                <span>Approve School</span>
+            <button
+              onClick={approveHandle}
+              className="bg-indigo-600 text-white rounded-lg px-4 py-2 font-medium flex items-center gap-3 cursor-pointer"
+            >
+              <FaCheckCircle className="text-white-600 " />
+              <span>Approve School</span>
             </button>
             <button className="bg-white border border-slate-200 text-slate-800 rounded-lg px-4 py-2 font-medium flex items-center gap-3 cursor-pointer hover:bg-gray-50 hover:border-indigo-600">
-                <FaComment className="text-blue-600 " />
-                <span>Request Documents</span>
+              <FaComment className="text-blue-600 " />
+              <span>Request Documents</span>
             </button>
-            <button onClick={rejectHandle} className="bg-gray-100 text-slate-600 rounded-lg px-4 py-2 font-medium flex items-center gap-3 cursor-pointer">
-                <FaBan className="text-red-600 " />
-                <span>Reject</span>
+            <button
+              onClick={rejectHandle}
+              className="bg-gray-100 text-slate-600 rounded-lg px-4 py-2 font-medium flex items-center gap-3 cursor-pointer"
+            >
+              <FaBan className="text-red-600 " />
+              <span>Reject</span>
             </button>
           </div>
         </div>
       )}
-       {openModal && <Modal isOpen={open} onClose={showEditPanelHandle} title="Review Application">
-        <ReviewAppForm onClose={showEditPanelHandle}/>
-        </Modal>}
+      {openModal && (
+        <Modal
+          isOpen={open}
+          onClose={showEditPanelHandle}
+          title="Review Application"
+        >
+          <ReviewAppForm onClose={showEditPanelHandle} />
+        </Modal>
+      )}
     </div>
   );
 }

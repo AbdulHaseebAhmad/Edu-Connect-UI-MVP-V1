@@ -7,7 +7,7 @@ export default function SysAdminRoot() {
   let role = useSelector((state) => state.authReducer.role);
   const location = useLocation();
   if (role !== "admin") {
-    return <Navigate to={`/${role}`} replace state={{ from: location }} />;
+    return <Navigate to={`/${role?role:"login"}`} replace state={{ from: location }} />;
    
   }
 

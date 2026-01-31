@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { logoutAdmin } from "../../Features/Auth_Features/AuthSlice";
 import Cookies from "js-cookie";
+import { clearProfile } from "../../Features/Students_Features/StudentProfileslice";
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -9,6 +10,7 @@ export default function Navbar() {
     Cookies.remove("csrf_token");
     Cookies.remove("session_token");
     dispatch(logoutAdmin());
+    dispatch(clearProfile())
     return <Navigate to="/login" replace state={{ from: location }} />;
   };
 

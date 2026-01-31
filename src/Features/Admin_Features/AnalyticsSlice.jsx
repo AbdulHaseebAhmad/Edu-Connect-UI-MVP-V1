@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getInviteAnalytics, getInvites } from "./AdminSlice";
+import { getInviteAnalytics, getSchoolApplications } from "./AdminSlice";
 
 const initialState = {
   pendingInvitations: 0,
@@ -9,7 +9,10 @@ const initialState = {
   approvalRate: 0,
   acceptanceRate: 0,
   applications:[],
-  applicationinreview:{}
+  applicationinreview:{},
+  invitationsList:[],
+  approvedApplicationsList:[],
+  pendingapplicationsList:[]
 };
 
 const analyticsSlice = createSlice({
@@ -40,10 +43,10 @@ const analyticsSlice = createSlice({
         state.approvalRate = 0;
         state.acceptanceRate = 0;
       })
-      .addCase(getInvites.pending, (state) =>{
+      .addCase(getSchoolApplications.pending, (state) =>{
         state = {...state}
       })
-      .addCase(getInvites.fulfilled, (state,action) =>{
+      .addCase(getSchoolApplications.fulfilled, (state,action) =>{
         state.applications = action.payload
       })
   },

@@ -7,7 +7,6 @@ export default function AuthElement() {
     (state) => state.authReducer.authenticated
   );
 
-  let role = useSelector((state) => state.authReducer.role);
 
   const location = useLocation();
 

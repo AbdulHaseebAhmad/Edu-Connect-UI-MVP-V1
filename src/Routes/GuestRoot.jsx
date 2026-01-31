@@ -15,9 +15,9 @@ export default function GuestRoot() {
     if (role == 'admin'){
         return <Navigate to="/sysadmin/dashboard" replace state={{ from: location }} />;
     } else if (role = 'student') {
-        return <Navigate to="/login" replace state={{ from: location }} />;
+        return <Navigate to="/student/dashboard" replace state={{ from: location }} />;
     } else if(role == "school-admin"){
-        return <Navigate to="/login" replace state={{ from: location }} />;
+        return <Navigate to="/school-admin" replace state={{ from: location }} />;
     }
   }
 

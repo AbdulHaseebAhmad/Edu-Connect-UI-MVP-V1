@@ -1,21 +1,40 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import Navbar from "../Components/SysAdmin/Navbar";
-import Sidebar from "../Components/SysAdmin/Sidebar";
+import Sidebar from "../Components/SchoolAdmin/Sidebar";
+import Navbar from "../Components/SchoolAdmin/Navbar";
+// import StudentPanel from "../Components/SchoolAdmin/StudentPanel";
 
-export default function SchoolAdminRoot() {
-  let role = useSelector((state) => state.authReducer.role);
+function SchoolAdminRoot() {
+  const role = useSelector((state) => state.authReducer.role);
   const location = useLocation();
+
   if (role !== "schooladmin") {
     return <Navigate to={`/${role}`} replace state={{ from: location }} />;
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-100 font-sans">
-      <main className="flex flex-col flex-1">
-        <Navbar />
-        <Outlet />
-      </main>
+    <div className="h-screen w-screen relative bg-[#f8fafc]">
+      {/* Main app container (matches #app-container) */}
+      <div className="h-full flex overflow-hidden">
+        {/* Left sidebar */}
+        <Sidebar />
+
+        {/* Main column */}
+        <main className="flex-1 flex flex-col h-full relative overflow-hidden bg-[#f8fafc]">
+          {/* Top navbar */}
+          <Navbar />
+
+          {/* Scrollable content area */}
+          <div className="flex-1 overflow-y-auto p-8">
+            <Outlet />
+          </div>
+        </main>
+      </div>
+
+      {/* Right sliding student panel (matches #student-panel) */}
+      {/* <StudentPanel /> */}
     </div>
   );
 }
+
+export default SchoolAdminRoot;

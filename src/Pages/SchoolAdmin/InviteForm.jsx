@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { InviteFormInputs } from "../SysAdmin/constants";
+import { InviteFormInputs } from "../SysAdmin/Schools/constants";
 import { useState } from "react";
 import { submitSchoolInfo } from "../../Features/School_Features/SchoolSlice";
 

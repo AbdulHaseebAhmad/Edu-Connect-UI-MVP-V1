@@ -1,10 +1,10 @@
 
-import InviteAnalyticscard from "../../Components/SysAdmin/InviteAnalyticscard";
+import InviteAnalyticscard from "../../../Components/SysAdmin/InviteAnalyticscard";
 import { useEffect } from "react";
 import {useDispatch, useSelector} from "react-redux";
-import { getInviteAnalytics, getInvites } from "../../Features/Admin_Features/AdminSlice";
-import ApprovalReviewPanel from "../../Components/SysAdmin/ApprovalReviewPanel";
-import PenndinApprovalPanel from "../../Components/SysAdmin/PenndinApprovalPanel";
+import { getAnalyticsList, getInviteAnalytics, getSchoolApplications } from "../../../Features/Admin_Features/AdminSlice";
+import ApprovalReviewPanel from "../../../Components/SysAdmin/ApprovalReviewPanel";
+import PenndinApprovalPanel from "../../../Components/SysAdmin/PenndinApprovalPanel";
 
 
 export default function InvitationDashboard() {
@@ -12,7 +12,8 @@ export default function InvitationDashboard() {
   const dispatch = useDispatch()
   useEffect(()=>{
     dispatch(getInviteAnalytics());
-    dispatch(getInvites({limit:10,offlimit:0}));
+    dispatch(getSchoolApplications({limit:10,offlimit:0}));
+    dispatch(getAnalyticsList());
   },[])
 
 
@@ -58,10 +59,10 @@ export default function InvitationDashboard() {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 ">
+      {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 ">
         <PenndinApprovalPanel/>
         <ApprovalReviewPanel/>
-      </div>
+      </div> */}
     </div>
   );
 }

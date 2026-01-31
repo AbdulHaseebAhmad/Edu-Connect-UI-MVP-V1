@@ -10,10 +10,8 @@ export default function PenndinApprovalPanel() {
 
   const handleRevieApplication = (applicationData) => {
     dispatch(setApplicationInReview(applicationData));
-    
   };
 
-  const isListValid = applications && applications.length  > 0 ? true : false;
 
   return (
     <div className="bg-white rounded-2xl shadow max-h-[750px] overflow-auto">
@@ -21,11 +19,11 @@ export default function PenndinApprovalPanel() {
         Pending Verifications
       </div>
       <div className="p-6">
-        {isListValid && applications.map((item, index) => (
+        {applications?.length > 0 && applications.map((item, index) => (
           <InvitePendingRow
             key={index}
-            school={item.schoolName}
-            subtitle={item.adminName}
+            school={item.school_name}
+            subtitle={item.admin_name}
             priority={item.priority}
             i={item.index}
             onClick={() => handleRevieApplication(item)}
