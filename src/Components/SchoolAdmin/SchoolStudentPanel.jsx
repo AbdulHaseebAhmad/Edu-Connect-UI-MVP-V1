@@ -52,7 +52,6 @@ export function SchoolStudentPanel({
       });
   };
 
-
   const InfoCard = ({ title, icon, children }) => (
     <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition p-5">
       <h4 className="text-xs font-bold text-slate-500 uppercase mb-4 flex items-center gap-2">
@@ -72,17 +71,28 @@ export function SchoolStudentPanel({
     </div>
   );
 
-  const MiniScore = ({ label, value }) => (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 text-center">
-      <div className="text-xs font-bold text-slate-400 uppercase mb-1">
-        {label}
-      </div>
-      <div className="text-2xl font-extrabold text-slate-900">
-        {value || "N/A"}
-      </div>
-    </div>
-  );
+  const MiniScore = ({ label, value, highlight }) => {
+    return (
+      <div
+        className={`flex flex-col justify-center rounded-xl p-4 text-center transition
+        ${
+          highlight
+            ? "bg-slate-900 text-white"
+            : "bg-white text-slate-900 ring-1 ring-slate-200"
+        }`}
+      >
+        <span
+          className={`text-xs font-medium uppercase tracking-wide ${
+            highlight ? "text-slate-300" : "text-slate-500"
+          }`}
+        >
+          {label}
+        </span>
 
+        <span className="mt-1 text-2xl font-bold">{value ?? "-"}</span>
+      </div>
+    );
+  };
 
   const tabs = {
     overview: (
@@ -126,21 +136,60 @@ export function SchoolStudentPanel({
     ),
 
     academic: (
-      <div className="space-y-6">
-        <div className="grid grid-cols-3 gap-6">
-          <MiniScore label="GPA" value={student?.cummulative_score} />
-          <MiniScore
-            label={student?.language_type || "Language"}
-            value={student?.language_overall_score}
-          />
-          <MiniScore label="Graduation Year" value={student?.graduation_year} />
+      <div className="space-y-8">
+        {/* Primary Scores */}
+        <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+          <h4 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-500">
+            Academic Overview
+          </h4>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <MiniScore
+              label="GPA"
+              value={student?.cummulative_score}
+              highlight
+            />
+            <MiniScore
+              label={student?.language_type || "Language"}
+              value={student?.language_overall_score}
+              highlight
+            />
+            <MiniScore
+              label="Graduation Year"
+              value={student?.graduation_year}
+              highlight
+            />
+          </div>
         </div>
 
-        <div className="grid grid-cols-4 gap-6">
-          <MiniScore label="Reading" value={student?.language_reading} />
-          <MiniScore label="Writing" value={student?.language_writting} />
-          <MiniScore label="Listening" value={student?.language_listening} />
-          <MiniScore label="Speaking" value={student?.language_speaking} />
+        {/* Language Breakdown */}
+        <div className="rounded-2xl bg-slate-50 p-6 ring-1 ring-slate-200">
+          <h4 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-500">
+            Language Breakdown
+          </h4>
+
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <MiniScore
+              highlight
+              label="Reading"
+              value={student?.language_reading}
+            />
+            <MiniScore
+              highlight
+              label="Writing"
+              value={student?.language_writting}
+            />
+            <MiniScore
+              highlight
+              label="Listening"
+              value={student?.language_listening}
+            />
+            <MiniScore
+              highlight
+              label="Speaking"
+              value={student?.language_speaking}
+            />
+          </div>
         </div>
       </div>
     ),
@@ -201,9 +250,7 @@ export function SchoolStudentPanel({
             <InfoRow
               label="Annual Budget"
               value={
-                student?.annual_budget
-                  ? `£${student.annual_budget}`
-                  : "N/A"
+                student?.annual_budget ? `£${student.annual_budget}` : "N/A"
               }
             />
           </InfoCard>
@@ -213,41 +260,66 @@ export function SchoolStudentPanel({
 
     documents: (
       <div className="space-y-4">
-        {Object.entries(student?.documentList || {}).map(([key, doc]) => (
+        {student?.Documents?.map((doc, index) => (
           <div
-            key={key}
-            className="flex items-center justify-between bg-white border border-slate-200 rounded-2xl p-4 hover:shadow-md transition"
+            key={index}
+            className="group flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-slate-300 hover:shadow-sm"
           >
-            <div className="flex items-center gap-3">
-              <FaFilePdf className="text-red-500 text-lg" />
-              <span className="font-semibold capitalize">
-                {key.replaceAll("_", " ")}
-              </span>
+            {/* Left */}
+            <div className="flex items-center gap-4">
+              {/* Icon */}
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-red-50">
+                <FaFilePdf className="text-lg text-red-600" />
+              </div>
+
+              {/* Meta */}
+              <div className="flex flex-col">
+                <span className="text-sm font-semibold text-slate-900">
+                  {doc?.document_name || "Untitled document"}
+                </span>
+
+                <span className="text-xs text-slate-500">
+                  {doc?.type || "Unknown type"}
+                </span>
+              </div>
             </div>
 
-            {doc?.url ? (
-              <a
-                href={doc.url}
-                target="_blank"
-                rel="noreferrer"
-                className="text-xs font-bold text-indigo-600 hover:underline"
+            {/* Right */}
+            <div className="flex items-center gap-4">
+              {/* Status */}
+              <span
+                className={`rounded-full px-2.5 py-1 text-xs font-medium
+        ${
+          doc?.status === "uploaded"
+            ? "bg-emerald-50 text-emerald-700"
+            : "bg-slate-100 text-slate-500"
+        }`}
               >
-                View
-              </a>
-            ) : (
-              <span className="text-xs text-slate-400">Not Uploaded</span>
-            )}
+                {doc?.status || "missing"}
+              </span>
+
+              {/* Action */}
+              {doc?.url ? (
+                <a
+                  href={doc.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-sm font-semibold text-indigo-600 hover:text-indigo-700"
+                >
+                  View
+                </a>
+              ) : (
+                <span className="text-sm text-slate-400">Not available</span>
+              )}
+            </div>
           </div>
         ))}
       </div>
     ),
   };
 
-  /* ------------------------------ render ------------------------------ */
-
   return (
     <div className="fixed inset-y-0 right-0 w-[720px] bg-slate-50 shadow-2xl z-[80] flex flex-col border-l border-slate-200">
-      {/* Header */}
       <div className="h-20 bg-white border-b border-slate-200 flex justify-between items-center px-8">
         <div>
           <h2 className="font-extrabold text-slate-900 text-lg">

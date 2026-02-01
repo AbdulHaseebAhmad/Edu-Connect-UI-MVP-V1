@@ -75,7 +75,7 @@ const documentsList = [
 ];
 
 export function DocumentsPage() {
-  const [documentListFromDb, setdocumentListfromDb] = useState({});
+  const [documentListFromDb, setdocumentListfromDb] = useState([]);
   const fileInputRef = useRef(null); // Hidden file input ref
   const [documentname, setDocumentname] = useState("");
   const [refetch, setRefetch] = useState(false);
@@ -95,9 +95,11 @@ export function DocumentsPage() {
   }, [refetch]);
 
   useEffect(() => {
-    const uploadedList = Object.values(documentListFromDb).filter(
-      (eachDoc) => eachDoc?.Status === "uploaded"
-    );
+    const uploadedList =
+      documentListFromDb?.length > 0 &&
+      documentListFromDb?.filter(
+        (eachDoc) => eachDoc?.document_status !== "uploaded"
+      );
     setReadiness(`${Math.round((uploadedList.length / 7) * 100)}%`);
   }, [documentListFromDb]);
 
@@ -132,11 +134,11 @@ export function DocumentsPage() {
       });
   };
 
-  const viewStudentDoc = (docname, mimetype) => {
+  const viewStudentDoc = (document_id, mimetype) => {
     dispatch(
       ViewStudentDocuments({
         student_id: user_id,
-        docname: docname,
+        document_id: document_id,
         mimetype: mimetype,
       })
     );
@@ -167,12 +169,17 @@ export function DocumentsPage() {
         </div>
         <div className="flex gap-4 text-xs flex-wrap">
           {documentsList?.map((doc) => {
+             const dbDoc = documentListFromDb?.find(
+                (eachDoc) => eachDoc?.name === doc.labelname
+              );
+              const status = dbDoc?.status || "missing";
             return (
               <span
+                key={doc?.name}
                 className={`flex items-center gap-1 font-bold ${
-                  documentListFromDb?.[doc?.labelname]?.Status === "missing"
+                  status === "missing"
                     ? "text-red-700 "
-                    : documentListFromDb?.[doc?.labelname]?.Status ===
+                    : status ===
                       "uploaded"
                     ? "text-green-700"
                     : "text-orange-700"
@@ -180,7 +187,7 @@ export function DocumentsPage() {
               >
                 {doc?.icon}
                 {doc?.label}
-                {documentListFromDb?.[doc?.labelname]?.Status === "missing" ? (
+                {status=== "missing" ? (
                   <FaTimesCircle />
                 ) : (
                   <FaCheckCircle />
@@ -203,16 +210,30 @@ export function DocumentsPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
-            {documentsList?.map((eachDocument, index) => {
-              return documentListFromDb?.[eachDocument?.labelname]?.Status !==
-                "missing" ? (
-                <tr className="hover:bg-slate-50 transition" key={index}>
+            {documentsList.map((doc, index) => {
+              const dbDoc = documentListFromDb?.find(
+                (eachDoc) => eachDoc?.name === doc.labelname
+              );
+              const status = dbDoc?.status || "missing";
+
+              return (
+                <tr
+                  key={index}
+                  className={`transition hover:bg-slate-50 ${
+                    status === "missing"
+                      ? "bg-red-50/30 hover:bg-red-50/50"
+                      : ""
+                  }`}
+                >
+                  {/* Document Column */}
                   <td className="px-8 py-5 font-bold text-slate-700 flex items-center gap-2">
-                    {eachDocument?.icon}
-                    {eachDocument?.label}
+                    {doc.icon}
+                    {doc.label}
                   </td>
+
+                  {/* Requirement Column */}
                   <td className="px-8 py-5">
-                    {eachDocument?.requirement === "Mandatory" ? (
+                    {doc.requirement === "Mandatory" ? (
                       <span className="bg-red-100 text-red-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                         Mandatory
                       </span>
@@ -222,89 +243,74 @@ export function DocumentsPage() {
                       </span>
                     )}
                   </td>
+
+                  {/* Status Column */}
                   <td className="px-8 py-5 text-center">
-                    {documentListFromDb?.[eachDocument?.labelname]?.Status !==
-                      "missing" && (
+                    {status === "uploaded" && (
                       <span className="text-green-600 font-bold flex items-center gap-1 justify-center">
-                        <>
-                          <FaCheckCircle />
-                          Verified
-                        </>
+                        <FaCheckCircle />
+                        Verified
                       </span>
                     )}
-                    {documentListFromDb?.[eachDocument?.labelname]?.Status ===
-                      "pending" && (
+                    {status === "pending" && (
                       <span className="text-orange-600 font-bold flex items-center gap-1 justify-center">
                         <FaClock />
                         Pending Review
                       </span>
                     )}
+                    {status === "missing" && (
+                      <span className="text-red-500 font-bold flex items-center gap-1 justify-center">
+                        <FaTimesCircle />
+                        Missing
+                      </span>
+                    )}
                   </td>
+
+                  {/* Size Column */}
                   <td className="px-8 py-5 text-center text-xs text-slate-500">
-                    2.1 MB
+                    {dbDoc ? "2.1 MB" : "—"}
                   </td>
+
+                  {/* Action Column */}
                   <td className="px-8 py-5 text-right">
-                    <button
-                      onClick={() =>
-                        viewStudentDoc(
-                          eachDocument?.name,
-                          documentListFromDb?.[eachDocument?.labelname]
-                            ?.MimeType
-                        )
-                      }
-                      className="text-blue-600 hover:text-blue-800 font-bold text-sm mr-3"
-                    >
-                      View
-                    </button>
-                    <button
-                      onClick={() =>
-                        viewStudentDoc(
-                          eachDocument?.name,
-                          documentListFromDb?.[eachDocument?.labelname]
-                            ?.MimeType
-                        )
-                      }
-                      className="text-slate-400 hover:text-slate-600 text-sm"
-                    >
-                      <FaDownload />
-                    </button>
+                    {status === "missing" ? (
+                      /* Missing: Upload button */
+                      <button
+                        name={doc.name}
+                        onClick={(e) => uploadDocuments(e)}
+                        className="bg-blue-600 text-white px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-blue-700 shadow-sm transition"
+                      >
+                        Upload
+                      </button>
+                    ) : (
+                      /* Uploaded/Pending: View + Download buttons */
+                      <>
+                        <button
+                          onClick={() =>
+                            viewStudentDoc(
+                              dbDoc.document_id, // ✅ doc.name (cv, passport, etc.)
+                              dbDoc?.type // ✅ dbDoc.type (application/pdf)
+                            )
+                          }
+                          className="text-blue-600 hover:text-blue-800 font-bold text-sm mr-3 transition-colors"
+                        >
+                          View
+                        </button>
+                        <button
+                          onClick={() =>
+                            viewStudentDoc(
+                              doc.name, // ✅ doc.name
+                              dbDoc?.type // ✅ dbDoc.type
+                            )
+                          }
+                          className="text-slate-400 hover:text-slate-600 text-sm p-1 hover:bg-slate-100 rounded transition-all"
+                          title="Download"
+                        >
+                          <FaDownload />
+                        </button>
+                      </>
+                    )}
                   </td>
-                </tr>
-              ) : (
-                <tr
-                  className="hover:bg-red-50/50 transition bg-red-50/20"
-                  key={index}
-                >
-                  <td className="px-8 py-5 font-bold text-slate-400 italic flex items-center gap-3">
-                    <i className="fas fa-file-upload text-red-400 text-lg" />
-                    {eachDocument?.label}
-                  </td>
-                  <td className="px-8 py-5">
-                    <span className="bg-red-100 text-red-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                      {eachDocument?.requirement}
-                    </span>
-                  </td>
-                  <td className="px-8 py-5 text-center">
-                    <span className="text-red-500 font-bold flex items-center gap-1 justify-center">
-                      <FaTimesCircle />
-                      {documentListFromDb?.[eachDocument?.labelname]?.Status}
-                    </span>
-                  </td>
-                  <td className="px-8 py-5 text-center text-xs text-slate-400">
-                    —
-                  </td>
-                  <td className="px-8 py-5 text-right">
-                    <button
-                      name={eachDocument?.name}
-                      onClick={(e) => uploadDocuments(e)}
-                      className="bg-blue-600 text-white px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-blue-700 shadow-sm transition"
-                    >
-                      Upload
-                    </button>
-                  </td>
-                  {/* <td>
-                    
-                  </td> */}
                 </tr>
               );
             })}

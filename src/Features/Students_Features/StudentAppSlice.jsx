@@ -264,7 +264,7 @@ export const ViewStudentDocuments = createAsyncThunk(
 
     try {
       const response = await axios.get(
-        `${URL}/api/students/app/documents/get?docname=${data?.docname}&student_id=${data?.student_id}`,
+        `${URL}/api/students/app/documents/get?document_id=${data?.document_id}&student_id=${data?.student_id}`,
         {
           withCredentials: true,
           responseType: "blob",
