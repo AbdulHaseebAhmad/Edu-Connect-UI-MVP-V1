@@ -25,3 +25,7 @@ dist-ssr
 
 
 .env
+.firebaserc
+firebase.json
+.firebase/hosting.ZGlzdA.cache
+.gitignore
