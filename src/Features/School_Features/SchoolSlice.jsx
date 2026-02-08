@@ -42,7 +42,7 @@ export const SigninSchool = createAsyncThunk(
           },
         }
       );
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     } catch (e) {
       console.log(e);
@@ -91,8 +91,8 @@ export const submitSchoolInfo = createAsyncThunk(
 
 export const GetUnProcessedStudents = createAsyncThunk(
   "school/features/get/unprocessed/students",
-  async (school_id) => {
-    const csrfToken = Cookies.get("csrf_token");
+  async (school_id,{getState}) => {
+    const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
         `${URL}/api/schooladmin/unprocessed/students?school_id=${school_id}`,
@@ -104,7 +104,7 @@ export const GetUnProcessedStudents = createAsyncThunk(
           },
         }
       );
-      console.log(response?.data);
+      // console.log(response?.data);
       return response.data;
     } catch (e) {
       console.log(e);
@@ -115,9 +115,9 @@ export const GetUnProcessedStudents = createAsyncThunk(
 
 export const VerifyStudentAccount = createAsyncThunk(
   "school/features/update/verify/students",
-  async (data) => {
+  async (data,{getState}) => {
     console.log("running");
-    const csrfToken = Cookies.get("csrf_token");
+    const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
         `${URL}/api/schooladmin/verify/students?school_id=${data?.school_id}&student_id=${data?.student_id}&status=${data?.status}`,
@@ -129,7 +129,7 @@ export const VerifyStudentAccount = createAsyncThunk(
           },
         }
       );
-      console.log(response?.data);
+      // console.log(response?.data);
       return response?.data;
     } catch (e) {
       console.log(e);
@@ -139,8 +139,8 @@ export const VerifyStudentAccount = createAsyncThunk(
 
 export const GetProcessedStudents = createAsyncThunk(
   "school/features/get/processed/students",
-  async (data) => {
-    const csrfToken = Cookies.get("csrf_token");
+  async (data,{getState}) => {
+    const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
         `${URL}/api/schooladmin/processed/students?school_id=${data?.school_id}&status=${data?.status}`,
@@ -152,7 +152,7 @@ export const GetProcessedStudents = createAsyncThunk(
           },
         }
       );
-      console.log(response?.data);
+      // console.log(response?.data);
       return response.data;
     } catch (e) {
       console.log(e);
@@ -163,8 +163,8 @@ export const GetProcessedStudents = createAsyncThunk(
 
 export const GetSchoolProfileData = createAsyncThunk(
   "school/features/get/profile",
-  async (school_id) => {
-    const csrfToken = Cookies.get("csrf_token");
+  async (school_id,{getState}) => {
+    const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
         `${URL}/api/schooladmin/profile?school_id=${school_id}`,
@@ -176,7 +176,7 @@ export const GetSchoolProfileData = createAsyncThunk(
           },
         }
       );
-      console.log(response?.data);
+      // console.log(response?.data);
       return response?.data;
     } catch (e) {
       console.log(e);

@@ -47,10 +47,10 @@ export default function Login() {
   };
 
   const checkRole = (value) => {
-    let parseEmail = value.split("@")
-    let parseRole = parseEmail[1].split(".");
+    let parseEmail = value?.split("@")
+    let parseRole = parseEmail?.[1]?.split(".");
     
-    if (parseRole.includes("school")){
+    if (parseRole?.includes("school")){
       setRole("school")
     } else {
       setRole("admin")

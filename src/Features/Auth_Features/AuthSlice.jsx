@@ -15,7 +15,8 @@ const initialState = {
   status: null,
   name: null,
   user_id: null,
-  school_verified:"un-verified"
+  school_verified: "un-verified",
+  csrf_token: "",
 };
 
 const URL = import.meta.env.VITE_BACKEND_URL;
@@ -30,6 +31,7 @@ const authFeaturesSlice = createSlice({
       state.email = null;
       state.name = null;
       state.status = "in-active";
+      state.csrf_token = "";
     },
   },
   extraReducers: (builder) => {
@@ -41,6 +43,7 @@ const authFeaturesSlice = createSlice({
         state.name = action.payload.name;
         state.email = action.payload.email;
         state.status = action.payload.status;
+        state.csrf_token = action.payload.csrf_token;
       })
       .addCase(SigninAdmin.rejected, (state) => {
         state.authenticated = false;
@@ -57,6 +60,7 @@ const authFeaturesSlice = createSlice({
         state.email = action.payload.email;
         state.status = action.payload.status;
         state.user_id = action.payload.id;
+        state.csrf_token = action.payload.csrf_token;
       })
       .addCase(SigninSchool.rejected, (state) => {
         state.authenticated = false;
@@ -74,6 +78,8 @@ const authFeaturesSlice = createSlice({
         state.status = action.payload.student_status;
         state.user_id = action.payload.student_id;
         state.school_verified = action.payload.school_verified;
+        state.csrf_token = action.payload.csrf_token;
+
       })
       .addCase(SigninStudent.rejected, (state) => {
         state.authenticated = false;
@@ -91,6 +97,8 @@ const authFeaturesSlice = createSlice({
         state.email = action.payload.email;
         state.status = action.payload.status;
         state.user_id = action.payload.university_id;
+        state.csrf_token = action.payload.csrf_token;
+
       })
       .addCase(LoginUniversity.rejected, (state) => {
         state.authenticated = false;

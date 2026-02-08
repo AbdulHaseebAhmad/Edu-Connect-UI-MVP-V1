@@ -40,13 +40,13 @@ export const SignupAdmin = createAsyncThunk(
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
       return response.data;
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 );
 
 export const SigninAdmin = createAsyncThunk(
@@ -61,20 +61,20 @@ export const SigninAdmin = createAsyncThunk(
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 );
 
 export const createSchoolInvite = createAsyncThunk(
   "admin/features/invite/create",
-  async (schooldata) => {
-    const csrfToken = Cookies.get("csrf_token");
+  async (schooldata, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.post(
         `${URL}/api/sysadmin/invite/create`,
@@ -85,19 +85,19 @@ export const createSchoolInvite = createAsyncThunk(
             "Content-Type": "application/json",
             "X-CSRF-Token": csrfToken,
           },
-        }
+        },
       );
       return response.data;
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 );
 
 export const sendSchoolInvite = createAsyncThunk(
   "admin/features/invite/send",
-  async ({ token, link }) => {
-    const csrfToken = Cookies.get("csrf_token");
+  async ({ token, link }, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.post(
         `${URL}/api/sysadmin/invite/send/${token}`,
@@ -108,19 +108,19 @@ export const sendSchoolInvite = createAsyncThunk(
             "Content-Type": "application/json",
             "X-CSRF-Token": csrfToken,
           },
-        }
+        },
       );
       return response.data;
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 );
 
 export const getInviteAnalytics = createAsyncThunk(
   "admin/features/invite/analytics",
-  async () => {
-    const csrfToken = Cookies.get("csrf_token");
+  async (data, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(`${URL}/api/sysadmin/invite/analytics`, {
         withCredentials: true,
@@ -129,18 +129,18 @@ export const getInviteAnalytics = createAsyncThunk(
           "X-CSRF-Token": csrfToken,
         },
       });
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 );
 
 export const getAnalyticsList = createAsyncThunk(
   "admin/features/invite/list",
-  async () => {
-    const csrfToken = Cookies.get("csrf_token");
+  async (data, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(`${URL}/api/sysadmin/invite/lists`, {
         withCredentials: true,
@@ -149,18 +149,18 @@ export const getAnalyticsList = createAsyncThunk(
           "X-CSRF-Token": csrfToken,
         },
       });
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 );
 
 export const getAllInvites = createAsyncThunk(
   "admin/features/get/invites",
-  async () => {
-    const csrfToken = Cookies.get("csrf_token");
+  async (data, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
         `${URL}/api/sysadmin/schools/get/invites`,
@@ -170,20 +170,20 @@ export const getAllInvites = createAsyncThunk(
             "Content-Type": "application/json",
             "X-CSRF-Token": csrfToken,
           },
-        }
+        },
       );
-      console.log(response?.data);
+      // console.log(response?.data);
       return response?.data;
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 );
 
 export const getSchoolApplications = createAsyncThunk(
   "admin/features/invite/applications",
-  async ({ limit, offlimit }) => {
-    const csrfToken = Cookies.get("csrf_token");
+  async ({ limit, offlimit }, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
         `${URL}/api/sysadmin/invite/applications?limit=${limit}&offlimit=${offlimit}`,
@@ -193,19 +193,19 @@ export const getSchoolApplications = createAsyncThunk(
             "Content-Type": "application/json",
             "X-CSRF-Token": csrfToken,
           },
-        }
+        },
       );
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 );
 export const getSchoolApplicationDetail = createAsyncThunk(
   "admin/features/invite/applications/details",
-  async (application_id) => {
-    const csrfToken = Cookies.get("csrf_token");
+  async (application_id, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
         `${URL}/api/sysadmin/invite/application?application_id=${application_id}`,
@@ -215,20 +215,20 @@ export const getSchoolApplicationDetail = createAsyncThunk(
             "Content-Type": "application/json",
             "X-CSRF-Token": csrfToken,
           },
-        }
+        },
       );
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 );
 
 export const respondToInvite = createAsyncThunk(
   "admin/features/invite/applications",
-  async ({ appid, status }) => {
-    const csrfToken = Cookies.get("csrf_token");
+  async ({ appid, status }, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
         `${URL}/api/sysadmin/invite/respond?application_id=${appid}&status=${status}`,
@@ -238,20 +238,20 @@ export const respondToInvite = createAsyncThunk(
             "Content-Type": "application/json",
             "X-CSRF-Token": csrfToken,
           },
-        }
+        },
       );
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 );
 
 export const GetStudentsRegistry = createAsyncThunk(
   "sysadmin/features/students/registry",
-  async (status) => {
-    const csrfToken = Cookies.get("csrf_token");
+  async (status, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
         `${URL}/api/sysadmin/student/app/registry?status=${status}`,
@@ -261,21 +261,21 @@ export const GetStudentsRegistry = createAsyncThunk(
             "Content-Type": "application/json",
             "X-CSRF-Token": csrfToken,
           },
-        }
+        },
       );
 
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     } catch (e) {
       console.log(response.error);
     }
-  }
+  },
 );
 
 export const RespondToapplication = createAsyncThunk(
   "sysadmin/features/students/respondtoapp",
-  async (data) => {
-    const csrfToken = Cookies.get("csrf_token");
+  async (data, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
         `${URL}/api/sysadmin/student/app/respond?action=${data.action}&id=${data.slug}`,
@@ -285,18 +285,18 @@ export const RespondToapplication = createAsyncThunk(
             "Content-Type": "application/json",
             "X-CSRF-Token": csrfToken,
           },
-        }
+        },
       );
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     } catch (e) {}
-  }
+  },
 );
 
 export const GetstudentsDocuments = createAsyncThunk(
   "sysadmin/features/students/studentDocs",
-  async (docData) => {
-    const csrfToken = Cookies.get("csrf_token");
+  async (docData, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
 
     try {
       const response = await axios.get(
@@ -308,7 +308,7 @@ export const GetstudentsDocuments = createAsyncThunk(
             Accept: docData.docmime,
             "X-CSRF-TOKEN": csrfToken,
           },
-        }
+        },
       );
 
       const blobUrl = window.URL.createObjectURL(response.data);
@@ -322,13 +322,13 @@ export const GetstudentsDocuments = createAsyncThunk(
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 );
 
 export const GetReceipts = createAsyncThunk(
   "school/features/get/receipts",
-  async () => {
-    const csrfToken = Cookies.get("csrf_token");
+  async (data, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(`${URL}/api/sysadmin/get/receipts`, {
         withCredentials: true,
@@ -338,18 +338,18 @@ export const GetReceipts = createAsyncThunk(
         },
       });
 
-      console.log(response?.data);
+      // console.log(response?.data);
       return response?.data;
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 );
 
 export const GetStudentReceipt = createAsyncThunk(
   "school/features/get/receipt/details",
-  async (student_id) => {
-    const csrfToken = Cookies.get("csrf_token");
+  async (student_id, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
         `${URL}/api/sysadmin/get/receipts?student_id=${student_id}`,
@@ -359,21 +359,21 @@ export const GetStudentReceipt = createAsyncThunk(
             "Content-Type": "application/json",
             "X-CSRF-Token": csrfToken,
           },
-        }
+        },
       );
 
-      console.log(response?.data);
+      // console.log(response?.data);
       return response?.data;
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 );
 
 export const RespondToReceipt = createAsyncThunk(
   "school/features/update/receipt/status",
-  async (data) => {
-    const csrfToken = Cookies.get("csrf_token");
+  async (data, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
         `${URL}/api/sysadmin/update/receipt/status?receipt_id=${data?.receipt_id}&status=${data?.status}`,
@@ -383,32 +383,35 @@ export const RespondToReceipt = createAsyncThunk(
             "Content-Type": "application/json",
             "X-CSRF-Token": csrfToken,
           },
-        }
+        },
       );
-      console.log(response?.data);
+      // console.log(response?.data);
       return response?.data;
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 );
 
 export const getRegisteredStudents = createAsyncThunk(
   "school/features/get/registered/students",
-  async () => {
-    const csrfToken = Cookies.get("csrf_token");
+  async (data, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
     try {
-      const response = await axios.get(`${URL}/api/sysadmin/student/get/registered`, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken,
+      const response = await axios.get(
+        `${URL}/api/sysadmin/student/get/registered`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
         },
-      });
-      console.log(response?.data);
+      );
+      // console.log(response?.data);
       return response?.data;
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 );

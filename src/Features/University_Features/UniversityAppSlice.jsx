@@ -26,21 +26,21 @@ export const LoginUniversity = createAsyncThunk(
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
-      console.log(response?.data);
+      // console.log(response?.data);
       return response?.data;
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 );
 
 export const GetUniversityApplications = createAsyncThunk(
   "university/app/get/applications",
-  async (data) => {
-    const csrfToken = Cookies.get("csrf_token");
+  async (data, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
         `${URL}/api/university/app/applications?university_id=${data?.university_id}&status=${data?.status}`,
@@ -50,20 +50,20 @@ export const GetUniversityApplications = createAsyncThunk(
             "Content-Type": "application/json",
             "X-CSRF-Token": csrfToken,
           },
-        }
+        },
       );
-      console.log(response?.data);
+      // console.log(response?.data);
       return response?.data;
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 );
 
 export const RespondToApplication = createAsyncThunk(
   "university/app/update/application/status",
-  async (data) => {
-    const csrfToken = Cookies.get("csrf_token");
+  async (data, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
         `${URL}/api/university/app/applications/respond?status=${data?.status}&application_id=${data?.application_id}`,
@@ -73,20 +73,20 @@ export const RespondToApplication = createAsyncThunk(
             "Content-Type": "application/json",
             "X-CSRF-Token": csrfToken,
           },
-        }
+        },
       );
-      console.log(response?.data);
+      // console.log(response?.data);
       return response?.data;
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 );
 
 export const GetProgramsList = createAsyncThunk(
   "university/app/get/programs/list",
-  async (university_id) => {
-    const csrfToken = Cookies.get("csrf_token");
+  async (university_id, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
         `${URL}/api/university/app/programs/list?university_id=${university_id}`,
@@ -96,21 +96,21 @@ export const GetProgramsList = createAsyncThunk(
             "Content-Type": "application/json",
             "X-CSRF-Token": csrfToken,
           },
-        }
+        },
       );
 
-      console.log(response?.data);
+      // console.log(response?.data);
       return response?.data;
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 );
 
 export const GetProgramsDetails = createAsyncThunk(
   "university/app/get/programs/details",
-  async (program_id) => {
-    const csrfToken = Cookies.get("csrf_token");
+  async (program_id, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
         `${URL}/api/university/app/program/details?program_id=${program_id}`,
@@ -120,50 +120,61 @@ export const GetProgramsDetails = createAsyncThunk(
             "Content-Type": "application/json",
             "X-CSRF-Token": csrfToken,
           },
-        }
+        },
       );
 
+      console.log(response?.data);
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+);
+
+export const AddNewProgram = createAsyncThunk(
+  "university/app/add/program",
+  async (formData, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    try {
+      const response = await axios.post(
+        `${URL}/api/university/app/program/add`,
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": csrfToken,
+          },
+        },
+      );
       // console.log(response?.data);
       return response?.data;
     } catch (e) {
       console.log(e);
     }
-  }
+  },
 );
 
-export const AddNewProgram = createAsyncThunk(  
-  "university/app/add/program",
- async (formData) => {
-  const csrfToken = Cookies.get("csrf_token");
-  try {
-    const response = await axios.post(`${URL}/api/university/app/program/add`, formData, {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-TOKEN": csrfToken,
-      },
-    });
-    console.log(response?.data);
-    return response?.data;
-  } catch (e) {
-    console.log(e);
-  }
-});
-export const UpdateProgram = createAsyncThunk(  
+export const UpdateProgram = createAsyncThunk(
   "university/app/update/program",
- async (formData) => {
-  const csrfToken = Cookies.get("csrf_token");
-  try {
-    const response = await axios.post(`${URL}/api/university/app/program/update?program_id=${formData?.program_id}`, formData?.data, {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-TOKEN": csrfToken,
-      },
-    });
-    console.log(response?.data);
-    return response?.data;
-  } catch (e) {
-    console.log(e);
-  }
-});
+  async (formData, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    try {
+      const response = await axios.post(
+        `${URL}/api/university/app/program/update?program_id=${formData?.program_id}`,
+        formData?.data,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": csrfToken,
+          },
+        },
+      );
+      // console.log(response?.data);
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+);

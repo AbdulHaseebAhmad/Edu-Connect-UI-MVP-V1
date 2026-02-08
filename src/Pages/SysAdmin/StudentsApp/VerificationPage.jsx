@@ -26,7 +26,6 @@ export function VerificationPage() {
       .unwrap()
       .then((res) => {
         if (res) {
-          console.log(res);
           setListOfStudents(res);
         }
       });
@@ -45,7 +44,6 @@ export function VerificationPage() {
             .unwrap()
             .then((res) => {
               if (res) {
-                console.log(res);
                 setListOfStudents(res);
                 setActiveApplication(null);
               }
