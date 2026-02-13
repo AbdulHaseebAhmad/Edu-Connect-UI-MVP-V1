@@ -407,7 +407,7 @@ const UniversityDetails = () => {
                   </h3>
                   <div className="group relative aspect-video w-full cursor-pointer overflow-hidden rounded-2xl bg-slate-900 shadow-xl">
                     <img
-                      src={university?.gallery.videoThumb}
+                      src={"university?.gallery.videoThumb"}
                       className="h-full w-full object-cover opacity-60 transition group-hover:opacity-40"
                       alt="Campus video preview"
                     />
@@ -434,28 +434,28 @@ const UniversityDetails = () => {
                     <div className="col-span-2 row-span-2 overflow-hidden rounded-xl shadow-sm">
                       <img
                         className="h-full w-full object-cover transition duration-700 hover:scale-110"
-                        src={university?.gallery.main}
+                        src={"university?.gallery.main"}
                         alt="Main campus"
                       />
                     </div>
                     <div className="overflow-hidden rounded-xl shadow-sm">
                       <img
                         className="h-full w-full object-cover transition duration-700 hover:scale-110"
-                        src={university?.gallery.side1}
+                        src={"university?.gallery.side1"}
                         alt="Campus view 1"
                       />
                     </div>
                     <div className="overflow-hidden rounded-xl shadow-sm">
                       <img
                         className="h-full w-full object-cover transition duration-700 hover:scale-110"
-                        src={university?.gallery.side2}
+                        src={"university?.gallery.side2"}
                         alt="Campus view 2"
                       />
                     </div>
                     <div className="col-span-2 overflow-hidden rounded-xl shadow-sm">
                       <img
                         className="h-full w-full object-cover transition duration-700 hover:scale-110"
-                        src={university?.gallery.bottom}
+                        src={"university?.gallery.bottom"}
                         alt="Campus view 3"
                       />
                     </div>
@@ -469,7 +469,7 @@ const UniversityDetails = () => {
                       Housing & Accommodation
                     </h4>
                     <p className="text-xs leading-relaxed text-slate-600">
-                      {university?.campusLife.housing}
+                      {"university?.campusLife.housing"}
                     </p>
                   </div>
                   <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
@@ -477,7 +477,7 @@ const UniversityDetails = () => {
                       Student Activities
                     </h4>
                     <p className="text-xs leading-relaxed text-slate-600">
-                      {university?.campusLife.activities}
+                      {"university?.campusLife.activities"}
                     </p>
                   </div>
                   <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
@@ -485,7 +485,7 @@ const UniversityDetails = () => {
                       City & Surroundings
                     </h4>
                     <p className="text-xs leading-relaxed text-slate-600">
-                      {university?.campusLife.cityLife}
+                      {"university?.campusLife.cityLife"}
                     </p>
                   </div>
                   <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
@@ -493,7 +493,7 @@ const UniversityDetails = () => {
                       Support & Services
                     </h4>
                     <p className="text-xs leading-relaxed text-slate-600">
-                      {university?.campusLife.support}
+                      {"university?.campusLife.support"}
                     </p>
                   </div>
                 </div>

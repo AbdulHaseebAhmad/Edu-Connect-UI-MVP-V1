@@ -198,7 +198,7 @@ export default function StdProgram() {
           onClose={() => setShowMissingDocsModal(false)}
         />
       )}
-      {showIncompleteProfileModal && level === 4 && (
+      {showIncompleteProfileModal &&  (
         <IncompleteProfileModal
           open={showIncompleteProfileModal}
           onClose={() => setIncompleteProfileModal(false)}

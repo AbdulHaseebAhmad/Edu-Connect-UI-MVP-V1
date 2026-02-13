@@ -178,3 +178,53 @@ export const UpdateProgram = createAsyncThunk(
     }
   },
 );
+
+export const GetUniversityProfiile = createAsyncThunk(
+  "university/app/get/profile",
+  async (university_id, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    try {
+      const response = await axios.get(
+        `${URL}/api/university/app/profile/get?university_id=${university_id}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": csrfToken,
+          },
+        },
+      );
+      console.log(response?.data);
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+);
+
+export const UploadUniversityMedia = createAsyncThunk(
+  "university/app/upload/campus-media",
+  async (media, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    const university_id = getState().authReducer.user_id;
+
+    try {
+      const response = await axios.post(
+        `${URL}/api/university/app/media/upload?university_id=${university_id}`,
+        media,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": csrfToken,
+          },
+        },
+      );
+
+      console.log(response?.data);
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+);

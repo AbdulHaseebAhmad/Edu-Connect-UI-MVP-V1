@@ -40,7 +40,7 @@ import UniversityRoot from "./UniversityRoot";
 import UniDashboard from "../Pages/UniversityPortal/UniDashboard";
 import ApplicationsManager from "../Pages/UniversityPortal/UniApplications";
 import { EnrollmentPipelinePage } from "../Pages/UniversityPortal/UniEnrollement";
-import { UniversityProfilePage } from "../Pages/UniversityPortal/UnProfile";
+import UniversityProfilePage from "../Pages/UniversityPortal/UniProfile";
 import { ProgramsPage } from "../Pages/UniversityPortal/UniPrograms";
 import { IntegrationsPage } from "../Pages/UniversityPortal/UniIntegration";
 import { SettingsPage } from "../Pages/UniversityPortal/UniSettings";
