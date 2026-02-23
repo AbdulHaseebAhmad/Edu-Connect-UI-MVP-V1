@@ -64,7 +64,7 @@ export default function RightSideBar() {
       </div>
 
       {/* Spotlight */}
-      <div className="p-6">
+      {/* <div className="p-6">
         <h3 className="font-bold text-slate-900 text-sm uppercase tracking-wide mb-4">
           Spotlight
         </h3>
@@ -78,7 +78,7 @@ export default function RightSideBar() {
             Upgrade to Pro
           </button>
         </div>
-      </div>
+      </div> */}
     </aside>
   );
 }

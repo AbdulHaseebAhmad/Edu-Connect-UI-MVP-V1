@@ -6,17 +6,21 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { SignUpStudent } from "../Features/Students_Features/StudentAppSlice";
 import { fileToBase64 } from "../Utillities/helpFunctions";
+import VerificationLocked from "../Components/studentAppPortal/StepFour";
+import { useNavigate } from "react-router";
 
 export default function StudentAppSignup() {
-
   const [formData, setFormData] = useState({
     fname: "",
     lname: "",
     email: "",
-    school_code:"",
+    school_code: "",
     citizenship: "",
   });
 
+  const navigate = useNavigate();
+
+  const [signUpModal, setSignupModal] = useState(false);
 
   const [screen, setScreen] = useState(0);
   const dispatch = useDispatch();
@@ -48,12 +52,15 @@ export default function StudentAppSignup() {
     formData.passport_mime_type = formData.passport.type;
     formData.transcript_mime_type = formData.transcript.type;
     formData.passport = await fileToBase64(formData?.passport);
-    formData.transcript = await fileToBase64(formData?.transcript);    
-    dispatch(SignUpStudent(formData)).unwrap().then((res)=>{
-      if (res){
-        
-      }
-    });
+    formData.transcript = await fileToBase64(formData?.transcript);
+    dispatch(SignUpStudent(formData))
+      .unwrap()
+      .then((res) => {
+        if (res) {
+          setSignupModal(true);
+          setScreen(3);
+        }
+      });
   };
   return (
     <div className="min-h-screen bg-slate-900 flex items-center justify-center relative overflow-hidden">
@@ -114,12 +121,13 @@ export default function StudentAppSignup() {
             <h2 className="text-lg sm:text-xl font-bold text-slate-900">
               Create Profile
             </h2>
-            <button
+            {screen !== 3 && <button
               type="button"
               className="text-xs sm:text-sm text-slate-400 hover:text-slate-600"
+              onClick={()=> navigate("/student/login")}
             >
               Cancel
-            </button>
+            </button>}
           </div>
 
           {/* Wizard indicators */}
@@ -183,11 +191,14 @@ export default function StudentAppSignup() {
               passportname={formData?.passport}
               transcriptname={formData?.transcript}
             />
-          ) : (
+          ) : screen === 2 ? (
             <StepThree
               toggleScreen={toggleScreen}
               submitDataHandle={submitDataHandle}
+              showSignUpModal={signUpModal}
             />
+          ) : (
+            <VerificationLocked toggleScreen={toggleScreen} />
           )}
         </div>
       </div>

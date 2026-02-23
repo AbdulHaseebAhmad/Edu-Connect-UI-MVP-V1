@@ -1,11 +1,15 @@
 import { FaCheckCircle, FaLock } from "react-icons/fa";
+import SignupCompleteModal from "./SignupCompleteModal";
 
-export default function StepThree({ toggleScreen,submitDataHandle }) {
-
-
+export default function StepThree({
+  toggleScreen,
+  submitDataHandle,
+  showSignUpModal,
+}) {
   return (
     <div className="flex-1 flex flex-col w-full space-y-4 text-center">
       {/* Icon */}
+      {/* <SignupCompleteModal open={true}/> */}
       <div className="w-16 h-16 sm:w-20 sm:h-20 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-4 text-2xl sm:text-3xl">
         <FaLock className="text-blue-600 text-2xl" />{" "}
       </div>
@@ -58,7 +62,9 @@ export default function StepThree({ toggleScreen,submitDataHandle }) {
         <button
           type="button"
           className="w-full sm:w-2/3 py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 shadow-xl transition"
-        onClick={()=>{submitDataHandle()}}
+          onClick={() => {
+            submitDataHandle();
+          }}
         >
           Submit to Admin
         </button>

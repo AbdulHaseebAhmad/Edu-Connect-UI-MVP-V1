@@ -26,7 +26,7 @@ import { UniGptPage } from "../Pages/StudentAppPortal/StdUnigptPage";
 import { Countries } from "../Pages/StudentAppPortal/Countries";
 import ProfilePage from "../Pages/StudentAppPortal/StdProfilePage";
 import { OffersPage } from "../Components/studentAppPortal/Visa&Offers";
-import { ScholarshipsPage } from "../Pages/StudentAppPortal/StdScholarshipPage";
+import  ScholarshipsPage  from "../Pages/StudentAppPortal/StdScholarshipPage";
 import { MessagesPage } from "../Pages/StudentAppPortal/StdMessagesPage";
 import { DocumentsPage } from "../Pages/StudentAppPortal/StdDocumentsPage";
 import { ApplicationsPageP } from "../Pages/StudentAppPortal/StdApplicationsPage";

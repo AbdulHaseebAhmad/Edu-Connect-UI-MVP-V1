@@ -408,7 +408,7 @@ export default function StdProgram() {
             </div>
 
             {/* Footer */}
-            <div className="text-center pt-8 border-t border-slate-200">
+            {/* <div className="text-center pt-8 border-t border-slate-200">
               <p className="text-xs text-slate-500 mb-4">
                 Powered by UniGlobal OS
               </p>
@@ -416,7 +416,7 @@ export default function StdProgram() {
                 <FaCheckCircle className="w-4 h-4 inline mr-2" />
                 UniGPT Match Score: 95%
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

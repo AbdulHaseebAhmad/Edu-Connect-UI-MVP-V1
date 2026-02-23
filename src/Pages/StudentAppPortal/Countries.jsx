@@ -11,6 +11,7 @@ import {
   FaChevronRight,
   FaFileAlt,
   FaBook,
+  FaSearchPlus,
 } from "react-icons/fa";
 import { PaymentProofModal } from "../../Components/studentAppPortal/ProofOfPaymentModal";
 import { ApplyConfirmationModal } from "../../Components/studentAppPortal/ApplyConfirmationModal";
@@ -42,57 +43,11 @@ export function Countries() {
       });
   }, []);
 
-  // const fetchUniversities = (countryId) => {
-  //   dispatch(GetUniversityList(countryId))
-  //     .unwrap()
-  //     .then((res) => {
-  //       if (res) {
-  //         // setUniversitiesList(res || []);
-  //         setLevel(2);
-  //       }
-  //     });
-  // };
 
-  // const fetchPrograms = (universityCode) => {
-  //   console.log(universityCode);
-  //   dispatch(GetProgramsList(universityCode))
-  //     .unwrap()
-  //     .then((res) => {
-  //       if (res) {
-  //         setProgramsList(res || []);
-  //         setLevel(3);
-  //       }
-  //     });
-  // };
-
-  // const navLevel = (newLevel) => {
-  //   setLevel(newLevel);
-  //   if (newLevel === 1) {
-  //     setSelectedCountry(null);
-  //     setSelectedUni(null);
-  //     setSelectedProg(null);
-  //   }
-  // };
-
-  // const selectCountry = (countryKey, country_code) => {
-  //   console.log(countryKey, country_code);
-  //   setSelectedCountry(countriesList[countryKey]);
-  //   fetchUniversities(country_code);
-  // };
-
-  // const selectUni = (uni) => {
-  //   setSelectedUni(uni);
-  //   fetchPrograms(uni?.university_id);
-  // };
-
-  // const selectProgram = (program) => {
-  //   setSelectedProg(program);
-  //   setLevel(4);
-  // };
 
   return (
-    <div className="fade-in space-y-6">
-      <div className="flex gap-4 overflow-x-auto pb-2 py-2 px-2">
+    <div className="fade-in space-y-4 pt-4">
+      <div className="flex gap-4 overflow-x-auto pb-2 pb-2 px-2">
         <select className="px-5 py-3 rounded-xl border border-slate-200 text-sm font-bold bg-white focus:ring-2 ring-blue-500 outline-none shadow-sm min-w-[140px]">
           <option>All Countries</option>
           <option>UK</option>
@@ -101,7 +56,7 @@ export function Countries() {
           <option>Australia</option>
         </select>
         <div className="flex-1 relative min-w-[300px]">
-          <FaSearch className="absolute left-4 top-3.5 text-slate-400 w-4 h-4" />
+          <FaSearchPlus className="absolute left-4 top-3.5 text-slate-400 w-4 h-4" />
           <input
             type="text"
             placeholder="Search 12,000+ programs..."

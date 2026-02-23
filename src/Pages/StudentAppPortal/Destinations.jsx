@@ -3,64 +3,16 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { GetCountriesList } from "../../Features/Students_Features/StudentAppSlice";
+import { FaSearch } from "react-icons/fa";
 
 const countries = ["All Countries", "UK", "USA", "Germany", "Netherlands"];
 
-const destinationCards = [
-  {
-    id: 1,
-    name: "United Kingdom",
-    code: "UK",
-    programs: "120+ programs",
-    cityHighlights: "London • Manchester • Edinburgh",
-    blurb:
-      "World‑class universities, strong post‑study work options, and a vibrant multicultural environment.",
-    badge: "High employability",
-    image:
-      "https://cdn.kimkim.com/files/a/images/f2939dd7a5eddd79ad691d50cdb482df5c165837/original-ee8ff466e049d061137036f86a637f93.jpg", // London skyline
-  },
-  {
-    id: 2,
-    name: "United States",
-    code: "USA",
-    programs: "200+ programs",
-    cityHighlights: "New York • Boston • San Francisco",
-    blurb:
-      "Ivy League and leading tech schools with extensive research opportunities and campus life.",
-    badge: "STEM powerhouse",
-    image:
-      "https://static.dw.com/image/63714998_605.jpg", // NYC
-  },
-  {
-    id: 3,
-    name: "Germany",
-    code: "Germany",
-    programs: "80+ programs",
-    cityHighlights: "Berlin • Munich • Hamburg",
-    blurb:
-      "Low or no tuition at public universities and a strong focus on engineering and applied sciences.",
-    badge: "Low tuition",
-    image:
-      "	https://www.travelcenter.uk/blog/wp-content/uploads/2018/03/trip-to-Frankfurt.jpg", // Berlin
-  },
-  {
-    id: 4,
-    name: "Netherlands",
-    code: "Netherlands",
-    programs: "40+ programs",
-    cityHighlights: "Amsterdam • Eindhoven • Utrecht",
-    blurb:
-      "English‑taught programs, innovative teaching methods, and an international student community.",
-    badge: "English‑taught",
-    image:
-      "https://career-advice.jobs.ac.uk/wp-content/uploads/Netherlands3-e1634207438966.jpg.optimal.jpg", // Amsterdam canals
-  },
-];
+
 
 const ViewBrowse = () => {
   const [selectedCountry, setSelectedCountry] = useState();
   const [countriesList, setListOfCountries] = useState([]);
-  
+
   const [search, setSearch] = useState("");
 
   const navigate = useNavigate();
@@ -75,25 +27,24 @@ const ViewBrowse = () => {
       });
   }, []);
 
-
-  // const filteredDestinations = destinationCards.filter((c) => {
-  //   const matchCountry =
-  //     selectedCountry === "All Countries" ||
-  //     c.code.toLowerCase() === selectedCountry.toLowerCase() ||
-  //     c.name.toLowerCase().includes(selectedCountry.toLowerCase());
-  //   const matchSearch =
-  //     search.trim().length === 0 ||
-  //     c.name.toLowerCase().includes(search.toLowerCase()) ||
-  //     c.cityHighlights.toLowerCase().includes(search.toLowerCase());
-  //   return matchCountry && matchSearch;
-  // });
+  const filteredDestinations = countriesList.filter((c) => {
+    const matchCountry =
+      selectedCountry === "All Countries" ||
+      c.code?.toLowerCase() === selectedCountry?.toLowerCase() ||
+      c.name?.toLowerCase().includes(selectedCountry?.toLowerCase());
+    const matchSearch =
+      search.trim().length === 0 ||
+      c.name?.toLowerCase().includes(search?.toLowerCase()) ||
+      c.cityHighlights?.toLowerCase().includes(search?.toLowerCase());
+    return matchCountry && matchSearch;
+  });
 
   return (
-    <div id="view-browse" className="space-y-6 fade-in">
+    <div className="space-y-6 fade-in ">
       {/* Top filters row */}
-      <div className="flex gap-4 overflow-x-auto pb-2">
+      <div className="flex gap-4 overflow-x-auto pb-2 pr-2 pt-4 px-2">
         <select
-          className="px-5 py-3 rounded-xl border border-slate-200 text-sm font-bold bg-white focus:ring-2 ring-blue-500 outline-none shadow-sm"
+          className="px-4 py-3 rounded-xl border border-slate-200 text-sm font-bold bg-white focus:ring-2 ring-blue-500 outline-none shadow-sm"
           value={selectedCountry}
           onChange={(e) => setSelectedCountry(e.target.value)}
         >
@@ -103,7 +54,7 @@ const ViewBrowse = () => {
         </select>
 
         <div className="relative flex-1">
-          <i className="fas fa-search absolute left-4 top-3.5 text-slate-400" />
+          <FaSearch className="absolute left-4 top-3.5 text-slate-400" />
           <input
             type="text"
             placeholder="Search Program..."
@@ -115,19 +66,16 @@ const ViewBrowse = () => {
       </div>
 
       {/* Destination section */}
-      <div id="dd-lvl-1">
+      <div>
         <h2 className="mb-6 text-xl font-bold text-slate-900">
           Select Destination
         </h2>
-        <div
-          id="country-grid"
-          className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"
-        >
-          {countriesList?.map((d) => (
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {filteredDestinations?.map((d) => (
             <button
               key={d.id}
               className="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white text-left shadow-sm transition hover:border-blue-500 hover:shadow-md"
-              onClick={()=>navigate(`${d?.country_code}`)}
+              onClick={() => navigate(`${d?.country_code}`)}
             >
               {/* Image */}
               <div className="h-28 w-full overflow-hidden">

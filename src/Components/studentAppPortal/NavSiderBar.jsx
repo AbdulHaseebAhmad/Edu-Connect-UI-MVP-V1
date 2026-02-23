@@ -13,13 +13,14 @@ import {
 } from "react-icons/fa";
 
 import { NavLink, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutAdmin } from "../../Features/Auth_Features/AuthSlice";
 
 export default function NavSiderBar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const username = useSelector((state)=> state.authReducer.name)
   const handleLogout = async () => {
     dispatch(logoutAdmin());
     navigate("/student/login", { replace: true });
@@ -30,12 +31,10 @@ export default function NavSiderBar() {
       <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-blue-900/20 to-transparent pointer-events-none" />
 
       <div className="h-16 flex items-center px-6 cursor-pointer relative z-10 flex-shrink-0">
-        <div className="bg-blue-600 text-white w-8 h-8 rounded-xl flex items-center justify-center mr-3 shadow-lg shadow-blue-900/50">
-          <FaGraduationCap className="w-3 h-3 text-xs" />
+        <div className="bg-white py-2 w-[150px] text-white w-8 h-8 rounded-xl flex items-center justify-center mr-3 shadow-lg shadow-blue-900/50">
+          <img src="../../../public/pgl.png"/>
         </div>
-        <span className="font-extrabold text-lg tracking-tight text-white">
-          UniGlobal<span className="text-blue-500">.</span>
-        </span>
+        
       </div>
 
       <div className="p-3 space-y-1 flex-1 overflow-y-auto relative z-10">
@@ -147,7 +146,7 @@ export default function NavSiderBar() {
       </div>
 
       {/* User footer */}
-      <div className="p-4 bg-[#1e293b] border-t border-white/5 relative z-10 flex-shrink-0">
+      {/* <div className="p-4 bg-[#1e293b] border-t border-white/5 relative z-10 flex-shrink-0">
         <div className="flex items-center gap-3">
           <div className="relative">
             <img
@@ -158,11 +157,11 @@ export default function NavSiderBar() {
             <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-[#1e293b]" />
           </div>
           <div>
-            <div className="text-sm font-bold text-white">Alex Student</div>
+            <div className="text-sm font-bold text-white">{username}</div>
             <div className="text-[10px] text-slate-400">UG-Standard Plan</div>
           </div>
         </div>
-      </div>
+      </div> */}
     </aside>
   );
 }
