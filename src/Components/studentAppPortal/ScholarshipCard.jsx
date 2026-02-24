@@ -57,7 +57,7 @@ function ScholarshipCard({ item, onOpenDetails }) {
       </div>
 
       <p className="text-slate-500 text-sm mb-6 flex-1 pl-3 group-hover:text-slate-600 transition">
-        {item.desc}
+        {item.description}
       </p>
 
       <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between pl-3 group-hover:border-blue-50 transition">

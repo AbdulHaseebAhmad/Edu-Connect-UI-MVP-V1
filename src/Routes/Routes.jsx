@@ -52,6 +52,7 @@ import StdProgram from "../Pages/StudentAppPortal/StdProgram";
 import Destinations from "../Pages/StudentAppPortal/Destinations";
 import UniversityDetails from "../Pages/StudentAppPortal/StdUniversityDetails";
 import UniversitiesList from "../Pages/StudentAppPortal/StdUniversitiesList";
+import {ScholarshipRegistryPage} from "../Pages/SysAdmin/StudentsApp/Scholarships";
 
 const router = createBrowserRouter([
   {
@@ -118,6 +119,10 @@ const router = createBrowserRouter([
                       {
                         path: "applications",
                         element: <ApplicationsPage />,
+                      },
+                      {
+                        path:"scholarships",
+                        element:<ScholarshipRegistryPage/>
                       },
                       {
                         path: "commissions",

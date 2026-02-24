@@ -34,10 +34,18 @@ export const SideBarLinks = [
       { name: "Registered Students", link:"/sysadmin/students/registry" },
       { name: "Verify Applications", link:"/sysadmin/students/verification" },
       { name: "Verify Program Receipts", link:"/sysadmin/students/receipts" },
+      { name: "Scholarships", link:"/sysadmin/students/scholarships" },
       { name: "Applications", link:"/sysadmin/students/applications" },
-      { name: "Commssions", link:"/sysadmin/students/commissions" },
-      { name: "Platform Finance", link:"/sysadmin/students/platform-finance" },
     ], 
+  },
+  {
+    link:"platform",
+    name:"Platform",
+    subLinks:[
+      { name: "Commssions", link:"/sysadmin/platform/commissions" },
+      { name: "Platform Finance", link:"/sysadmin/platform/platform-finance" },
+
+    ]
   },
   { link: "settings", name: "Settings" },
 ];

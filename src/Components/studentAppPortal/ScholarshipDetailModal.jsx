@@ -8,13 +8,13 @@ import {
   FaBell,
 } from "react-icons/fa";
 
-function ScholarshipDetailsModal({ scholarship, onClose, onUnlock }) {
+function ScholarshipDetailsModal({ scholarship, onClose, onUnlock, isadmin }) {
   if (!scholarship) return null;
 
   const isUpcoming = scholarship.status === "Upcoming";
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-blue-900/90 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-blue-900/40 backdrop-blur-sm">
       <div className="bg-white w-full max-w-lg mx-4 rounded-2xl shadow-2xl relative overflow-hidden max-h-[80vh] overflow-y-auto">
         {/* Header */}
         <div className="h-24 bg-blue-600 relative flex items-center justify-center overflow-hidden">
@@ -66,7 +66,7 @@ function ScholarshipDetailsModal({ scholarship, onClose, onUnlock }) {
                 <FaInfoCircle className="text-blue-500" /> Description
               </h4>
               <p className="text-slate-600 leading-relaxed">
-                {scholarship.desc}
+                {scholarship.desc || scholarship?.description}
               </p>
             </div>
 
@@ -75,7 +75,7 @@ function ScholarshipDetailsModal({ scholarship, onClose, onUnlock }) {
                 <FaClipboardCheck /> Application Requirements
               </h4>
               <ul className="space-y-2 text-slate-700">
-                {(scholarship.reqs || []).map((req) => (
+                {(scholarship.reqs ||  scholarship?.requirements  || []).map((req) => (
                   <li key={req} className="flex items-start gap-2">
                     <FaCheckCircle className="text-blue-500 mt-0.5 text-xs" />
                     <span>{req}</span>
@@ -86,7 +86,7 @@ function ScholarshipDetailsModal({ scholarship, onClose, onUnlock }) {
           </div>
 
           {/* Actions */}
-          <div className="mt-6 pt-4 border-t border-gray-100 flex gap-3">
+         {!isadmin && <div className="mt-6 pt-4 border-t border-gray-100 flex gap-3">
             {isUpcoming ? (
               <button className="flex-1 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white text-center py-3 rounded-xl font-bold transition shadow-lg flex items-center justify-center gap-2 transform hover:-translate-y-0.5 text-sm">
                 <FaBell />
@@ -101,7 +101,7 @@ function ScholarshipDetailsModal({ scholarship, onClose, onUnlock }) {
               </button>
             )}
           </div>
-        </div>
+}        </div>
       </div>
     </div>
   );

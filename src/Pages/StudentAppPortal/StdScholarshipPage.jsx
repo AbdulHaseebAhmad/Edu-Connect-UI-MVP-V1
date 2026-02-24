@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ScholarshipUnlockModal from "../../Components/studentAppPortal/ScholarshipUnlockModal";
 import ScholarshipDetailsModal from "../../Components/studentAppPortal/ScholarshipDetailModal";
 import ScholarshipCard from "../../Components/studentAppPortal/ScholarshipCard";
+import { useDispatch } from "react-redux";
+import { FetchScholarships } from "../../Features/Admin_Features/AdminSlice";
 
-const DATA = [
+const DATAs = [
   {
     id: 1,
     title: "Chevening Scholarship",
@@ -71,6 +73,9 @@ function ScholarshipsView() {
   const [selected, setSelected] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
   const [showUnlock, setShowUnlock] = useState(false);
+  const [DATA,setData] = useState([]);
+
+  const dispatch = useDispatch();
 
   const filtered = DATA.filter((s) => {
     if (region !== "all" && s.region !== region) return false;
@@ -100,6 +105,14 @@ function ScholarshipsView() {
   function closeUnlock() {
     setShowUnlock(false);
   }
+
+  useEffect(()=>{
+      dispatch(FetchScholarships()).unwrap().then((res)=>{
+        if (res){
+          setData(res)
+        }
+      })
+  },[])
 
   return (
   <div className="relative bg-dots min-h-screen">

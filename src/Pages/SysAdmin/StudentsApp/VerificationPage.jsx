@@ -137,7 +137,7 @@ export function VerificationPage() {
 
         <div className="flex items-center gap-3">
           {/* Status Key */}
-          <div className="hidden md:flex items-center gap-3 text-[11px] bg-white border border-slate-200 rounded-full px-4 py-1 shadow-sm">
+          {/* <div className="hidden md:flex items-center gap-3 text-[11px] bg-white border border-slate-200 rounded-full px-4 py-1 shadow-sm">
             <span className="flex items-center gap-1">
               <span className="w-2 h-2 bg-amber-400 rounded-full" /> Pending
             </span>
@@ -147,7 +147,7 @@ export function VerificationPage() {
             <span className="flex items-center gap-1">
               <span className="w-2 h-2 bg-red-500 rounded-full" /> Rejected
             </span>
-          </div>
+          </div> */}
 
           {/* Search */}
           <div className="bg-white p-2 rounded-full border border-slate-200 shadow-sm">
@@ -161,6 +161,18 @@ export function VerificationPage() {
         </div>
       </div>
       {/* ===== END Header Row ===== */}
+
+       <div className="hidden md:flex items-center gap-3 text-[11px] bg-white border border-slate-200 rounded-full px-4 py-1 shadow-sm mb-4">
+        <span className="flex items-center gap-1">
+          <span className="w-2 h-2 bg-yellow-400 rounded-full" /> Pending
+        </span>
+        <span className="flex items-center gap-1">
+          <span className="w-2 h-2 bg-green-500 rounded-full" /> Approved
+        </span>
+        <span className="flex items-center gap-1">
+          <span className="w-2 h-2 bg-red-500 rounded-full" /> Rejected
+        </span>
+      </div>
 
       {/* ===== EXISTING TABLE (UNCHANGED) ===== */}
       <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">

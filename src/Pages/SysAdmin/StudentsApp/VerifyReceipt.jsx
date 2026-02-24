@@ -89,7 +89,7 @@ export function VerifyStudentReceipt() {
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="hidden md:flex items-center gap-2 text-[11px] text-slate-500 bg-white border border-slate-200 rounded-full px-3 py-1 shadow-sm">
+          {/* <div className="hidden md:flex items-center gap-2 text-[11px] text-slate-500 bg-white border border-slate-200 rounded-full px-3 py-1 shadow-sm">
             <span className="flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-emerald-500" /> Paid
             </span>
@@ -99,7 +99,7 @@ export function VerifyStudentReceipt() {
             <span className="flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-red-500" /> Flagged
             </span>
-          </div>
+          </div> */}
 
           <div className="bg-white p-2 rounded-full border border-slate-200 shadow-sm flex items-center">
             <div className="relative w-52 md:w-64">
@@ -116,6 +116,17 @@ export function VerifyStudentReceipt() {
         </div>
       </div>
 
+ <div className="hidden md:flex items-center gap-2 text-[11px] text-slate-500 bg-white border border-slate-200 rounded-full px-3 py-1 shadow-sm">
+            <span className="flex items-center gap-1">
+              <span className="w-2 h-2 rounded-full bg-emerald-500" /> Paid
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="w-2 h-2 rounded-full bg-amber-400" /> Pending
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="w-2 h-2 rounded-full bg-red-500" /> Flagged
+            </span>
+          </div>
       {/* Table Card */}
       <div className="mt-4 bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
         <div className="flex items-center justify-between px-6 py-3 border-b border-slate-100 bg-slate-50/60">

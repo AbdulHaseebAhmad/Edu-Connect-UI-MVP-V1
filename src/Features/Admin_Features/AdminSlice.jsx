@@ -415,3 +415,44 @@ export const getRegisteredStudents = createAsyncThunk(
     }
   },
 );
+
+export const FetchScholarships = createAsyncThunk(
+  "school/features/get/scholarships",
+  async (data,{getState}) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    try {
+      const response = await axios.get(`${URL}/api/sysadmin/scholarships/get`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfToken,
+        }
+      });
+      // console.log(response?.data)
+      return response?.data
+    } catch (e) {
+      console.log(e);
+    }
+  },
+);
+
+export const AddScholarships = createAsyncThunk(
+  "school/features/get/scholarships",
+  async (data,{getState}) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    try {
+      const response = await axios.post(`${URL}/api/sysadmin/scholarships/add`, 
+        data,{
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfToken,
+        }
+      });
+      // console.log(response?.data)
+      return response?.data
+    } catch (e) {
+      console.log(e);
+    }
+  },
+);
