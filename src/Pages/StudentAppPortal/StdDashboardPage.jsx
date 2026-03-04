@@ -1,6 +1,9 @@
 import { FaCheckCircle, FaPaperPlane, FaRobot, FaTasks } from "react-icons/fa";
+import { useNavigate } from "react-router";
 
 export default function StdDashboardPage() {
+  const navigate = useNavigate();
+
   return (
     <div className="space-y-8">
       {/* Scholarship banner */}
@@ -13,7 +16,7 @@ export default function StdDashboardPage() {
             based on your AAA grades.
           </p>
         </div>
-        <button className="relative z-10 bg-white text-indigo-600 px-6 py-3 rounded-xl font-bold text-sm hover:bg-indigo-50 hover:scale-105 transition shadow-lg">
+        <button onClick={()=>navigate("/student/scholarships")} className="relative z-10 bg-white text-indigo-600 px-6 py-3 rounded-xl font-bold text-sm hover:bg-indigo-50 hover:scale-105 transition shadow-lg">
           View Scholarships
         </button>
       </div>

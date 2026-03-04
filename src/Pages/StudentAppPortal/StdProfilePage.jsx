@@ -40,10 +40,22 @@ const profiledetails = [
 ];
 
 const citizenshipdetails = [
-  { name: "nationality", label: "Nationality" ,placeHolder:"Nationality" },
-  { name: "passport_number", label: "Passport Number"  ,placeHolder:"Passport Number"},
-  { name: "passport_expiry", label: "Passport Expiry" ,placeHolder:"DD-MM-YY" },
-  { name: "passport_issue", label: "Place of Issue" ,placeHolder:"Place of Issue" },
+  { name: "nationality", label: "Nationality", placeHolder: "Nationality" },
+  {
+    name: "passport_number",
+    label: "Passport Number",
+    placeHolder: "Passport Number",
+  },
+  {
+    name: "passport_expiry",
+    label: "Passport Expiry",
+    placeHolder: "DD-MM-YY",
+  },
+  {
+    name: "passport_issue",
+    label: "Place of Issue",
+    placeHolder: "Place of Issue",
+  },
 ];
 
 const contactDetails = [
@@ -70,7 +82,7 @@ const educationDetails = [
   { label: "School Name", name: "school_name" },
   { label: "Curriculum", name: "curriculum" },
   { label: "Graduation Year", name: "graduation_year" },
-  { label: "Cummulative Score/Points", name: "cummulative_score" },
+  // { label: "Cummulative Score/Points", name: "cummulative_score" },
 ];
 
 const languageSubScores = [
@@ -93,7 +105,7 @@ export default function StdProfilePage() {
   const [profileData, setProfileData] = useState();
   const [updateFields, setUpdatedFields] = useState();
   const [refetch, setRefetch] = useState(false);
-
+  const [precentComplete, setPercentComplete] = useState(0);
   const dispatch = useDispatch();
 
   const user_id = useSelector((state) => state.authReducer.user_id);
@@ -130,7 +142,7 @@ export default function StdProfilePage() {
         student_id: student_id,
         field_name: name,
         field_value: value,
-      })
+      }),
     )
       .unwrap()
       .then((res) => {
@@ -141,8 +153,70 @@ export default function StdProfilePage() {
   };
 
   useEffect(() => {
-    console.log(updateFields);
-  }, [updateFields]);
+    let count = 0;
+    profiledetails?.map((eachinput) => {
+      const value = profileData?.[eachinput.name];
+      const isEmpty = value === "" || value == null;
+      if (!isEmpty) {
+        count = count + 1;
+      }
+    });
+    citizenshipdetails?.map((eachinput) => {
+      const value = profileData?.[eachinput.name];
+      const isEmpty = value === "" || value == null;
+      if (!isEmpty) {
+        count = count + 1;
+      }
+    });
+    contactDetails?.map((eachinput) => {
+      const value = profileData?.[eachinput.name];
+      const isEmpty = value === "" || value == null;
+      if (!isEmpty) {
+        count = count + 1;
+      }
+    });
+    permenantaddress?.map((eachinput) => {
+      const value = profileData?.[eachinput.name];
+      const isEmpty = value === "" || value == null;
+      if (!isEmpty) {
+        count = count + 1;
+      }
+    });
+    emergencyContact?.map((eachinput) => {
+      const value = profileData?.[eachinput.name];
+      const isEmpty = value === "" || value == null;
+      if (!isEmpty) {
+        count = count + 1;
+      }
+    });
+    educationDetails?.map((eachinput) => {
+      const value = profileData?.[eachinput.name];
+      const isEmpty = value === "" || value == null;
+      if (!isEmpty) {
+        count = count + 1;
+      }
+    });
+    languageSubScores?.map((eachinput) => {
+      const value = profileData?.[eachinput.name];
+      const isEmpty = value === "" || value == null;
+      if (!isEmpty) {
+        count = count + 1;
+      }
+    });
+    prefsFields?.map((eachinput) => {
+      const value = profileData?.[eachinput.name];
+      const isEmpty = value === "" || value == null;
+      if (!isEmpty) {
+        count = count + 1;
+      }
+    });
+    console.log(count);
+    setPercentComplete(Math.round((count / 33) * 100));
+  }, [profileData]);
+
+  useEffect(() => {
+    console.log(precentComplete);
+  }, [precentComplete]);
   return (
     <div className="fade-in space-y-6">
       {/* Verified banner */}
@@ -155,11 +229,14 @@ export default function StdProfilePage() {
             </span>
           </div>
           <span className="text-xs font-bold text-green-700 bg-green-100 px-3 py-1 rounded-full">
-            100% Complete
+            {precentComplete}% Complete
           </span>
         </div>
-        <div className="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
-          <div className="bg-green-500 h-3 rounded-full w-full shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
+        <div className="w-full  bg-slate-100 h-3 rounded-full overflow-hidden">
+          <div
+            className="bg-green-500 h-3 rounded-full shadow-[0_0_10px_rgba(34,197,94,0.5)] transition-all duration-300"
+            style={{ width: `${precentComplete}%` }}
+          />{" "}
         </div>
       </div>
 
@@ -198,7 +275,7 @@ export default function StdProfilePage() {
                     const isEmpty = value === "" || value == null;
                     const isDob = eachinput.name === "dob";
                     const displayValue =
-                      isDob && value?.Time ? value.Time : value ?? "";
+                      isDob && value?.Time ? value.Time : (value ?? "");
                     return (
                       <div
                         key={index}
@@ -716,8 +793,6 @@ export default function StdProfilePage() {
           {/* PREFERENCES TAB */}
           {activeTab === "prefs" &&
             (() => {
-            
-
               return (
                 <div className="space-y-8">
                   {/* Study Goals */}

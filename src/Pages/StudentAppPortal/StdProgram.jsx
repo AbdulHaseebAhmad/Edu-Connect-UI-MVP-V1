@@ -10,11 +10,14 @@ import {
   FaUniversity,
 } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import {
   ApplyToUniversity,
+  DeleteShortlistPrograms,
   GetProgramsList,
+  GetShortlistPrograms,
   GetUniversityList,
+  shortlistProgram,
   UploadApplicationReceipt,
   VerifyApplication,
 } from "../../Features/Students_Features/StudentAppSlice";
@@ -34,6 +37,9 @@ export default function StdProgram() {
     useState(false);
   const student_id = useSelector((state) => state.authReducer.user_id);
   const [applied, setApplied] = useState(false);
+  const [shortListed, setShortListed] = useState(false);
+  const [shortListedId, setShortlistId] = useState(null);
+  const navigate = useNavigate();
 
   const [receipt, setReceipt] = useState({
     data: "",
@@ -43,10 +49,10 @@ export default function StdProgram() {
   });
 
   const school_verified = useSelector(
-    (state) => state.authReducer.school_verified
+    (state) => state.authReducer.school_verified,
   );
   const studentDocuments = useSelector(
-    (state) => state.profileReducer.documentList
+    (state) => state.profileReducer.documentList,
   );
   const [missingDocList, setMissingDocsList] = useState([]);
 
@@ -68,7 +74,7 @@ export default function StdProgram() {
               student_id: student_id,
               program_id: program[0]?.program_id,
               university_id: program[0]?.university_id,
-            })
+            }),
           )
             .unwrap()
             .then((res) => {
@@ -116,7 +122,7 @@ export default function StdProgram() {
         student_id,
         university_id: selectedProg?.university_id,
         program_id: selectedProg?.program_id,
-      })
+      }),
     )
       .unwrap()
       .then((res) => {
@@ -135,7 +141,7 @@ export default function StdProgram() {
         university_id: selectedProg?.university_id,
         program_id: selectedProg?.program_id,
         paid_amount: selectedProg?.program_application_fee,
-      })
+      }),
     )
       .unwrap()
       .then((res) => {
@@ -166,11 +172,52 @@ export default function StdProgram() {
     const allDocs = Object.keys(studentDocuments || {});
 
     const missing = requiredDocs.filter(
-      (eachDoc) => !allDocs.includes(eachDoc)
+      (eachDoc) => !allDocs.includes(eachDoc),
     );
 
     setMissingDocsList(missing);
   }, [selectedProg, studentDocuments]);
+
+  const shortlistprogram = () => {
+    dispatch(shortlistProgram({ student_id, program_id, university_id }))
+      .unwrap()
+      .then((res) => {
+        if (res) {
+          setShortlistId(res)
+          setShortListed(true);
+        }
+      });
+  };
+
+  const removeShortlistProgram = () => {
+    dispatch(DeleteShortlistPrograms({ student_id, shortlist_id:shortListedId }))
+      .unwrap()
+      .then((res) => {
+        if (res) {
+          setShortListed(false);
+        }
+      });
+  };
+
+  useEffect(() => {
+    dispatch(GetShortlistPrograms({ student_id }))
+      .unwrap()
+      .then((res) => {
+        if (res) {
+          res.find((element) => {
+            if (
+              element.university_id == university_id &&
+              element.program_id == program_id
+            ) {
+              setShortlistId(element.id)
+              setShortListed(true);
+            }
+            return false;
+          });
+        }
+      });
+  }, [student_id, university_id, program_id, dispatch]);
+
 
   return (
     <div id="dd-lvl-4" className="space-y-8">
@@ -198,14 +245,14 @@ export default function StdProgram() {
           onClose={() => setShowMissingDocsModal(false)}
         />
       )}
-      {showIncompleteProfileModal &&  (
+      {showIncompleteProfileModal && (
         <IncompleteProfileModal
           open={showIncompleteProfileModal}
           onClose={() => setIncompleteProfileModal(false)}
         />
       )}
       <button
-        onClick={() => navLevel(3)}
+        onClick={() => navigate(-1)}
         className="mb-6 text-xs font-bold text-slate-500 hover:text-blue-600 flex items-center gap-2 bg-white px-3 py-2 rounded-lg border shadow-sm hover:shadow-md hover:bg-blue-50 transition-all duration-200"
       >
         <FaArrowLeft className="w-4 h-4" />
@@ -224,7 +271,7 @@ export default function StdProgram() {
             <div className="flex gap-6 text-sm text-slate-500 font-medium mb-8">
               <span className="flex items-center gap-2" id="lvl4-uni">
                 <FaUniversity className="text-slate-400" />
-                {selectedUni?.university_name}
+                {selectedProg?.university_name}
               </span>
               <span className="flex items-center gap-2" id="lvl4-deg">
                 <FaGraduationCap className="text-slate-400" />
@@ -384,12 +431,25 @@ export default function StdProgram() {
               </div>
             </div>
 
-            {/* Action Buttons */}
             <div className="space-y-3 mb-8">
-              <button className="w-full h-14 rounded-2xl border-2 border-slate-200 flex items-center justify-center text-slate-500 hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition-all duration-200 group">
-                <FaHeart className="w-5 h-5 text-xl group-hover:text-red-500 transition-colors mr-2" />
-                Shortlist Program
-              </button>
+              {shortListed ? (
+                <button
+                  onClick={() => removeShortlistProgram()}
+                  className="w-full h-14 rounded-2xl border-2 border-red-200 bg-red-50 flex items-center justify-center text-red-500  hover:bg-red-100 transition-all duration-200 group"
+                >
+                  <FaHeart className="w-5 h-5 text-xl mr-2 fill-red-500" />
+                  Shortlisted
+                </button>
+              ) : (
+                <button
+                  onClick={() => shortlistprogram()}
+                  className="w-full h-14 rounded-2xl border-2 border-slate-200 flex items-center justify-center text-slate-500 hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition-all duration-200 group"
+                >
+                  <FaHeart className="w-5 h-5 text-xl mr-2 group-hover:text-red-500 transition-colors" />
+                  Shortlist Program
+                </button>
+              )}
+
               {applied ? (
                 <div className="relative px-2 w-full h-16 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-2xl shadow-xl flex items-center justify-center gap-3 text-white font-bold text-lg ring-2 ring-emerald-400/50">
                   <div className="absolute inset-0 top-0 left-0 right-0 bottom-0 " />

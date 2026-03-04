@@ -17,73 +17,7 @@ const UniversityDetails = () => {
   const [university, setUniversity] = useState({});
   const showLevel = (n) => setLevel(n);
 
-  // const unwiversitys = {
-  //   name: "University of Global Excellence",
-  //   location: "London, United Kingdom",
-  //   rank: "Top 50 worldwide",
-  //   heroImg:
-  //     "https://images.pexels.com/photos/207691/pexels-photo-207691.jpeg?auto=compress&cs=tinysrgb&w=1600",
-  //   logoText: "UGE",
-  //   acceptanceRate: "18%",
-  //   students: "32k",
-  //   founded: "1850",
-  //   type: "Public Research",
-  //   calendar: "Semester",
-  //   description:
-  //     "The University of Global Excellence is a leading research-intensive institution located in the heart of London. With a strong focus on innovation, industry partnerships, and student support, it offers a vibrant academic community and world‑class facilities.\n\nStudents benefit from access to cutting-edge labs, internship opportunities with global companies, and a diverse campus culture that brings together more than 120 nationalities.",
-  //   programs: [
-  //     {
-  //       name: "BSc Computer Science",
-  //       level: "Bachelor",
-  //       duration: "4 years",
-  //       tuition: "£24,000 / year",
-  //       nextIntake: "September 2026",
-  //     },
-  //     {
-  //       name: "BEng Mechanical Engineering",
-  //       level: "Bachelor",
-  //       duration: "3 years",
-  //       tuition: "£22,500 / year",
-  //       nextIntake: "September 2026",
-  //     },
-  //     {
-  //       name: "MSc Data Analytics",
-  //       level: "Master",
-  //       duration: "1 year",
-  //       tuition: "£25,000 total",
-  //       nextIntake: "January 2027",
-  //     },
-  //     {
-  //       name: "MBA International Business",
-  //       level: "Master",
-  //       duration: "1 year",
-  //       tuition: "£30,000 total",
-  //       nextIntake: "September 2026",
-  //     },
-  //   ],
-  //   campusLife: {
-  //     housing:
-  //       "On‑campus residences and modern student apartments located within a 10‑minute walk of the main campus.",
-  //     activities:
-  //       "Over 150 student clubs and societies, including tech, entrepreneurship, sports, music, and cultural groups.",
-  //     cityLife:
-  //       "The campus is integrated into central London, with quick access to cafés, museums, parks, and a major public transport hub.",
-  //     support:
-  //       "Dedicated international student support, mental health services, and career coaching available year‑round.",
-  //   },
-  //   gallery: {
-  //     videoThumb:
-  //       "https://www.stantec.com/content/dam/stantec/images/projects/0132/kettering-university-learning-commons-208792.jpg",
-  //     main: "https://www.hull.ac.uk/image-library/general/campus-aerial-from-cottingham-road-panoramic-20170924-dji-0353-redux.xa7f8ecc2.jpg",
-  //     side1:
-  //       "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600",
-  //     side2: "https://images.unsplash.com/photo-1562774053-701939374585?w=600",
-  //     bottom:
-  //       "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=600",
-  //   },
-  // };
 
-  // const progCount = 0;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -135,7 +69,7 @@ const UniversityDetails = () => {
       {/* Level 3: University profile */}
       <div id="dd-lvl-3" className={level === 3 ? "" : "hidden"}>
         <button
-          onClick={() => showLevel(2)}
+         onClick={() => navigate(-1)}
           className="mb-6 flex items-center gap-2 rounded-lg border bg-white px-3 py-2 text-xs font-bold text-slate-500 shadow-sm transition hover:text-blue-600"
         >
           <FaArrowLeft />
@@ -337,7 +271,7 @@ const UniversityDetails = () => {
                       className="group flex cursor-pointer flex-col overflow-hidden rounded-2xl border-2 border-slate-100 bg-gradient-to-br from-indigo-50 via-white to-blue-50 p-5 shadow-md ring-1 ring-slate-100/50 backdrop-blur-sm transition-all duration-300 hover:border-indigo-300 hover:shadow-2xl hover:shadow-indigo-200/50 hover:-translate-y-2 hover:scale-[1.02]"
                       onClick={() =>
                         navigate(
-                          `/student/apply-to-university/programs/${prog?.program_id}`
+                          `/student/apply-to-university/programs/${university_id}/${prog?.program_id}`
                         )
                       }
                     >

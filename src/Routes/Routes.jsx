@@ -87,18 +87,6 @@ const router = createBrowserRouter([
                         path: "applications",
                         element: <ApprovedApplications />,
                       },
-                      // {
-                      //   path: "generate",
-                      //   element: <SendInvitePage />,
-                      // },
-                      // {
-                      //   path: "requests",
-                      //   element: <ConversationsPage />,
-                      // },
-                      // {
-                      //   path: "approve",
-                      //   element: <PendingApprovals />,
-                      // },
                     ],
                   },
                   {
@@ -218,7 +206,7 @@ const router = createBrowserRouter([
                         element: <Outlet />,
                         children: [
                           {
-                            path: ":program_id",
+                            path: ":university_id/:program_id",
                             element: <StdProgram />,
                           },
                         ],

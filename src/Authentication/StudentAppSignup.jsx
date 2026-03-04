@@ -15,7 +15,7 @@ export default function StudentAppSignup() {
     lname: "",
     email: "",
     school_code: "",
-    citizenship: "",
+    citizenship: "Afghanistan",
   });
 
   const navigate = useNavigate();

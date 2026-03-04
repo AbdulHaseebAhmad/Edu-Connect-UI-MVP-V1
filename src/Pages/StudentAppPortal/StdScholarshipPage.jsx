@@ -184,9 +184,10 @@ function ScholarshipsView() {
 
     <div className="max-w-7xl mx-auto px-4 py-16 relative z-10">
       <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-        {filtered.map((item) => {
+        {filtered.map((item,index) => {
           return (
             <ScholarshipCard
+              key={index}
               item={item}
               onOpenDetails={() => openDetails(item)}
             />

@@ -31,7 +31,7 @@ const Sidebar = () => {
           path: "/schooladmin/verify-student",
           icon: FaUserCheck,
           label: "Verification",
-          badge: "2",
+          badge: "",
         },
         {
           path: "/schooladmin/all-students",

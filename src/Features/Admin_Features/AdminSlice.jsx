@@ -437,12 +437,52 @@ export const FetchScholarships = createAsyncThunk(
 );
 
 export const AddScholarships = createAsyncThunk(
-  "school/features/get/scholarships",
+  "school/features/add/scholarships",
   async (data,{getState}) => {
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.post(`${URL}/api/sysadmin/scholarships/add`, 
         data,{
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfToken,
+        }
+      });
+      // console.log(response?.data)
+      return response?.data
+    } catch (e) {
+      console.log(e);
+    }
+  },
+);
+export const UpdateScholarship = createAsyncThunk(
+  "school/features/update/scholarships",
+  async (data,{getState}) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    try {
+      const response = await axios.put(`${URL}/api/sysadmin/scholarships/update?scholarship_id=${data?.scholarship_id}`, 
+        data?.data,{
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfToken,
+        }
+      });
+      // console.log(response?.data)
+      return response?.data
+    } catch (e) {
+      console.log(e);
+    }
+  },
+);
+export const DeleteScholarship = createAsyncThunk(
+  "school/features/delete/scholarships",
+  async (scholarship_id,{getState}) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    try {
+      const response = await axios.delete(`${URL}/api/sysadmin/scholarships/delete?scholarship_id=${scholarship_id}`, 
+        {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",

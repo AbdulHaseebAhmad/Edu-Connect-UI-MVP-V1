@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { GetUniversityList } from "../../Features/Students_Features/StudentAppSlice";
+import { FaArrowLeft } from "react-icons/fa";
 
 const universities = [
   {
@@ -57,10 +58,10 @@ const UniversitiesList = () => {
   return (
     <div id="dd-lvl-2" className="">
       <button
-        // onClick={onBack}
+        onClick={() => navigate(-1)}
         className="mb-6 flex items-center gap-2 rounded-lg border bg-white px-3 py-2 text-xs font-bold text-slate-500 shadow-sm transition hover:text-blue-600"
       >
-        <i className="fas fa-arrow-left" />
+        <FaArrowLeft className="w-4 h-4" />
         Back to Countries
       </button>
 

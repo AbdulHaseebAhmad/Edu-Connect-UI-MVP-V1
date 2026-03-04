@@ -1,18 +1,32 @@
 import { useEffect, useState } from "react";
-import { FaPlus, FaChevronRight } from "react-icons/fa";
+import { FaPlus, FaChevronRight, FaEdit, FaTrash } from "react-icons/fa";
 import { ScholarshipAddModal } from "../../../Components/SysAdmin/ScholarshipAddModal";
 import { useDispatch } from "react-redux";
-import { FetchScholarships } from "../../../Features/Admin_Features/AdminSlice";
+import { DeleteScholarship, FetchScholarships } from "../../../Features/Admin_Features/AdminSlice";
 import ScholarshipDetailsModal from "../../../Components/studentAppPortal/ScholarshipDetailModal";
 
 export function ScholarshipRegistryPage() {
   const [list, setList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const [activeScholarship, setActiveScholarship] = useState(null);
+  const [activeScholarship, setActiveScholarship] = useState({
+    title: "",
+    country: "",
+    region: "",
+    level: "",
+    funding: "",
+    status: "Upcoming",
+    opens: "",
+    deadline: "",
+    description: "",
+    link: "",
+    requirements: "",
+  });
+
   const [openDetailModal, setOpenDetailModal] = useState(false);
 
   const [openAddModal, setOpenAddModal] = useState(false);
+  const [isEdit,setIsEdit] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -32,6 +46,16 @@ export function ScholarshipRegistryPage() {
     s.title?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
+  const deleteScholarship = (scholarship_id) => {
+    dispatch(DeleteScholarship(scholarship_id)).unwrap().then((res)=>{
+      if (res){
+        dispatch(FetchScholarships())
+      .unwrap()
+      .then((res) => setList(res || []))
+      .catch(() => setList([]));
+      }
+    })
+  }
   return (
     <div className="px-6 py-6 min-h-screen fade-in relative">
       {/* HEADER */}
@@ -88,6 +112,7 @@ export function ScholarshipRegistryPage() {
               <th className="px-6 py-3 text-center">Level</th>
               <th className="px-6 py-3 text-center">Funding</th>
               <th className="px-6 py-3 text-center">Status</th>
+              <th className="px-6 py-3 text-center">Actions</th>
               <th className="px-6 py-3"></th>
             </tr>
           </thead>
@@ -97,8 +122,7 @@ export function ScholarshipRegistryPage() {
               filteredList.map((s) => (
                 <tr
                   key={s.scholarship_id}
-                  className="hover:bg-slate-50 cursor-pointer transition text-center"
-                  onClick={() => openDetail(s)}
+                  className="hover:bg-slate-50 cursor-pointer transition text-center z-20"
                 >
                   <td className="px-6 py-4 font-bold text-slate-900">
                     {s.title}
@@ -122,8 +146,21 @@ export function ScholarshipRegistryPage() {
                       {s.status}
                     </span>
                   </td>
-
-                  <td className="px-6 py-4 text-right">
+                  <td className="px-6 py-4 text-right flex gap-2 justify-center z-50">
+                    <FaEdit
+                      className="text-blue-500 cursor-pointer"
+                      onClick={() => {
+                        setActiveScholarship(s);
+                        setIsEdit(true);
+                        setOpenAddModal(true);
+                      }}
+                    />
+                    <FaTrash onClick={()=>deleteScholarship(s.scholarship_id)} className="text-red-500 cursor-pointer" />
+                  </td>
+                  <td
+                    className="px-6 py-4 text-right"
+                    onClick={() => openDetail(s)}
+                  >
                     <FaChevronRight className="w-4 h-4 text-slate-300" />
                   </td>
                 </tr>
@@ -147,7 +184,7 @@ export function ScholarshipRegistryPage() {
         <ScholarshipDetailsModal
           open={openDetailModal}
           scholarship={activeScholarship}
-          onClose={() => setOpenDetailModal(false)}
+          onClose={() => {setIsEdit(false);setActiveScholarship({});setOpenDetailModal(false)}}
           isadmin={true}
         />
       )}
@@ -156,7 +193,9 @@ export function ScholarshipRegistryPage() {
       {openAddModal && (
         <ScholarshipAddModal
           open={openAddModal}
-          onClose={() => setOpenAddModal(false)}
+          onClose={() => {setIsEdit(false);setActiveScholarship({});setOpenAddModal(false)}}
+          scholarship={activeScholarship}
+          isEdit={isEdit}
         />
       )}
     </div>

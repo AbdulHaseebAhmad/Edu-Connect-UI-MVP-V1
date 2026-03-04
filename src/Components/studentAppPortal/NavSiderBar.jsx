@@ -128,9 +128,9 @@ export default function NavSiderBar() {
         >
           <FaCommentDots className="w-4 h-4 mr-3 transition" />
           <span className="">Messages</span>
-          <span className="ml-auto bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">
-            1
-          </span>
+          {/* {<span className="ml-auto bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">
+            
+          </span>} */}
         </NavLink>
       </div>
 

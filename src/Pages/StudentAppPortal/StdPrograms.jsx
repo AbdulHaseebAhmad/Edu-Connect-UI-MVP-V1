@@ -41,11 +41,11 @@ export default function StdPrograms() {
   return (
     <div id="dd-lvl-3" className="space-y-6">
       <button
-        onClick={() => navLevel(2)}
+        onClick={() => navigate(-1)}
         className="mb-6 text-xs font-bold text-slate-500 hover:text-blue-600 flex items-center gap-2 bg-white px-3 py-2 rounded-lg border shadow-sm hover:shadow-md hover:bg-blue-50 transition-all duration-200"
       >
         <FaArrowLeft className="w-4 h-4" />
-        Back to Universities
+        Back to Programs
       </button>
       <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-lg mb-6">
         <div className="h-48 bg-slate-800 relative">
