@@ -29,10 +29,10 @@ export default function Navbar() {
         </div>
         <div className="flex items-center gap-6">
           <div className="relative cursor-pointer">
-            <i className="fa fa-bell text-lg text-gray-700" />
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+            {/* <i className="fa fa-bell text-lg text-gray-700" /> */}
+            {/* <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
               3
-            </span>
+            </span> */}
           </div>
           <div className="flex items-center gap-3 cursor-pointer">
             <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white flex items-center justify-center font-semibold">

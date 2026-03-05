@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 import { logoutAdmin } from "../../Features/Auth_Features/AuthSlice";
 const linkBase =
   "flex items-center px-4 lg:px-6 py-3.5 text-sm font-medium transition border-r-4";
-
+import logo from "../../assets/pgl.png";
 export default function Sidebar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -28,11 +28,13 @@ export default function Sidebar() {
     <aside className="w-20 lg:w-64 bg-white border-r border-slate-200 flex flex-col flex-shrink-0">
       {/* Header */}
       <div className="h-20 flex items-center justify-center lg:justify-start lg:px-6 border-b border-slate-100">
-        <div className="bg-indigo-600 text-white w-9 h-9 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200">
+        {/* <div className="bg-indigo-600 text-white w-9 h-9 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200">
           <FaUniversity />
-        </div>
+        </div> */}
         <span className="ml-3 font-extrabold text-xl text-slate-800 hidden lg:block">
-          UniGlobal<span className="text-indigo-600">.</span>
+          <div className="bg-white py-2 w-[150px] text-white w-8 h-8 rounded-xl flex items-center justify-center mr-3 shadow-lg shadow-blue-900/50">
+            <img src={logo} />
+          </div>{" "}
         </span>
       </div>
 

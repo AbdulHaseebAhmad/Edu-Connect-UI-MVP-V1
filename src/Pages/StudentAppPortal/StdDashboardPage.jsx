@@ -11,10 +11,10 @@ export default function StdDashboardPage() {
         <div className="absolute right-0 top-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-white/20 transition duration-700" />
         <div className="relative z-10">
           <h2 className="text-2xl font-bold mb-1">Scholarship Eligible 🎓</h2>
-          <p className="text-indigo-100 text-sm max-w-lg">
+          {/* <p className="text-indigo-100 text-sm max-w-lg">
             Great news! You qualify for the &quot;Global Excellence&quot; grant
             based on your AAA grades.
-          </p>
+          </p> */}
         </div>
         <button onClick={()=>navigate("/student/scholarships")} className="relative z-10 bg-white text-indigo-600 px-6 py-3 rounded-xl font-bold text-sm hover:bg-indigo-50 hover:scale-105 transition shadow-lg">
           View Scholarships
@@ -38,7 +38,7 @@ export default function StdDashboardPage() {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-lg hover:-translate-y-1 transition duration-300">
+        {/* <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-lg hover:-translate-y-1 transition duration-300">
           <div className="flex justify-between items-start mb-4">
             <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center">
               <FaTasks className="w-5 h-5" />
@@ -51,7 +51,7 @@ export default function StdDashboardPage() {
           <div className="text-xs text-slate-500 font-medium">
             Pending Tasks
           </div>
-        </div>
+        </div> */}
 
         <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-lg hover:-translate-y-1 transition duration-300">
           <div className="flex justify-between items-start mb-4">

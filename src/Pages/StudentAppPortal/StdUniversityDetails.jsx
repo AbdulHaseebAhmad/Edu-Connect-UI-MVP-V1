@@ -164,7 +164,7 @@ const UniversityDetails = () => {
                 {university?.Programs?.length}
               </span>
             </button>
-            <button
+            {/* <button
               onClick={() => setProfileTab("life")}
               id="tab-p-life"
               className={`border-b-2 py-4 text-sm font-bold transition ${
@@ -174,7 +174,7 @@ const UniversityDetails = () => {
               }`}
             >
               Campus Life
-            </button>
+            </button> */}
           </div>
 
           {/* TAB CONTENT */}

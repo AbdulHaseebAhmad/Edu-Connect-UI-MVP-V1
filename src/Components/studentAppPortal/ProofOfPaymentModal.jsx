@@ -49,7 +49,7 @@ export function PaymentProofModal({
               <p className="text-xs leading-relaxed">
                 Pay the <strong>{appFee}</strong> application fee directly to
                 the university's official account. Do NOT pay agents or third
-                parties. UniGlobal does not collect fees.
+                parties. GEOS does not collect fees.
               </p>
             </div>
           </div>

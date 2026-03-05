@@ -76,7 +76,7 @@ export function ApplicationsPageP() {
               : ""
           }`}
         >
-          Request (7)
+          Short Listed
         </button>
       </div>
 

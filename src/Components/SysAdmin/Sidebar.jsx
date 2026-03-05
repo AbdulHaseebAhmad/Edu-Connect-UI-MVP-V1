@@ -1,11 +1,13 @@
 import { NavLink } from "react-router-dom";
 import { SideBarLinks } from "./Constants";
+import logo from "../../assets/pgl.png"
 const Sidebar = () => {
   return (
     <aside className="w-64 bg-gray-900 text-white flex-shrink-0">
       <div className="flex items-center gap-2 px-6 py-4 border-b border-gray-700">
-        <i className="fa fa-graduation-cap text-blue-500 text-2xl" />
-        <span className="text-xl font-bold">EduAI</span>
+        <div className="bg-white py-2 w-[150px] text-white w-8 h-8 rounded-xl flex items-center justify-center mr-3 shadow-lg shadow-blue-900/50">
+          <img src={logo} />
+        </div>
       </div>
 
       <nav className="mt-6 flex flex-col gap-2">

@@ -82,7 +82,7 @@ export const countries = [
   { name: "Iran" },
   { name: "Iraq" },
   { name: "Ireland" },
-  { name: "Israel" },
+  // { name: "Israel" },
   { name: "Italy" },
   { name: "Jamaica" },
   { name: "Japan" },

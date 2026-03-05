@@ -20,10 +20,10 @@ export default function Navbar() {
           />
         </div>
         <div className="h-8 w-px bg-slate-200" />
-        <button className="relative text-slate-400 hover:text-indigo-600">
+        {/* <button className="relative text-slate-400 hover:text-indigo-600">
           <FaBell className="text-xl" />
           <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white" />
-        </button>
+        </button> */}
       </div>
     </header>
   );

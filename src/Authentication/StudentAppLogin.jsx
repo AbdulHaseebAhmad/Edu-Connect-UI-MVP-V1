@@ -7,7 +7,7 @@ import {
   GetStudentDocuments,
   SigninStudent,
 } from "../Features/Students_Features/StudentAppSlice";
-
+import logo from "../assets/pgl.png";
 export default function StudentAppLogin() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -22,13 +22,13 @@ export default function StudentAppLogin() {
 
   const onsubmitHandle = () => {
     console.log(formData);
-    let user_id
+    let user_id;
     dispatch(SigninStudent(formData))
       .unwrap()
       .then((res) => {
         if (res) {
           // console.log(res);
-          user_id = res?.student_id
+          user_id = res?.student_id;
           dispatch(GetStudentDetails(res?.student_id))
             .unwrap()
             .then((res) => {
@@ -40,7 +40,7 @@ export default function StudentAppLogin() {
                       if (res?.data?.role == "student") {
                         setTimeout(
                           () => navigate("/std-app-portal/dashboard"),
-                          1500
+                          1500,
                         );
                       }
                     }
@@ -61,11 +61,13 @@ export default function StudentAppLogin() {
         <div className="hidden lg:flex w-1/3 bg-slate-50 relative flex-col justify-between p-12 border-r border-slate-100">
           <div>
             <div className="flex items-center gap-2 mb-8">
-              <div className="bg-blue-600 w-8 h-8 rounded-lg flex items-center justify-center text-white">
+              {/* <div className="bg-blue-600 w-8 h-8 rounded-lg flex items-center justify-center text-white">
                 <FaLayerGroup className="text-sm" />
-              </div>
+              </div> */}
               <span className="font-bold text-xl tracking-tight text-slate-900">
-                UniGlobal<span className="text-blue-500">.</span>
+                <div className="bg-white py-2 w-[150px] text-white w-8 h-8 rounded-xl flex items-center justify-center mr-3 shadow-lg shadow-blue-900/50">
+                  <img src={logo} />
+                </div>
               </span>
             </div>
             <h2 className="text-3xl font-bold text-slate-900 mb-4">

@@ -15,12 +15,12 @@ import {
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAdmin } from "../../Features/Auth_Features/AuthSlice";
-
+import logo from "../../assets/pgl.png";
 export default function NavSiderBar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const username = useSelector((state)=> state.authReducer.name)
+  const username = useSelector((state) => state.authReducer.name);
   const handleLogout = async () => {
     dispatch(logoutAdmin());
     navigate("/student/login", { replace: true });
@@ -32,9 +32,8 @@ export default function NavSiderBar() {
 
       <div className="h-16 flex items-center px-6 cursor-pointer relative z-10 flex-shrink-0">
         <div className="bg-white py-2 w-[150px] text-white w-8 h-8 rounded-xl flex items-center justify-center mr-3 shadow-lg shadow-blue-900/50">
-          <img src="../../../public/pgl.png"/>
+          <img src={logo} />
         </div>
-        
       </div>
 
       <div className="p-3 space-y-1 flex-1 overflow-y-auto relative z-10">

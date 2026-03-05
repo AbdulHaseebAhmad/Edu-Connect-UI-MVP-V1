@@ -19,10 +19,10 @@ export default function TopNavbar() {
         </p>
       </div>
       <div className="flex items-center gap-6 relative">
-        <button className="relative text-slate-400 hover:text-blue-600 transition">
+        {/* <button className="relative text-slate-400 hover:text-blue-600 transition">
           <FaBell className="w-6 h-6 text-xl" />
           <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white" />
-        </button>
+        </button> */}
 
         <div className="h-8 w-px bg-slate-200 hidden md:block" />
 

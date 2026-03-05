@@ -80,16 +80,19 @@ export function DocumentsPage() {
   const [documentname, setDocumentname] = useState("");
   const [refetch, setRefetch] = useState(false);
   const [readiness, setReadiness] = useState("0%");
+  const [loading,setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const user_id = useSelector((state) => state.authReducer.user_id);
 
   useEffect(() => {
+    setLoading(true);
     dispatch(GetStudentDocuments(user_id))
       .unwrap()
       .then((res) => {
         if (res) {
           setdocumentListfromDb(res);
+          setLoading(false)
         }
       });
   }, [refetch]);
@@ -98,7 +101,7 @@ export function DocumentsPage() {
     const uploadedList =
       documentListFromDb?.length > 0 &&
       documentListFromDb?.filter(
-        (eachDoc) => eachDoc?.document_status !== "uploaded"
+        (eachDoc) => eachDoc?.document_status !== "uploaded",
       );
     setReadiness(`${Math.round((uploadedList.length / 7) * 100)}%`);
   }, [documentListFromDb]);
@@ -140,19 +143,28 @@ export function DocumentsPage() {
         student_id: user_id,
         document_id: document_id,
         mimetype: mimetype,
-      })
+      }),
     );
   };
 
   return (
-    <div className="fade-in space-y-6">
+    <div className="relative fade-in space-y-6">
+      {loading && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/70 backdrop-blur-sm rounded-2xl">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
+            <p className="text-sm font-semibold text-slate-600">
+              Loading documents...
+            </p>
+          </div>
+        </div>
+      )}
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-slate-900">Document Vault</h1>
         <button className="px-6 py-3 bg-blue-600 text-white font-bold rounded-xl text-sm shadow hover:bg-blue-700 transition">
           Upload New
         </button>
       </div>
-
       <div className="bg-blue-50 border border-blue-100 rounded-2xl p-6 mb-6">
         <h3 className="font-bold text-blue-900 mb-4 flex items-center gap-2">
           <FaTasks className="text-blue-600" />
@@ -169,35 +181,29 @@ export function DocumentsPage() {
         </div>
         <div className="flex gap-4 text-xs flex-wrap">
           {documentsList?.map((doc) => {
-             const dbDoc = documentListFromDb?.find(
-                (eachDoc) => eachDoc?.name === doc.labelname
-              );
-              const status = dbDoc?.status || "missing";
+            const dbDoc = documentListFromDb?.find(
+              (eachDoc) => eachDoc?.name === doc.labelname,
+            );
+            const status = dbDoc?.status || "missing";
             return (
               <span
                 key={doc?.name}
                 className={`flex items-center gap-1 font-bold ${
                   status === "missing"
                     ? "text-red-700 "
-                    : status ===
-                      "uploaded"
-                    ? "text-green-700"
-                    : "text-orange-700"
+                    : status === "uploaded"
+                      ? "text-green-700"
+                      : "text-orange-700"
                 }`}
               >
                 {doc?.icon}
                 {doc?.label}
-                {status=== "missing" ? (
-                  <FaTimesCircle />
-                ) : (
-                  <FaCheckCircle />
-                )}
+                {status === "missing" ? <FaTimesCircle /> : <FaCheckCircle />}
               </span>
             );
           })}
         </div>
       </div>
-
       <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
         <table className="w-full text-left text-sm">
           <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase font-bold text-xs">
@@ -212,7 +218,7 @@ export function DocumentsPage() {
           <tbody className="divide-y divide-slate-100">
             {documentsList.map((doc, index) => {
               const dbDoc = documentListFromDb?.find(
-                (eachDoc) => eachDoc?.name === doc.labelname
+                (eachDoc) => eachDoc?.name === doc.labelname,
               );
               const status = dbDoc?.status || "missing";
 
@@ -289,7 +295,7 @@ export function DocumentsPage() {
                           onClick={() =>
                             viewStudentDoc(
                               dbDoc.document_id, // ✅ doc.name (cv, passport, etc.)
-                              dbDoc?.type // ✅ dbDoc.type (application/pdf)
+                              dbDoc?.type, // ✅ dbDoc.type (application/pdf)
                             )
                           }
                           className="text-blue-600 hover:text-blue-800 font-bold text-sm mr-3 transition-colors"
@@ -300,7 +306,7 @@ export function DocumentsPage() {
                           onClick={() =>
                             viewStudentDoc(
                               doc.name, // ✅ doc.name
-                              dbDoc?.type // ✅ dbDoc.type
+                              dbDoc?.type, // ✅ dbDoc.type
                             )
                           }
                           className="text-slate-400 hover:text-slate-600 text-sm p-1 hover:bg-slate-100 rounded transition-all"
