@@ -29,3 +29,4 @@ dist-ssr
 firebase.json
 .firebase/hosting.ZGlzdA.cache
 .gitignore
+.firebase/
