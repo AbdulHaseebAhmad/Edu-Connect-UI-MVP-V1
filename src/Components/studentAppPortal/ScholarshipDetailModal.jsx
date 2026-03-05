@@ -8,12 +8,14 @@ import {
   FaBell,
 } from "react-icons/fa";
 
+import { useNavigate } from "react-router";
+
 function ScholarshipDetailsModal({ scholarship, onClose, onUnlock, isadmin }) {
   if (!scholarship) return null;
 
   const isUpcoming = scholarship.status === "Upcoming";
 
-  return (
+   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-blue-900/40 backdrop-blur-sm">
       <div className="bg-white w-full max-w-lg mx-4 rounded-2xl shadow-2xl relative overflow-hidden max-h-[80vh] overflow-y-auto">
         {/* Header */}
@@ -43,11 +45,9 @@ function ScholarshipDetailsModal({ scholarship, onClose, onUnlock, isadmin }) {
               <FaUniversity />
             </div>
           </div>
-
           <h2 className="text-2xl font-bold text-slate-900 mb-2 leading-tight">
             {scholarship.title}
           </h2>
-
           <div className="flex flex-wrap gap-2 mb-6 text-xs">
             <span className="bg-green-100 text-green-700 font-bold px-3 py-1 rounded-full border border-green-200">
               {scholarship.funding}
@@ -59,7 +59,6 @@ function ScholarshipDetailsModal({ scholarship, onClose, onUnlock, isadmin }) {
               {scholarship.level}
             </span>
           </div>
-
           <div className="space-y-6 text-sm">
             <div>
               <h4 className="font-bold text-slate-900 mb-2 flex items-center gap-2">
@@ -75,33 +74,37 @@ function ScholarshipDetailsModal({ scholarship, onClose, onUnlock, isadmin }) {
                 <FaClipboardCheck /> Application Requirements
               </h4>
               <ul className="space-y-2 text-slate-700">
-                {(scholarship.reqs ||  scholarship?.requirements  || []).map((req) => (
-                  <li key={req} className="flex items-start gap-2">
-                    <FaCheckCircle className="text-blue-500 mt-0.5 text-xs" />
-                    <span>{req}</span>
-                  </li>
-                ))}
+                {(scholarship.reqs || scholarship?.requirements || []).map(
+                  (req) => (
+                    <li key={req} className="flex items-start gap-2">
+                      <FaCheckCircle className="text-blue-500 mt-0.5 text-xs" />
+                      <span>{req}</span>
+                    </li>
+                  ),
+                )}
               </ul>
             </div>
           </div>
-
           {/* Actions */}
-         {!isadmin && <div className="mt-6 pt-4 border-t border-gray-100 flex gap-3">
-            {isUpcoming ? (
-              <button className="flex-1 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white text-center py-3 rounded-xl font-bold transition shadow-lg flex items-center justify-center gap-2 transform hover:-translate-y-0.5 text-sm">
-                <FaBell />
-                Notify Me When Open
-              </button>
-            ) : (
-              <button
-                onClick={onUnlock}
-                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-center py-3 rounded-xl font-bold transition shadow-lg transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-sm"
-              >
-                Unlock Application 🔒
-              </button>
-            )}
-          </div>
-}        </div>
+          {!isadmin && (
+            <div className="mt-6 pt-4 border-t border-gray-100 flex gap-3">
+              {isUpcoming ? (
+                <button className="flex-1 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white text-center py-3 rounded-xl font-bold transition shadow-lg flex items-center justify-center gap-2 transform hover:-translate-y-0.5 text-sm">
+                  <FaBell />
+                  Notify Me When Open
+                </button>
+              ) : (
+                <button
+                  // onClick={onUnlock}
+                  onClick={() =>(window.location.href = `https://${scholarship?.link}`)}
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-center py-3 rounded-xl font-bold transition shadow-lg transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-sm"
+                >
+                  View Scholarship
+                </button>
+              )}
+            </div>
+          )}{" "}
+        </div>
       </div>
     </div>
   );
