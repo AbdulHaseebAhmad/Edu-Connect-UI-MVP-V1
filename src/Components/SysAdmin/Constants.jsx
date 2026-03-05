@@ -35,6 +35,7 @@ export const SideBarLinks = [
       { name: "Verify Applications", link:"/sysadmin/students/verification" },
       { name: "Verify Program Receipts", link:"/sysadmin/students/receipts" },
       { name: "Scholarships", link:"/sysadmin/students/scholarships" },
+      { name: "Webinars", link:"/sysadmin/students/webinars" },
       { name: "Applications", link:"/sysadmin/students/applications" },
     ], 
   },
