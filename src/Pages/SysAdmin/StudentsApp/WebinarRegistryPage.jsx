@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { act, useEffect, useState } from "react";
 import {
   FaPlus,
   FaVideo,
@@ -11,39 +11,23 @@ import {
   FaTimes,
 } from "react-icons/fa";
 
-const initialMockEvents = [
-  {
-    id: 101,
-    title: "Ivy League Strategy Session",
-    speaker: "Dr. Emily Stone",
-    platform: "Zoom",
-    date: "2026-02-15",
-    time: "14:00",
-    targetType: "global",
-    targetValue: "All Students",
-    registered: 450,
-  },
-  {
-    id: 102,
-    title: "Visa Application Workshop",
-    speaker: "Consulate Officer",
-    platform: "Teams",
-    date: "2026-02-20",
-    time: "10:00",
-    targetType: "country",
-    targetValue: "Malawi",
-    registered: 85,
-  },
-];
+import { useDispatch } from "react-redux";
+import {
+  CreateWebinar,
+  DeleteWebinar,
+  GetWebinars,
+  UpdateWebinar,
+} from "../../../Features/Admin_Features/AdminSlice";
 
 export function WebinarRegistryPage() {
-  const [list, setList] = useState(initialMockEvents);
+  const [list, setList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   const [openFormModal, setOpenFormModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [currentTarget, setCurrentTarget] = useState("global");
 
+  const dispatch = useDispatch();
   const [activeWebinar, setActiveWebinar] = useState({
     id: "",
     title: "",
@@ -51,9 +35,10 @@ export function WebinarRegistryPage() {
     platform: "Zoom",
     date: "",
     time: "",
-    targetType: "global",
-    targetValue: "All Students",
+    targettype: "global",
+    targetvalue: "All Students",
     registered: 0,
+    link: "",
   });
 
   const today = new Date().toISOString().split("T")[0];
@@ -69,23 +54,29 @@ export function WebinarRegistryPage() {
       platform: "Zoom",
       date: todayDate,
       time: "",
-      targetType: "global",
-      targetValue: "All Students",
+      targettype: "global",
+      targetvalue: "All Students",
       registered: 0,
+      status: "Scheduled",
+      link: "",
     });
     setOpenFormModal(true);
   };
 
   const openEditModal = (webinar) => {
     setIsEdit(true);
-    setCurrentTarget(webinar.targetType || "global");
+    setCurrentTarget(webinar.targettype || "global");
     setActiveWebinar(webinar);
     setOpenFormModal(true);
   };
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to cancel this webinar?")) {
-      setList((prev) => prev.filter((w) => w.id !== id));
+      dispatch(DeleteWebinar(id)).unwrap().then((res)=>{
+        if(res){
+          setList((prev) => prev.filter((w) => w.webinar_code !== id));
+        }
+      })
     }
   };
 
@@ -96,8 +87,8 @@ export function WebinarRegistryPage() {
     if (type === "school") defaultVal = "Kamuzu Academy (Malawi)";
     setActiveWebinar((prev) => ({
       ...prev,
-      targetType: type,
-      targetValue: prev.targetType === type ? prev.targetValue : defaultVal,
+      targettype: type,
+      targetvalue: prev.targettype === type ? prev.targetvalue : defaultVal,
     }));
   };
 
@@ -107,23 +98,55 @@ export function WebinarRegistryPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (isEdit && activeWebinar.id) {
-      setList((prev) =>
-        prev.map((w) => (w.id === activeWebinar.id ? activeWebinar : w))
-      );
+    if (isEdit && activeWebinar) {
+      dispatch(UpdateWebinar(activeWebinar))
+        .unwrap()
+        .then((res) => {
+          if (res) {
+            setList((prev) =>
+              prev.map((w) =>
+                w.webinar_code === activeWebinar.webinar_code
+                  ? activeWebinar
+                  : w,
+              ),
+            );
+          }
+        });
     } else {
-      const newWebinar = {
+      let newWebinar = {
         ...activeWebinar,
         id: Date.now(),
       };
-      setList((prev) => [newWebinar, ...prev]);
+      dispatch(CreateWebinar(newWebinar))
+        .unwrap()
+        .then((res) => {
+          if (res) {
+            newWebinar = {...newWebinar,webinar_code:res}
+            setList((prev) => [newWebinar, ...prev]);
+          }
+        });
     }
     setOpenFormModal(false);
   };
 
   const filteredList = list.filter((w) =>
-    w.title.toLowerCase().includes(searchTerm.toLowerCase())
+    w.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
+
+  useEffect(() => {
+    dispatch(GetWebinars())
+      .unwrap()
+      .then((res) => {
+        if (res) {
+          setList(res);
+        }
+      });
+  }, []);
+
+  function parseMMDDYYYY(str) {
+    const [month, day, year] = str.split(" ").map(Number);
+    return new Date(year, month - 1, day);
+  }
 
   return (
     <div className="px-6 py-6 min-h-screen fade-in relative bg-slate-50">
@@ -193,24 +216,24 @@ export function WebinarRegistryPage() {
 
           <tbody className="divide-y divide-slate-100 text-sm">
             {filteredList.length > 0 ? (
-              filteredList.map((w) => {
+              filteredList.map((w, index) => {
                 const isToday = w.date === today;
                 const TargetIcon =
-                  w.targetType === "country"
+                  w.targettype === "country"
                     ? FaFlag
-                    : w.targetType === "school"
-                    ? FaSchool
-                    : FaGlobe;
+                    : w.targettype === "school"
+                      ? FaSchool
+                      : FaGlobe;
                 const targetClass =
-                  w.targetType === "country"
+                  w.targettype === "country"
                     ? "bg-orange-100 text-orange-700"
-                    : w.targetType === "school"
-                    ? "bg-indigo-100 text-indigo-700"
-                    : "bg-slate-100 text-slate-600";
+                    : w.targettype === "school"
+                      ? "bg-indigo-100 text-indigo-700"
+                      : "bg-slate-100 text-slate-600";
 
                 return (
                   <tr
-                    key={w.id}
+                    key={index}
                     className="hover:bg-slate-50 cursor-pointer transition text-center"
                   >
                     <td className="px-6 py-4 font-bold text-slate-900">
@@ -235,7 +258,7 @@ export function WebinarRegistryPage() {
                         className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold ${targetClass}`}
                       >
                         <TargetIcon />
-                        {w.targetValue}
+                        {w.targetvalue}
                       </span>
                     </td>
 
@@ -261,7 +284,7 @@ export function WebinarRegistryPage() {
                         onClick={() => openEditModal(w)}
                       />
                       <FaTrash
-                        onClick={() => handleDelete(w.id)}
+                        onClick={() => handleDelete(w.webinar_code)}
                         className="text-red-500 cursor-pointer"
                       />
                     </td>
@@ -365,7 +388,7 @@ export function WebinarRegistryPage() {
                     <input
                       type="date"
                       required
-                      value={activeWebinar.date}
+                      value={activeWebinar?.date}
                       onChange={(e) => handleChange("date", e.target.value)}
                       className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none text-slate-500"
                     />
@@ -383,6 +406,18 @@ export function WebinarRegistryPage() {
                     />
                   </div>
                 </div>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-slate-600 mb-1">
+                  Join Link
+                </label>
+                <input
+                  type="url"
+                  value={activeWebinar.link}
+                  onChange={(e) => handleChange("link", e.target.value)}
+                  placeholder="https://zoom.us/j/123456789"
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                />
               </div>
 
               {/* Audience Targeting */}
@@ -440,9 +475,9 @@ export function WebinarRegistryPage() {
                       Select Country
                     </label>
                     <select
-                      value={activeWebinar.targetValue}
+                      value={activeWebinar.targetvalue}
                       onChange={(e) =>
-                        handleChange("targetValue", e.target.value)
+                        handleChange("targetvalue", e.target.value)
                       }
                       className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none"
                     >
@@ -462,9 +497,9 @@ export function WebinarRegistryPage() {
                       Select Partner School
                     </label>
                     <select
-                      value={activeWebinar.targetValue}
+                      value={activeWebinar.targetvalue}
                       onChange={(e) =>
-                        handleChange("targetValue", e.target.value)
+                        handleChange("targetvalue", e.target.value)
                       }
                       className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none"
                     >

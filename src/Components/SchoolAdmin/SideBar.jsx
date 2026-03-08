@@ -144,7 +144,7 @@ const Sidebar = () => {
             Cookies.remove("csrf_token", { path: "/" }); 
             Cookies.remove("session_token"); 
             localStorage.clear();
-            window.location.href = "/login";
+            window.location.href = "/school/login";
           }}
           className="w-full flex items-center gap-2 text-[0.85rem] py-2.5 px-4 text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-lg border border-slate-200 hover:border-red-200 transition-all duration-200 font-medium"
         >

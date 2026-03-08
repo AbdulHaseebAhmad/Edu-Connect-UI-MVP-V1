@@ -1,5 +1,5 @@
 import { createBrowserRouter, Outlet } from "react-router-dom";
-import Login from "../Authentication/Login";
+import Login from "../Authentication/SystemAdminLogin";
 import Signup from "../Authentication/Signup";
 import SysAdminRoot from "./SysAdminRoot";
 import AuthRoot from "./AuthRoot";
@@ -54,6 +54,7 @@ import UniversityDetails from "../Pages/StudentAppPortal/StdUniversityDetails";
 import UniversitiesList from "../Pages/StudentAppPortal/StdUniversitiesList";
 import { ScholarshipRegistryPage } from "../Pages/SysAdmin/StudentsApp/Scholarships";
 import { WebinarRegistryPage } from "../Pages/SysAdmin/StudentsApp/WebinarRegistryPage";
+import SchoolLogin from "../Authentication/SchoolLogin";
 
 const router = createBrowserRouter([
   {
@@ -343,6 +344,15 @@ const router = createBrowserRouter([
           {
             path: "signup",
             element: <StudentAppSignup />,
+          },
+        ],
+      },
+      {
+        path: "/school",
+        children: [
+          {
+            path: "login",
+            element: <SchoolLogin />,
           },
         ],
       },
