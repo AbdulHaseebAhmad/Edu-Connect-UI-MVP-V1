@@ -10,6 +10,7 @@ export default function StudentRoot() {
     return <Navigate to={`/${role}`} replace state={{ from: location }} />;
   }
 
+
   return (
     <div className="flex flex-col h-screen p-2 ">
       <Navbar />

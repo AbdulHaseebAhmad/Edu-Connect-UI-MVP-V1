@@ -72,11 +72,13 @@ export function WebinarRegistryPage() {
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to cancel this webinar?")) {
-      dispatch(DeleteWebinar(id)).unwrap().then((res)=>{
-        if(res){
-          setList((prev) => prev.filter((w) => w.webinar_code !== id));
-        }
-      })
+      dispatch(DeleteWebinar(id))
+        .unwrap()
+        .then((res) => {
+          if (res) {
+            setList((prev) => prev.filter((w) => w.webinar_code !== id));
+          }
+        });
     }
   };
 
@@ -121,7 +123,7 @@ export function WebinarRegistryPage() {
         .unwrap()
         .then((res) => {
           if (res) {
-            newWebinar = {...newWebinar,webinar_code:res}
+            newWebinar = { ...newWebinar, webinar_code: res };
             setList((prev) => [newWebinar, ...prev]);
           }
         });
@@ -334,21 +336,66 @@ export function WebinarRegistryPage() {
                 <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2">
                   Event Basics
                 </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-600 mb-1">
+                      Webinar Title
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={activeWebinar.title}
+                      onChange={(e) => handleChange("title", e.target.value)}
+                      placeholder="e.g. Ivy League Admissions 101"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    />
+                  </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-slate-600 mb-1">
-                    Webinar Title
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={activeWebinar.title}
-                    onChange={(e) => handleChange("title", e.target.value)}
-                    placeholder="e.g. Ivy League Admissions 101"
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                  />
+                  <div>
+                    <label className="block text-xs font-bold text-slate-600 mb-1">
+                      Descriptive Title
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={activeWebinar.descriptive_title}
+                      onChange={(e) =>
+                        handleChange("descriptive_title", e.target.value)
+                      }
+                      placeholder="e.g. How to Get Into Top US Universities"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    />
+                  </div>
                 </div>
-
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-600 mb-1">
+                      Hosted By
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={activeWebinar.hosted_by}
+                      onChange={(e) =>
+                        handleChange("hosted_by", e.target.value)
+                      }
+                      placeholder="e.g. Harvard Alumni Admissions Team"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-600 mb-1">
+                      Join Link
+                    </label>
+                    <input
+                      type="url"
+                      value={activeWebinar.link}
+                      onChange={(e) => handleChange("link", e.target.value)}
+                      placeholder="https://zoom.us/j/123456789"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    />
+                  </div>
+                </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-600 mb-1">
@@ -406,18 +453,19 @@ export function WebinarRegistryPage() {
                     />
                   </div>
                 </div>
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-slate-600 mb-1">
-                  Join Link
-                </label>
-                <input
-                  type="url"
-                  value={activeWebinar.link}
-                  onChange={(e) => handleChange("link", e.target.value)}
-                  placeholder="https://zoom.us/j/123456789"
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                />
+                <div>
+                    <label className="block text-xs font-bold text-slate-600 mb-1">
+                      Description
+                    </label>
+                    <textarea
+                      type="text"
+                      required
+                      value={activeWebinar.description}
+                      onChange={(e) => handleChange("description", e.target.value)}
+                      placeholder="e.g. A complete guide to Ivy League admissions covering application strategy, essays, interviews"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    />
+                  </div>
               </div>
 
               {/* Audience Targeting */}

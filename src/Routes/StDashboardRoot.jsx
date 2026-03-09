@@ -3,6 +3,8 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import NavSiderBar from "../Components/studentAppPortal/NavSiderBar";
 import RightSideBar from "../Components/studentAppPortal/RightSideBar";
 import TopNavbar from "../Components/studentAppPortal/TopNavbar";
+import UpcomingWebinarModal from "../Components/studentAppPortal/UpcomingWebinarmodal";
+import { useState } from "react";
 
 export function StDashboardRoot() {
   let role = useSelector((state) => state.authReducer.role);
@@ -10,6 +12,8 @@ export function StDashboardRoot() {
   if (role !== "student") {
     return <Navigate to={`/${role}`} replace state={{ from: location }} />;
   }
+
+  const [openWebinar, setOpenWebinar] = useState(false);
 
   return (
     <div className="h-screen w-screen flex overflow-hidden text-sm bg-slate-50">
@@ -26,7 +30,11 @@ export function StDashboardRoot() {
         </div>
       </main>
 
-      <RightSideBar />
+      <RightSideBar onOpenWebinarModal={(d) => setOpenWebinar(d)} />
+      <UpcomingWebinarModal
+        webinar={openWebinar}
+        onClose={() => setOpenWebinar(false)}
+      />
     </div>
   );
 }

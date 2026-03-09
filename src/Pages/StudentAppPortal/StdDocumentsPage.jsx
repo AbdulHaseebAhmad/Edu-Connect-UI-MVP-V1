@@ -80,7 +80,7 @@ export function DocumentsPage() {
   const [documentname, setDocumentname] = useState("");
   const [refetch, setRefetch] = useState(false);
   const [readiness, setReadiness] = useState("0%");
-  const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const user_id = useSelector((state) => state.authReducer.user_id);
@@ -92,7 +92,7 @@ export function DocumentsPage() {
       .then((res) => {
         if (res) {
           setdocumentListfromDb(res);
-          setLoading(false)
+          setLoading(false);
         }
       });
   }, [refetch]);
@@ -115,6 +115,8 @@ export function DocumentsPage() {
   };
 
   const handleFileChange = async (e) => {
+    setLoading(true);
+
     const file = e.target.files?.[0];
     if (!file) return;
     const documentData = await fileToBase64(file);
@@ -133,6 +135,7 @@ export function DocumentsPage() {
       .then((res) => {
         if (res) {
           setRefetch(!refetch);
+          setLoading(false);
         }
       });
   };
