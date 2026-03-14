@@ -543,7 +543,7 @@ export const GetWebinars = createAsyncThunk(
           "X-CSRF-Token": csrfToken,
         },
       });
-      console.log(response?.data);
+      // console.log(response?.data);
       return response?.data;
     } catch (e) {
       console.log(e);
@@ -610,7 +610,7 @@ export const FetchUniversities = createAsyncThunk(
           "X-CSRF-Token": csrfToken,
         },
       });
-      console.log(response?.data);
+      // console.log(response?.data);
       return response?.data;
     } catch (e) {
       console.log(e);
@@ -634,7 +634,7 @@ export const AddFeaturedPartners = createAsyncThunk(
           },
         },
       );
-      console.log(response?.data);
+      // console.log(response?.data);
       return response?.data;
     } catch (e) {
       console.log(e);
@@ -657,7 +657,7 @@ export const GetfetchFeaturedPartners = createAsyncThunk(
           },
         },
       );
-      console.log(response?.data);
+      // console.log(response?.data);
       return response?.data;
     } catch (e) {
       console.log(e);
@@ -680,7 +680,7 @@ export const DeleteFeaturedPartner = createAsyncThunk(
           },
         },
       );
-      console.log(response?.data);
+      // console.log(response?.data);
       return response?.data;
     } catch (e) {
       console.log(e);

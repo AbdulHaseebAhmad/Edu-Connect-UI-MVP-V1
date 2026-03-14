@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { GetWebinars } from "../../Features/Admin_Features/adminSlice";
+import {
+  GetfetchFeaturedPartners,
+  GetWebinars,
+} from "../../Features/Admin_Features/adminSlice";
+import {useNavigate}  from "react-router"
 import { FaClock, FaVideo } from "react-icons/fa";
 
 export default function RightSideBar({ onOpenWebinarModal }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const [webinars, setWebinars] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const [featuredPartners, setFeaturedPartners] = useState([]);
 
   useEffect(() => {
     if (!webinars?.length) return;
@@ -18,7 +25,7 @@ export default function RightSideBar({ onOpenWebinarModal }) {
 
     return () => clearInterval(interval);
   }, [webinars]);
-  
+
   useEffect(() => {
     dispatch(GetWebinars())
       .unwrap()
@@ -29,6 +36,15 @@ export default function RightSideBar({ onOpenWebinarModal }) {
       });
   }, []);
 
+  useEffect(() => {
+    dispatch(GetfetchFeaturedPartners())
+      .unwrap()
+      .then((res) => {
+        if (res) {
+          setFeaturedPartners(res);
+        }
+      });
+  }, []);
   return (
     <aside className="w-80 bg-white border-l border-slate-200 hidden xl:flex flex-col gap-6 z-30 flex-shrink-0 h-screen overflow-y-auto p-6 scrollbar-hide">
       {/* Free Applications */}
@@ -58,37 +74,51 @@ export default function RightSideBar({ onOpenWebinarModal }) {
         </div>
 
         <div className="space-y-4">
-          <div className="bg-white border border-slate-200 rounded-xl p-3 hover:shadow-md transition cursor-pointer group">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded bg-blue-50 flex items-center justify-center font-bold text-blue-600">
-                DU
-              </div>
-              <div>
-                <div className="font-bold text-sm text-slate-900 group-hover:text-blue-600">
-                  Durham University
-                </div>
-                <div className="text-[10px] text-slate-500">
-                  UK Top 100 Global
-                </div>
-              </div>
-            </div>
-          </div>
+          {featuredPartners?.length > 0 &&
+            featuredPartners?.map((partner) => {
+              return (
+                <div onClick={()=>(navigate(`/student/apply-to-university/universities/${partner?.university_id}`))} key={partner?.partner_id} className="bg-white border border-slate-200 rounded-2xl p-3 hover:shadow-md hover:border-blue-200 transition-all cursor-pointer group">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0 border border-slate-200">
+                      {partner?.university_image ? (
+                        <img
+                          src={partner?.university_image}
+                          alt={partner?.university_name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-blue-600 font-bold text-sm bg-blue-50">
+                          {partner?.university_name
+                            ?.split(" ")
+                            ?.slice(0, 2)
+                            ?.map((word) => word[0])
+                            ?.join("")}
+                        </div>
+                      )}
+                    </div>
 
-          <div className="bg-white border border-slate-200 rounded-xl p-3 hover:shadow-md transition cursor-pointer group">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded bg-red-50 flex items-center justify-center font-bold text-red-600">
-                BU
-              </div>
-              <div>
-                <div className="font-bold text-sm text-slate-900 group-hover:text-red-600">
-                  Boston University
+                    {/* Content */}
+                    <div className="min-w-0 flex-1">
+                      <div className="font-semibold text-sm text-slate-900 truncate group-hover:text-blue-600 transition-colors">
+                        {partner?.university_name}
+                      </div>
+
+                      <div className="flex items-center gap-2 mt-1 flex-wrap">
+                        <span className="text-[11px] text-slate-500 truncate">
+                          {partner?.university_country}
+                        </span>
+
+                        {partner?.qs_ranking && (
+                          <span className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 text-[10px] font-semibold border border-blue-100">
+                            QS #{partner?.qs_ranking}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-[10px] text-slate-500">
-                  USA Business Focus
-                </div>
-              </div>
-            </div>
-          </div>
+              );
+            })}
         </div>
       </div>
 
@@ -133,7 +163,9 @@ export default function RightSideBar({ onOpenWebinarModal }) {
                     <h3 className="font-bold text-slate-900 leading-tight text-base mb-1">
                       {webinar?.title}
                     </h3>
-                    <p className="text-xs text-slate-500">{webinar?.descriptive_title}</p>
+                    <p className="text-xs text-slate-500">
+                      {webinar?.descriptive_title}
+                    </p>
                     <p className="text-xs text-slate-500">{webinar?.speaker}</p>
 
                     <div className="mt-4 flex items-center justify-between">

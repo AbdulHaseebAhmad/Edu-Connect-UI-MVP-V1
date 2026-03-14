@@ -16,7 +16,10 @@ export default function StdDashboardPage() {
             based on your AAA grades.
           </p> */}
         </div>
-        <button onClick={()=>navigate("/student/scholarships")} className="relative z-10 bg-white text-indigo-600 px-6 py-3 rounded-xl font-bold text-sm hover:bg-indigo-50 hover:scale-105 transition shadow-lg">
+        <button
+          onClick={() => navigate("/student/scholarships")}
+          className="relative z-10 bg-white text-indigo-600 px-6 py-3 rounded-xl font-bold text-sm hover:bg-indigo-50 hover:scale-105 transition shadow-lg"
+        >
           View Scholarships
         </button>
       </div>
@@ -66,40 +69,37 @@ export default function StdDashboardPage() {
         </div>
 
         <div className="bg-[#1e293b] p-6 rounded-2xl shadow-xl shadow-slate-300 text-white group relative overflow-hidden border border-slate-700 hover:bg-[#0f172a] transition duration-500">
+          {/* Glow accent */}
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-transparent to-indigo-600/10 opacity-0 group-hover:opacity-100 transition" />
 
-  {/* Glow accent */}
-  <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-transparent to-indigo-600/10 opacity-0 group-hover:opacity-100 transition" />
+          {/* Robot icon */}
+          <div className="absolute -right-4 -bottom-4 text-8xl text-purple-500/10 group-hover:text-purple-500/20 transition rotate-12">
+            <FaRobot className="w-20 h-20" />
+          </div>
 
-  {/* Robot icon */}
-  <div className="absolute -right-4 -bottom-4 text-8xl text-purple-500/10 group-hover:text-purple-500/20 transition rotate-12">
-    <FaRobot className="w-20 h-20" />
-  </div>
+          {/* Content */}
+          <h3 className="font-bold text-lg mb-1 relative z-10 flex items-center gap-2">
+            UniGPT
+            <span className="text-[9px] bg-purple-500 text-white px-1.5 py-0.5 rounded">
+              3.0
+            </span>
+          </h3>
 
-  {/* Content */}
-  <h3 className="font-bold text-lg mb-1 relative z-10 flex items-center gap-2">
-    UniGPT
-    <span className="text-[9px] bg-purple-500 text-white px-1.5 py-0.5 rounded">
-      3.0
-    </span>
-  </h3>
+          <p className="text-slate-400 text-xs mb-4 relative z-10 group-hover:text-blue-100">
+            Precision Matching Engine
+          </p>
 
-  <p className="text-slate-400 text-xs mb-4 relative z-10 group-hover:text-blue-100">
-    Precision Matching Engine
-  </p>
+          <span className="text-xs font-bold bg-white/10 px-3 py-1.5 rounded-lg relative z-10 inline-block opacity-50">
+            Start Assessment →
+          </span>
 
-  <span className="text-xs font-bold bg-white/10 px-3 py-1.5 rounded-lg relative z-10 inline-block opacity-50">
-    Start Assessment →
-  </span>
-
-  {/* Coming Soon glass overlay */}
-  <div className="absolute inset-0 backdrop-blur-[2px] bg-black/40 flex items-center justify-center z-20">
-    <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-5 py-2 rounded-xl text-sm font-bold shadow-xl tracking-wide">
-      🚀 Coming Soon
-    </div>
-  </div>
-
-</div>
-
+          {/* Coming Soon glass overlay */}
+          <div className="absolute inset-0 backdrop-blur-[2px] bg-black/40 flex items-center justify-center z-20">
+            <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-5 py-2 rounded-xl text-sm font-bold shadow-xl tracking-wide">
+              🚀 Coming Soon
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

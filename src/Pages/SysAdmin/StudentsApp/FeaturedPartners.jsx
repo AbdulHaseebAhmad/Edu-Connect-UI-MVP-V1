@@ -53,10 +53,14 @@ export default function FeaturedPartnersByLocation() {
     let data = [];
     featuredList.forEach(
       (eachUni) =>
-        (data = [
+       {
+               if(eachUni?.partner_id !== "") return 
+
+          data = [
           ...data,
           { university_id: eachUni?.university_id, location: activeLocation },
-        ]),
+        ]
+       },
     );
     dispatch(AddFeaturedPartners(data))
       .unwrap()
