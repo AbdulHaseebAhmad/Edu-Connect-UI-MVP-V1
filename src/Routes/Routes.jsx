@@ -55,6 +55,7 @@ import UniversitiesList from "../Pages/StudentAppPortal/StdUniversitiesList";
 import { ScholarshipRegistryPage } from "../Pages/SysAdmin/StudentsApp/Scholarships";
 import { WebinarRegistryPage } from "../Pages/SysAdmin/StudentsApp/WebinarRegistryPage";
 import SchoolLogin from "../Authentication/SchoolLogin";
+import FeaturedPartners from "../Pages/SysAdmin/StudentsApp/FeaturedPartners";
 
 const router = createBrowserRouter([
   {
@@ -129,6 +130,10 @@ const router = createBrowserRouter([
                       {
                         path: "webinars",
                         element: <WebinarRegistryPage />,
+                      },
+                      {
+                        path: "featured-partners",
+                        element: <FeaturedPartners />,
                       },
                     ],
                   },
@@ -217,35 +222,6 @@ const router = createBrowserRouter([
                           },
                         ],
                       },
-
-                      // {
-                      //   path: "countries",
-                      //   element: <Outlet />,
-                      //   children: [
-                      //     {
-                      //       index: true,
-                      //       element: <Countries />,
-                      //     },
-                      //     {
-                      //       path: ":country_id",
-                      //       element: <StdUniversities />,
-                      //     },
-                      //     {
-                      //       path: ":country_id/universities",
-                      //       element: <Outlet />,
-                      //       children: [
-                      //         {
-                      //           path: ":university_id",
-                      //           element: <StdPrograms />,
-                      //         },
-                      //         {
-                      //           path: ":university_id/programs/:program_id",
-                      //           element: <StdProgram />,
-                      //         },
-                      //       ],
-                      //     },
-                      //   ],
-                      // },
                     ],
                   },
                   {

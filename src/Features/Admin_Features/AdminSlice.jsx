@@ -536,16 +536,13 @@ export const GetWebinars = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
 
     try {
-      const response = await axios.get(
-        `${URL}/api/sysadmin/webinar/get`,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-Token": csrfToken,
-          },
+      const response = await axios.get(`${URL}/api/sysadmin/webinar/get`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfToken,
         },
-      );
+      });
       console.log(response?.data);
       return response?.data;
     } catch (e) {
@@ -594,6 +591,96 @@ export const DeleteWebinar = createAsyncThunk(
         },
       );
       // console.log(response?.data);
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+);
+
+export const FetchUniversities = createAsyncThunk(
+  "student/features/universities/get",
+  async (_, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    try {
+      const response = await axios.get(`${URL}/api/sysadmin/universities/get`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfToken,
+        },
+      });
+      console.log(response?.data);
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+);
+
+export const AddFeaturedPartners = createAsyncThunk(
+  "student/features/featured-partners/add",
+  async (data, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    try {
+      const response = await axios.post(
+        `${URL}/api/sysadmin/featured-partners/add`,
+        data,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
+        },
+      );
+      console.log(response?.data);
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+);
+
+export const GetfetchFeaturedPartners = createAsyncThunk(
+  "student/features/featured-partners/get",
+  async (_, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    try {
+      const response = await axios.get(
+        `${URL}/api/sysadmin/featured-partners/get`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
+        },
+      );
+      console.log(response?.data);
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+);
+
+export const DeleteFeaturedPartner = createAsyncThunk(
+  "student/features/featured-partners/delete",
+  async (partner_id, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    try {
+      const response = await axios.delete(
+        `${URL}/api/sysadmin/featured-partners/delete?partner_id=${partner_id}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
+        },
+      );
+      console.log(response?.data);
       return response?.data;
     } catch (e) {
       console.log(e);
