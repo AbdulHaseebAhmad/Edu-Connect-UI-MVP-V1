@@ -41,6 +41,17 @@ export const SideBarLinks = [
     ], 
   },
   {
+    link:"university",
+    name:"University",
+    subLinks:[
+      { name: "Universities", link:"/sysadmin/university/universities" },
+      { name: "MASA", link:"/sysadmin/university/masa" },
+      { name: "Commssions", link:"/sysadmin/university/commissions" },
+  
+    ]
+
+  },
+  {
     link:"platform",
     name:"Platform",
     subLinks:[

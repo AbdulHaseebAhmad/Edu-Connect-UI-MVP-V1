@@ -1,8 +1,45 @@
+import { useEffect } from "react";
 import { FaUniversity, FaTimes, FaClock, FaVideo } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  EventRegisterationCheck,
+  RegisterForEvent,
+} from "../../Features/Students_Features/StudentAppSlice";
 
 export default function UpcomingWebinarModal({ webinar, onClose }) {
   if (!webinar) return null;
 
+  const student_id = useSelector((state) => state.authReducer.user_id);
+  const dispatch = useDispatch();
+
+  const registerForEventHandle = () => {
+    dispatch(
+      EventRegisterationCheck({
+        student_id,
+        webinar_code: webinar?.webinar_code,
+      }),
+    )
+      .unwrap()
+      .then((res) => {
+        if (!res) {
+          dispatch(
+            RegisterForEvent({
+              student_id,
+              webinar_code: webinar?.webinar_code,
+            }),
+          )
+            .unwrap()
+            .then((res) => {
+              if (res) {
+                onClose();
+              }
+            });
+        } else {
+          alert("already registered");
+          onClose();
+        }
+      });
+  };
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
       <div className="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden relative flex flex-col max-h-[90vh]">
@@ -108,8 +145,7 @@ export default function UpcomingWebinarModal({ webinar, onClose }) {
 
           <button
             onClick={() => {
-              alert("Registered! Zoom link sent to email.");
-              onClose();
+              registerForEventHandle();
             }}
             className="w-full py-4 bg-red-600 text-white font-bold rounded-2xl hover:bg-red-700 transition shadow-lg shadow-red-200 text-sm"
           >

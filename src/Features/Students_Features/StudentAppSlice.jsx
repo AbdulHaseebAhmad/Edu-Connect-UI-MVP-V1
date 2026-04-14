@@ -406,12 +406,53 @@ export const GetShortlistPrograms = createAsyncThunk(
     }
   },
 );
+
 export const DeleteShortlistPrograms = createAsyncThunk(
   "students/app/shortlist/program",
   async (data, { getState }) => {
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(`${URL}/api/students/app/programs/shortlist/delete?student_id=${data?.student_id}&shortlist_id=${data?.shortlist_id}`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfToken,
+        },
+      });
+      // console.log(response?.data);
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+);
+
+export const RegisterForEvent = createAsyncThunk(
+  "students/app/events/register",
+  async (data, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    try {
+      const response = await axios.get(`${URL}/api/students/app/events/register?student_id=${data?.student_id}&webinar_code=${data?.webinar_code}`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfToken,
+        },
+      });
+      // console.log(response?.data);
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+);
+
+export const EventRegisterationCheck = createAsyncThunk(
+  "students/app/events/register/check",
+  async (data, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    try {
+      const response = await axios.get(`${URL}/api/students/app/events/registered?student_id=${data?.student_id}&webinar_code=${data?.webinar_code}`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",

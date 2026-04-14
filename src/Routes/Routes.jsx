@@ -138,6 +138,36 @@ const router = createBrowserRouter([
                     ],
                   },
                   {
+                    path: "university",
+                    children:[
+                      {
+                        path:"masa",
+                        element:<p>Hello to masa</p>
+                      },
+                      {
+                        path:"universities",
+                        element:<p>Hello to Universities</p>
+                      },
+                      {
+                        path:"commissions",
+                        element:<p>Hello to commisions</p>
+                      },
+                    ]
+                  },
+                  {
+                    path:"platform",
+                    children:[
+                      {
+                        path:"commissions",
+                        element:<p>Hello To Commisions</p>
+                      },
+                      {
+                        path:"platform-finance",
+                        element:<p>Hello To Platform Finance</p>
+                      },
+                    ]
+                  },
+                  {
                     path: "settings",
                     element: <SendInvitePage />,
                   },

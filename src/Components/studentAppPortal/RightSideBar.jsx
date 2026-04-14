@@ -4,18 +4,38 @@ import {
   GetfetchFeaturedPartners,
   GetWebinars,
 } from "../../Features/Admin_Features/adminSlice";
-import {useNavigate}  from "react-router"
+import { useNavigate } from "react-router";
 import { FaClock, FaVideo } from "react-icons/fa";
 
 export default function RightSideBar({ onOpenWebinarModal }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [webinars, setWebinars] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const [featuredPartners, setFeaturedPartners] = useState([]);
 
+  const [blogs] = useState([
+    {
+      id: 1,
+      title: "How I Got Accepted Into My Dream University",
+      postedAt: "12 Mar 2026",
+      postedBy: "Sarah Ahmed",
+    },
+    {
+      id: 2,
+      title: "Top 5 Tips for Writing a Strong Personal Statement",
+      postedAt: "09 Mar 2026",
+      postedBy: "Admin Team",
+    },
+    {
+      id: 3,
+      title: "What to Expect During Your Student Visa Interview",
+      postedAt: "05 Mar 2026",
+      postedBy: "James Carter",
+    },
+  ]);
   useEffect(() => {
     if (!webinars?.length) return;
 
@@ -77,7 +97,15 @@ export default function RightSideBar({ onOpenWebinarModal }) {
           {featuredPartners?.length > 0 &&
             featuredPartners?.map((partner) => {
               return (
-                <div onClick={()=>(navigate(`/student/apply-to-university/universities/${partner?.university_id}`))} key={partner?.partner_id} className="bg-white border border-slate-200 rounded-2xl p-3 hover:shadow-md hover:border-blue-200 transition-all cursor-pointer group">
+                <div
+                  onClick={() =>
+                    navigate(
+                      `/student/apply-to-university/universities/${partner?.university_id}`,
+                    )
+                  }
+                  key={partner?.partner_id}
+                  className="bg-white border border-slate-200 rounded-2xl p-3 hover:shadow-md hover:border-blue-200 transition-all cursor-pointer group"
+                >
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0 border border-slate-200">
                       {partner?.university_image ? (
@@ -200,6 +228,34 @@ export default function RightSideBar({ onOpenWebinarModal }) {
               </div>
             );
           })}
+      </div>
+
+      {/* Student Insights */}
+      <div>
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+            Student Insights
+          </span>
+        </div>
+
+        <div className="space-y-2">
+          {blogs?.map((blog) => (
+            <div
+              key={blog.id}
+              onClick={() => navigate(`/student/blogs/${blog.id}`)}
+              className="bg-white border border-slate-200 rounded-xl px-3 py-2.5 hover:shadow-sm hover:border-blue-200 transition-all cursor-pointer group"
+            >
+              <h3 className="text-[13px] font-semibold text-slate-900 leading-snug group-hover:text-blue-600 transition-colors line-clamp-2">
+                {blog.title}
+              </h3>
+
+              <div className="mt-1.5 flex items-center justify-between gap-2 text-[10px] text-slate-500">
+                <span className="truncate">By {blog.postedBy}</span>
+                <span className="whitespace-nowrap">{blog.postedAt}</span>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
       {/* Spotlight */}
       {/* <div>
