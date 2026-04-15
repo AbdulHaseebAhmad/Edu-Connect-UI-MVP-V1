@@ -32,6 +32,8 @@ const authFeaturesSlice = createSlice({
       state.name = null;
       state.status = "in-active";
       state.csrf_token = "";
+      state.user_id = "";
+      state.school_verified =  "un-verified"
     },
   },
   extraReducers: (builder) => {

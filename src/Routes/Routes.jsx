@@ -56,6 +56,9 @@ import { ScholarshipRegistryPage } from "../Pages/SysAdmin/StudentsApp/Scholarsh
 import { WebinarRegistryPage } from "../Pages/SysAdmin/StudentsApp/WebinarRegistryPage";
 import SchoolLogin from "../Authentication/SchoolLogin";
 import FeaturedPartners from "../Pages/SysAdmin/StudentsApp/FeaturedPartners";
+import { UniversityRegistryPage } from "../Pages/SysAdmin/Universities/Universities";
+import MasterApplicationsManager from "../Pages/SysAdmin/Universities/MasterApplicationsManager";
+import UniversityCommissionsPage from "../Pages/SysAdmin/Universities/UniversityCommisions";
 
 const router = createBrowserRouter([
   {
@@ -139,33 +142,33 @@ const router = createBrowserRouter([
                   },
                   {
                     path: "university",
-                    children:[
+                    children: [
                       {
-                        path:"masa",
-                        element:<p>Hello to masa</p>
+                        path: "masa",
+                        element: <MasterApplicationsManager/>,
                       },
                       {
-                        path:"universities",
-                        element:<p>Hello to Universities</p>
+                        path: "universities",
+                        element: <UniversityRegistryPage />,
                       },
                       {
-                        path:"commissions",
-                        element:<p>Hello to commisions</p>
+                        path: "commissions",
+                        element: <UniversityCommissionsPage/>,
                       },
-                    ]
+                    ],
                   },
                   {
-                    path:"platform",
-                    children:[
+                    path: "platform",
+                    children: [
                       {
-                        path:"commissions",
-                        element:<p>Hello To Commisions</p>
+                        path: "commissions",
+                        element: <p>Hello To Commisions</p>,
                       },
                       {
-                        path:"platform-finance",
-                        element:<p>Hello To Platform Finance</p>
+                        path: "platform-finance",
+                        element: <p>Hello To Platform Finance</p>,
                       },
-                    ]
+                    ],
                   },
                   {
                     path: "settings",

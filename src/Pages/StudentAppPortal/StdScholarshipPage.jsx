@@ -62,6 +62,7 @@ const levelOptions = [
 const statusOptions = [
   { value: "all", label: "📅 All Statuses" },
   { value: "Open", label: "Applications Open" },
+  { value: "Closed", label: "Applications Closed" },
   { value: "Upcoming", label: "Upcoming" },
 ];
 
