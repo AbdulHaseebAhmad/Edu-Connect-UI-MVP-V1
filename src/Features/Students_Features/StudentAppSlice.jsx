@@ -466,3 +466,45 @@ export const EventRegisterationCheck = createAsyncThunk(
     }
   },
 );
+
+export const SetScholarshipReminder = createAsyncThunk(
+  "students/app/scholarship/register/reminder",
+  async (data, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    try {
+      const response = await axios.get(`${URL}/api/students/app/scholarship/reminder?student_id=${data?.student_id}&scholarship_id=${data?.scholarship_id}`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfToken,
+        },
+      });
+      // console.log(response?.data);
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+);
+
+
+
+export const ScholarshipReminderCheck = createAsyncThunk(
+  "students/app/events/register/check",
+  async (data, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    try {
+      const response = await axios.get(`${URL}/api/students/app/scholarship/reminder/set?student_id=${data?.student_id}&scholarship_id=${data?.scholarship_id}`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfToken,
+        },
+      });
+      // console.log(response?.data);
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaTimes,
   FaUniversity,
@@ -8,14 +8,45 @@ import {
   FaBell,
 } from "react-icons/fa";
 
-import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  ScholarshipReminderCheck,
+  SetScholarshipReminder,
+} from "../../Features/Students_Features/StudentAppSlice";
 
 function ScholarshipDetailsModal({ scholarship, onClose, onUnlock, isadmin }) {
   if (!scholarship) return null;
+  const [isReminderSet, setIsReminder] = useState(false);
+
+  const dispatch = useDispatch();
+  const student_id = useSelector((state) => state.authReducer?.user_id);
+
+  const scholarshipReminderHandle = (scholarship_id) => {
+    dispatch(SetScholarshipReminder({ scholarship_id, student_id }))
+      .unwrap()
+      .then((res) => {
+        if (res) {
+          alert("Reminder Set Succesfully");
+          setIsReminder(true);
+        } else {
+          alert("Reminder already Set!");
+        }
+      });
+  };
+
+  useEffect(() => {
+    dispatch(ScholarshipReminderCheck({scholarship_id:scholarship?.scholarship_id, student_id }))
+      .unwrap()
+      .then((res) => {
+        if (res) {
+          setIsReminder(res);
+        }
+      });
+  },[]);
 
   const isUpcoming = scholarship.status === "Upcoming";
 
-   return (
+  return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-blue-900/40 backdrop-blur-sm">
       <div className="bg-white w-full max-w-lg mx-4 rounded-2xl shadow-2xl relative overflow-hidden max-h-[80vh] overflow-y-auto">
         {/* Header */}
@@ -89,14 +120,36 @@ function ScholarshipDetailsModal({ scholarship, onClose, onUnlock, isadmin }) {
           {!isadmin && (
             <div className="mt-6 pt-4 border-t border-gray-100 flex gap-3">
               {isUpcoming ? (
-                <button className="flex-1 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white text-center py-3 rounded-xl font-bold transition shadow-lg flex items-center justify-center gap-2 transform hover:-translate-y-0.5 text-sm">
-                  <FaBell />
-                  Notify Me When Open
-                </button>
+                !isReminderSet ? (
+                  <button
+                    onClick={() =>
+                      scholarshipReminderHandle(scholarship?.scholarship_id)
+                    }
+                    className="flex-1 bg-gradient-to-r from-orange-500 to-red-500 
+      hover:from-orange-600 hover:to-red-600 text-white text-center py-3 
+      rounded-xl font-bold transition shadow-lg flex items-center 
+      justify-center gap-2 transform hover:-translate-y-0.5 text-sm"
+                  >
+                    <FaBell />
+                    Notify Me When Open
+                  </button>
+                ) : (
+                  <button
+                    disabled
+                    className="flex-1 bg-gray-200 text-gray-500 cursor-not-allowed 
+      text-center py-3 rounded-xl font-semibold flex items-center 
+      justify-center gap-2 text-sm border border-gray-300"
+                  >
+                    <FaBell />
+                    Reminder Set
+                  </button>
+                )
               ) : (
                 <button
                   // onClick={onUnlock}
-                  onClick={() =>(window.location.href = `https://${scholarship?.link}`)}
+                  onClick={() =>
+                    (window.location.href = `${scholarship?.link}`)
+                  }
                   className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-center py-3 rounded-xl font-bold transition shadow-lg transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-sm"
                 >
                   View Scholarship

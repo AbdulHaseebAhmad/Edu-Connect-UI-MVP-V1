@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaPlus, FaChevronRight, FaEdit, FaTrash } from "react-icons/fa";
+import { FaPlus, FaChevronRight, FaEdit, FaTrash, FaBell } from "react-icons/fa";
 import { ScholarshipAddModal } from "../../../Components/SysAdmin/ScholarshipAddModal";
 import { useDispatch } from "react-redux";
 import { DeleteScholarship, FetchScholarships } from "../../../Features/Admin_Features/AdminSlice";
@@ -55,6 +55,10 @@ export function ScholarshipRegistryPage() {
       .catch(() => setList([]));
       }
     })
+  }
+
+  const sendRemindersToStudent = (scholarship_id) => {
+
   }
   return (
     <div className="px-6 py-6 min-h-screen fade-in relative">
@@ -156,7 +160,9 @@ export function ScholarshipRegistryPage() {
                       }}
                     />
                     <FaTrash onClick={()=>deleteScholarship(s.scholarship_id)} className="text-red-500 cursor-pointer" />
+                  <FaBell className="w-4 h-4 text-yellow-400" onClick={()=>sendRemindersToStudent(s.scholarship_id)} />
                   </td>
+                  
                   <td
                     className="px-6 py-4 text-right"
                     onClick={() => openDetail(s)}
