@@ -16,7 +16,7 @@ import {
 } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { RespondToApplication } from "../../Features/University_Features/UniversityAppSlice";
-
+import toast from "react-hot-toast";
 export function SchoolStudentPanel({
   student,
   open,
@@ -39,6 +39,8 @@ export function SchoolStudentPanel({
       : "?";
 
   const responseHandle = (status) => {
+    const studentStatus = status == "verified" ? "Verifying" : "Rejecting "
+    const id = toast.loading(`${studentStatus} Student`);
     dispatch(
       RespondToApplication({
         status,
@@ -47,9 +49,10 @@ export function SchoolStudentPanel({
     )
       .unwrap()
       .then(() => {
+        toast.success(`Student ${status} `)
         onClose();
         refetchData();
-      });
+      }).catch((e)=> toast.error(`There was an error ${studentStatus} student`));
   };
 
   const InfoCard = ({ title, icon, children }) => (

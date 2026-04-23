@@ -8,9 +8,13 @@ import {
   FaUndo,
 } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { getSchoolApplications, respondToInvite } from "../../../Features/Admin_Features/adminSlice";
+import {
+  getSchoolApplications,
+  respondToInvite,
+} from "../../../Features/Admin_Features/adminSlice";
 import Modal from "../../../Modals/ModalContainer";
 import ReviewAppForm from "../../../Components/SysAdmin/ReviewAppForm";
+import toast from "react-hot-toast";
 
 const SchoolApplicationsTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -18,46 +22,43 @@ const SchoolApplicationsTable = () => {
   const [openModal, setOpenModal] = useState(false);
   const [applicationId, setApplicationId] = useState(null);
   const [status, setStatus] = useState(null);
+  const [refetch, setRefetch] = useState(false);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSchoolApplications({ limit: 10, offlimit: 0 }))
+    const id = toast.loading("Fetching School Applications");
+    dispatch(getSchoolApplications({ limit: 50, offlimit: 0 }))
       .unwrap()
       .then((res) => {
         if (res) {
           setApplications(res);
+          toast.success("School Applications Fetched Succesfully", { id });
         }
-      });
-  }, []);
+      })
+      .catch((e) => toast.error("Fetching School Applications Failed", { id }));
+  }, [refetch]);
 
   const showEditPanelHandle = () => {
     setOpenModal(!openModal);
   };
 
-  const respondToApplication = (appId,status) =>{
-    dispatch(
-      respondToInvite({ appid: appId, status: status })
-    );
-  }
-    // const approveHandle = (appId) => {
-    //   dispatch(
-    //     respondToInvite({ appid: appId, status: "approved" })
-    //   );
-    // };
-  
-    // const rejectHandle = (appId) => {
-    //   dispatch(
-    //     respondToInvite({ appid: appId, status: "rejected" })
-    //   );
-    // };
-
-    // const unApproveHandle = (appId) => {
-    //   dispatch(
-    //     respondToInvite({ appid: appId, status: "completed" })
-    //   );
-    // };
-
+  const respondToApplication = (appId, status) => {
+    let responseStatus = status == "approved" ? "Approving" : "Rejecting";
+    const id = toast.loading(`${responseStatus} School Applications`);
+    dispatch(respondToInvite({ appid: appId, status: status }))
+      .unwrap()
+      .then((res) => {
+        if (res) {
+          toast.success(`School Application ${status}`,{id});
+          setRefetch(!refetch);
+        }
+      })
+      .catch((e) => {
+        toast.error(`There was an error ${responseStatus} School Application`,{id});
+      });
+  };
+ 
   const renderStatusBadge = (status) => {
     const base =
       "inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide";
@@ -96,10 +97,18 @@ const SchoolApplicationsTable = () => {
     if (status === "completed") {
       return (
         <div className="inline-flex gap-2">
-          <button onClick={()=>respondToApplication(applicationId,"rejected")} className="px-3 py-1.5 bg-red-50 text-red-600 rounded-lg text-[11px] font-bold flex items-center gap-1">
+          <button
+            onClick={() => respondToApplication(applicationId, "rejected")}
+            className="px-3 py-1.5 bg-red-50 text-red-600 rounded-lg text-[11px] font-bold flex items-center gap-1"
+          >
             <FaTimes /> Reject
           </button>
-          <button onClick={()=>{respondToApplication(applicationId,"approved")}} className="px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg text-[11px] font-bold flex items-center gap-1">
+          <button
+            onClick={() => {
+              respondToApplication(applicationId, "approved");
+            }}
+            className="px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg text-[11px] font-bold flex items-center gap-1"
+          >
             <FaCheck /> Approve
           </button>
           <button

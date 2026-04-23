@@ -21,10 +21,10 @@ const Navbar = () => {
       </div>
 
       <div className="flex items-center gap-6">
-        <div className="flex items-center gap-2 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-100 text-emerald-700 shadow-sm cursor-pointer hover:bg-emerald-100 transition">
+        {/* <div className="flex items-center gap-2 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-100 text-emerald-700 shadow-sm cursor-pointer hover:bg-emerald-100 transition">
           <FaWallet className="text-xl" />
           <span className="text-xs font-bold">Balance: $5,500.00</span>
-        </div>
+        </div> */}
 
         <div className="relative">
           <button className="relative text-slate-400 hover:text-indigo-600 transition">

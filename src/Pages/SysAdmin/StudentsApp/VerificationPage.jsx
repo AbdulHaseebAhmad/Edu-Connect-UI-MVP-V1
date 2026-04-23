@@ -13,6 +13,7 @@ import {
   FaTimes,
   FaUserTag,
 } from "react-icons/fa";
+import toast  from "react-hot-toast";
 
 export function VerificationPage() {
   const dispatch = useDispatch();
@@ -36,10 +37,14 @@ export function VerificationPage() {
   };
 
   const RespondHandle = (action, slug) => {
+    const studentStatus = action == "approved" ? "Approving" : "Rejecting";
+
+    const id = toast.loading(`${studentStatus} Student`)
     dispatch(RespondToapplication({ action, slug }))
       .unwrap()
       .then((res) => {
         if (res) {
+          toast.success(`Student Succesfully ${action}`,{id})
           dispatch(GetStudentsRegistry("all"))
             .unwrap()
             .then((res) => {
@@ -49,7 +54,7 @@ export function VerificationPage() {
               }
             });
         }
-      });
+      }).catch((e)=>toast.error(`${action} Student Failed`,{id}));
   };
 
   const fetchDocuments = (docname, docmime, slug) => {

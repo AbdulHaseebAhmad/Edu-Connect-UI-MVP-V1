@@ -3,6 +3,7 @@ import { FaSchool, FaShieldAlt, FaUserCheck } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { SigninSchool } from "../Features/School_Features/SchoolSlice";
 import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 export default function SchoolLogin() {
   const [formDetails, setFormDetails] = useState({});
@@ -18,14 +19,20 @@ export default function SchoolLogin() {
   };
 
   const onSubmitHandle = (e) => {
+    
     e.preventDefault();
+    const id = toast.loading("Signing in...");
     dispatch(SigninSchool(formDetails))
-      .unwrap()
-      .then((res) => {
-        if (res) {
+    .unwrap()
+    .then((res) => {
+      if (res) {
+          toast.success("Signed in!",{id})
           navigate("/schooladmin");
-        }
+        } 
+      }).catch((e)=>{
+        toast.error("Sign in failed!", { id });
       });
+
   };
 
   return (

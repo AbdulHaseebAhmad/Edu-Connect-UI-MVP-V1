@@ -10,8 +10,11 @@ import {
   FaLifeRing,
 } from "react-icons/fa";
 import Cookies from "js-cookie";
+import {useSelector} from "react-redux";
 
 const Sidebar = () => {
+    const SchoolName = useSelector((state)=> state.authReducer.name)
+
   const navGroups = [
     {
       label: "Dashboard",
@@ -124,13 +127,13 @@ const Sidebar = () => {
         {/* User info */}
         <div className="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100 cursor-pointer hover:bg-slate-100 transition">
           <img
-            src="https://ui-avatars.com/api/?name=Head+Master&background=4338ca&color=fff"
+            src={`https://ui-avatars.com/api/?name=${SchoolName}&background=4338ca&color=fff`}
             className="w-9 h-9 rounded-full shadow-sm"
             alt="User"
           />
           <div className="overflow-hidden">
-            <div className="text-xs font-bold text-slate-900 truncate">
-              Mr. Anderson
+            <div className="capitalize text-xs font-bold text-slate-900 truncate">
+              {SchoolName}
             </div>
             <div className="text-[10px] text-slate-500 truncate">
               Administrator

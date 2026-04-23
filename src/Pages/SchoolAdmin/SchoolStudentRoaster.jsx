@@ -1,8 +1,13 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SchoolStudentPanel } from "../../Components/SchoolAdmin/SchoolStudentPanel";
 import { FaBan, FaSearch } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { GetProcessedStudents } from "../../Features/School_Features/SchoolSlice";
+import {
+  GetEnrolledStudents,
+  GetProcessedStudents,
+  GetRejectededStudents,
+} from "../../Features/School_Features/SchoolSlice";
+import toast from "react-hot-toast";
 
 export function SchoolStudentRoaster() {
   const [studentPanelOpen, setStudentPanelOpen] = useState(false);
@@ -14,22 +19,54 @@ export function SchoolStudentRoaster() {
   const school_id = useSelector((state) => state.authReducer.user_id);
   const dispatch = useDispatch();
 
-
   const openStudentPanel = (student) => {
     setSelectedStudent(student);
     setStudentPanelOpen(true);
   };
 
   useEffect(() => {
-    dispatch(GetProcessedStudents({school_id, status:filter}))
+    const id = toast.loading("Fetching Verified Students");
+    
+    setStudents([])
+    if (filter == "verified") {
+      dispatch(GetProcessedStudents({ school_id, status: filter }))
       .unwrap()
       .then((res) => {
+        toast.success("Fetched Verified Students!",{id})
         setStudents(res);
-        
-      });
+      }).catch((e)=>{
+      toast.error("Error Fetching Verified Students",{id})
+    });
+    }
+    if (filter === "rejected") {
+      // const id = toast.loading("Fetching Rejected Students");
+      dispatch(GetRejectededStudents(school_id))
+      .unwrap()
+      .then((res) => {
+        if (res) {
+          toast.success("Fetched Rejected Students!",{id})
+          setStudents(res);
+        }
+      }).catch((e)=>{
+      toast.error("Error Fetching Rejected Students",{id})
+    });;
+    }
+    if (filter === "enrolled") {
+      // const id = toast.loading("Fetching Enrolled Students");
+      dispatch(GetEnrolledStudents(school_id))
+      .unwrap()
+      .then((res) => {
+        if (res) {
+            toast.success("Fetched Enrolled Students!",{id})
+            setStudents(res);
+          }
+        }).catch((e)=>{
+      toast.error("Error Fetching Enrolled Students",{id})
+    });;
+    }
   }, [filter]);
 
-   const getInitials = (name) => {
+  const getInitials = (name) => {
     if (!name) return "?";
     return name
       .split(" ")
@@ -92,58 +129,82 @@ export function SchoolStudentRoaster() {
         <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
           <table className="w-full text-left">
             <thead className="bg-slate-50 border-b border-slate-200 text-[10px] font-bold text-slate-500 uppercase">
-              <tr>
+              <tr className="text-center">
                 <th className="px-6 py-4">Student</th>
                 <th className="px-6 py-4">Email</th>
-                <th className="px-6 py-4">Grad Year</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4 text-right">Action</th>
+                {filter === "verified" && (
+                  <th className="px-6 py-4">Grad Year</th>
+                )}
+                {filter === "enrolled" && (
+                  <th className="px-6 py-4">University Name</th>
+                )}
+                {filter === "enrolled" && (
+                  <th className="px-6 py-4">University Status</th>
+                )}
+                <th className="px-6 py-4">Student Status</th>
+                {filter === "verified" && (
+                  <th className="px-6 py-4 text-right">Action</th>
+                )}
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-sm text-slate-600">
-              {studentsList?.length > 0 && studentsList.map((student,index) => (
-                <tr
-                  key={index}
-                  className="hover:bg-slate-50 border-b border-slate-50 cursor-pointer"
-                >
-                  <td className="px-6 py-4 font-bold text-slate-800 flex items-center gap-3">
-                       {student.img ? (
-                      <img
-                        src={student.img}
-                        alt={student.name}
-                        className="w-full h-full rounded-2xl object-cover"
-                        onError={(e) => {
-                          e.target.style.display = "none";
-                          e.currentTarget.innerHTML = getInitials(student.first_name);
-                        }}
-                      />
-                    ) : (
-                      <div className="w-8 h-8 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-xl border border-slate-200 shadow-sm">
-                        {getInitials(student.first_name)}
-                      </div>
+              {studentsList?.length > 0 &&
+                studentsList.map((student, index) => (
+                  <tr
+                    key={index}
+                    className="hover:bg-slate-50 text-center border-b border-slate-50 cursor-pointer"
+                  >
+                    <td className="px-6 py-4 font-bold text-slate-800 flex items-center gap-3">
+                      {student.img ? (
+                        <img
+                          src={student.img}
+                          alt={student.name}
+                          className="w-full h-full rounded-2xl object-cover"
+                          onError={(e) => {
+                            e.target.style.display = "none";
+                            e.currentTarget.innerHTML = getInitials(
+                              student.first_name,
+                            );
+                          }}
+                        />
+                      ) : (
+                        <div className="w-8 h-8 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-xl border border-slate-200 shadow-sm">
+                          {getInitials(student.first_name)}
+                        </div>
+                      )}
+                      {student?.first_name}
+                    </td>
+                    <td className="px-6 py-4">{student.email}</td>
+                    {filter === "enrolled" && (
+                      <td className="px-6 py-4">{student.university_name}</td>
                     )}
-                                        {student?.first_name}
-
-                  </td>
-                  <td className="px-6 py-4">{student.email}</td>
-                  <td className="px-6 py-4">{student.graduation_year}</td>
-                  <td className="px-6 py-4">
-                    <span className="status-badge status-pending">
-                      {student.status || filter}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    <div className="flex gap-2 justify-end">
-                      <button
-                        className="px-4 py-1.5 bg-orange-50 text-orange-600 text-xs font-bold rounded-lg hover:bg-orange-100 border border-orange-200"
-                        onClick={() => openStudentPanel(student)}
-                      >
-                        View
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                    {filter === "enrolled" && (
+                      <td className="px-6 py-4">
+                        {student.application_status}
+                      </td>
+                    )}
+                    {filter === "verified" && (
+                      <td className="px-6 py-4">{student.graduation_year}</td>
+                    )}
+                    <td className="px-6 py-4">
+                      <span className="status-badge status-pending">
+                        {student.status || filter}
+                      </span>
+                    </td>
+                    {filter === "verified" && (
+                      <td className="px-6 py-4 text-right">
+                        <div className="flex gap-2 justify-end">
+                          <button
+                            className="px-4 py-1.5 bg-orange-50 text-orange-600 text-xs font-bold rounded-lg hover:bg-orange-100 border border-orange-200"
+                            onClick={() => openStudentPanel(student)}
+                          >
+                            View
+                          </button>
+                        </div>
+                      </td>
+                    )}
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>

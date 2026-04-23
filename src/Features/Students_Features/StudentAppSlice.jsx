@@ -508,3 +508,22 @@ export const ScholarshipReminderCheck = createAsyncThunk(
     }
   },
 );
+export const GetFreeApplicationCount = createAsyncThunk(
+  "students/app/freeapp/count",
+  async (student_id, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    try {
+      const response = await axios.get(`${URL}/api/students/app/freeapplication/check?student_id=${student_id}`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfToken,
+        },
+      });
+      // console.log(response?.data);
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+);

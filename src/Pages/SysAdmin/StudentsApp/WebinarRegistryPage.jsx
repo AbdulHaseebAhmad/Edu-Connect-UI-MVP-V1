@@ -18,6 +18,7 @@ import {
   GetWebinars,
   UpdateWebinar,
 } from "../../../Features/Admin_Features/AdminSlice";
+import toast from "react-hot-toast";
 
 export function WebinarRegistryPage() {
   const [list, setList] = useState([]);
@@ -71,14 +72,17 @@ export function WebinarRegistryPage() {
   };
 
   const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to cancel this webinar?")) {
+    let prompt = window.confirm("Are you sure you want to cancel this webinar?")
+    const ids = toast.loading("Deleting Webinar")
+    if (prompt) {
       dispatch(DeleteWebinar(id))
         .unwrap()
         .then((res) => {
           if (res) {
             setList((prev) => prev.filter((w) => w.webinar_code !== id));
           }
-        });
+          toast.success("Webinar Deleted Succesfully",{ids});
+        }).catch((e)=>toast.error("There was an error Deleting Webinar",{ids}));
     }
   };
 
@@ -101,10 +105,12 @@ export function WebinarRegistryPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isEdit && activeWebinar) {
+      const id = toast.loading("Updating Webinar");
       dispatch(UpdateWebinar(activeWebinar))
         .unwrap()
         .then((res) => {
           if (res) {
+            toast.success("Webinar Successfully Updated",{id})
             setList((prev) =>
               prev.map((w) =>
                 w.webinar_code === activeWebinar.webinar_code
@@ -113,20 +119,22 @@ export function WebinarRegistryPage() {
               ),
             );
           }
-        });
+        }).catch((e)=>toast.error("Webina Update failed",{id}));
     } else {
       let newWebinar = {
         ...activeWebinar,
         id: Date.now(),
       };
+      const id = toast.loading("Adding Webinar")
       dispatch(CreateWebinar(newWebinar))
         .unwrap()
         .then((res) => {
           if (res) {
             newWebinar = { ...newWebinar, webinar_code: res };
             setList((prev) => [newWebinar, ...prev]);
+            toast.success("Webinar Added Successfully",{id})
           }
-        });
+        }).catch((e)=>toast.error("Adding Webinar Failed",{id}));
     }
     setOpenFormModal(false);
   };
@@ -136,13 +144,15 @@ export function WebinarRegistryPage() {
   );
 
   useEffect(() => {
+    const id = toast.loading("Fetching Webinars");
     dispatch(GetWebinars())
       .unwrap()
       .then((res) => {
         if (res) {
           setList(res);
         }
-      });
+        toast.success("Fetched Webinars Successfull",{id})
+      }).catch((e)=>toast.error("Fetching Webinars Failed"),{id});
   }, []);
 
   function parseMMDDYYYY(str) {

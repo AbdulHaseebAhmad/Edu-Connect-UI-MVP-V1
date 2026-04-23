@@ -5,6 +5,7 @@ import {
   GetStudentReceipt,
   RespondToReceipt,
 } from "../../Features/Admin_Features/adminSlice";
+import toast from "react-hot-toast";
 import { ApplyToUniversity } from "../../Features/Students_Features/StudentAppSlice";
 
 export default function ReceiptPanel({ receipt, open, onClose }) {
@@ -17,12 +18,13 @@ export default function ReceiptPanel({ receipt, open, onClose }) {
     setReceiptUrl(fileUrl);
   }, []);
   const respondReceiptHandle = (status) => {
-    dispatch(
-      RespondToReceipt({ receipt_id: receipt?.receipt_id, status: status })
-    )
+    const paymentStatus = status == "approved" ? "Approving" :"Rejecting"
+    const id = toast.loading(`${paymentStatus} Payment Receipt`)
+    dispatch(RespondToReceipt({ receipt_id: receipt?.receipt_id, status: status }))
       .unwrap()
       .then((res) => {
         if (res) {
+          toast.success(`${paymentStatus} Payment Receipt Succesfull`)
           dispatch(
             ApplyToUniversity({
               student_id: receipt?.student_id,
@@ -37,7 +39,7 @@ export default function ReceiptPanel({ receipt, open, onClose }) {
               }
             });
         }
-      });
+      }).catch((e)=>toast.error(`${paymentStatus} Payment Receipt Failed`));
   };
 
   if (!open) return null;

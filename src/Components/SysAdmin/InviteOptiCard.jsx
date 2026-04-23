@@ -2,16 +2,22 @@ import { FaUserEdit, FaEnvelope, FaLink } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { sendSchoolInvite } from "../../Features/Admin_Features/AdminSlice";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { handleCopy } from "../../Utillities/helpFunctions";
 
 export default function InviteOptiCard({ token, copyLink }) {
   const dispatch = useDispatch();
 
+
+
   const sendLinkHandle = () => {
+    const id = toast.loading("Sending Invite Link To School");
     dispatch(sendSchoolInvite({ token, link: copyLink }))
       .unwrap()
       .then((res) => {
-        console.log(res);
-      });
+        toast.success("Invite Link Sent Succesfully", {id})
+        // console.log(res);
+      }).catch((e)=>{toast.error("Sending Invite Link Failed", {id})});
   };
 
   return (
@@ -34,7 +40,7 @@ export default function InviteOptiCard({ token, copyLink }) {
         </div>
 
         <div
-          onClick={() => handleCopy(copyLink)}
+          onClick={() =>{ handleCopy(copyLink);toast.success("Link Copied")}}
           className="bg-gray-50 border border-gray-200 shadow rounded-lg p-4 text-center hover:-translate-y-1 transition cursor-pointer"
         >
           <div className="w-12 h-12 mx-auto mb-2 rounded-full flex items-center justify-center bg-blue-100 text-blue-600">

@@ -3,6 +3,7 @@ import { FaSearch, FaTrash, FaBell } from "react-icons/fa";
 import SendInviteModal from "../../../Components/SysAdmin/SendInviteModal";
 import { useDispatch } from "react-redux";
 import { getAllInvites } from "../../../Features/Admin_Features/adminSlice";
+import toast from "react-hot-toast";
 
 const PendingInvite = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -10,31 +11,60 @@ const PendingInvite = () => {
   const [invitations, setInvites] = useState([]);
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-    dispatch(getAllInvites()).unwrap().then((res)=>{
-      if(res){
-          setInvites(res)
-      }
-    })
-  },[])
-  
+  useEffect(() => {
+    const id = toast.loading("Fetching Invitations");
+    dispatch(getAllInvites())
+      .unwrap()
+      .then((res) => {
+        if (res) {
+          toast.success("Invitations Fetched Succesfully", { id });
+          setInvites(res);
+        }
+      })
+      .catch((e) => {
+        toast.error("Fetching Invitations Failed", { id });
+      });
+  }, []);
+
   const renderStatusBadge = (status) => {
     const base =
       "inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide";
 
     switch (status) {
       case "pending":
-        return <span className={`${base} bg-amber-200 text-amber-700`}>• Pending</span>;
+        return (
+          <span className={`${base} bg-amber-200 text-amber-700`}>
+            • Pending
+          </span>
+        );
       case "completed":
-        return <span className={`${base} bg-indigo-200 text-indigo-700`}>• Completed</span>;
+        return (
+          <span className={`${base} bg-indigo-200 text-indigo-700`}>
+            • Completed
+          </span>
+        );
       case "rejected":
-        return <span className={`${base} bg-red-200 text-red-700`}>• Rejected</span>;
+        return (
+          <span className={`${base} bg-red-200 text-red-700`}>• Rejected</span>
+        );
       case "approved":
-        return <span className={`${base} bg-green-100 text-green-700`}>• Approved</span>;
+        return (
+          <span className={`${base} bg-green-100 text-green-700`}>
+            • Approved
+          </span>
+        );
       case "completed":
-        return <span className={`${base} bg-blue-100 text-blue-700`}>• Completed</span>;
+        return (
+          <span className={`${base} bg-blue-100 text-blue-700`}>
+            • Completed
+          </span>
+        );
       default:
-        return <span className={`${base} bg-pink-100 text-pink-600`}>• {status}</span>;
+        return (
+          <span className={`${base} bg-pink-100 text-pink-600`}>
+            • {status}
+          </span>
+        );
     }
   };
 
@@ -43,7 +73,9 @@ const PendingInvite = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold text-slate-800">School Invitations</h1>
+          <h1 className="text-xl font-bold text-slate-800">
+            School Invitations
+          </h1>
           <p className="text-xs text-slate-500 mt-1">
             Manage invitations sent to partner schools.
           </p>
@@ -102,22 +134,31 @@ const PendingInvite = () => {
           </thead>
           <tbody className="divide-y text-xs">
             {invitations.map((invite) => (
-              <tr key={invite.invitation_id} className="hover:bg-slate-50 text-left">
+              <tr
+                key={invite.invitation_id}
+                className="hover:bg-slate-50 text-left"
+              >
                 <td className="px-6 py-4 font-bold">{invite.school_name}</td>
-                <td className="px-6 py-4 text-slate-500">{invite.school_email}</td>
+                <td className="px-6 py-4 text-slate-500">
+                  {invite.school_email}
+                </td>
                 <td className="px-6 py-4 font-mono">{invite.invitation_id}</td>
                 <td className="px-6 py-4">{invite.created_at}</td>
-                <td className="px-6 py-4">{renderStatusBadge(invite.status)}</td>
-               {invite.status == "pending" && <td className="px-6 py-4 text-right">
-                  <div className="inline-flex gap-2">
-                    <button className="flex items-center gap-2 px-4 py-1.5 bg-red-50 text-red-600 rounded-lg text-[11px] font-bold">
-                      <FaTrash /> Delete
-                    </button>
-                    <button className="flex items-center gap-2 px-4 py-1.5 bg-indigo-50 text-indigo-600 rounded-lg text-[11px] font-bold">
-                      <FaBell /> Reminder
-                    </button>
-                  </div>
-                </td>}
+                <td className="px-6 py-4">
+                  {renderStatusBadge(invite.status)}
+                </td>
+                {invite.status == "pending" && (
+                  <td className="px-6 py-4 text-right">
+                    <div className="inline-flex gap-2">
+                      <button className="flex items-center gap-2 px-4 py-1.5 bg-red-50 text-red-600 rounded-lg text-[11px] font-bold">
+                        <FaTrash /> Delete
+                      </button>
+                      <button className="flex items-center gap-2 px-4 py-1.5 bg-indigo-50 text-indigo-600 rounded-lg text-[11px] font-bold">
+                        <FaBell /> Reminder
+                      </button>
+                    </div>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
@@ -126,7 +167,10 @@ const PendingInvite = () => {
 
       {/* Modal */}
       {inviteModalOpen && (
-        <SendInviteModal isOpen={inviteModalOpen} onClose={() => setInviteModalOpen(false)} />
+        <SendInviteModal
+          isOpen={inviteModalOpen}
+          onClose={() => setInviteModalOpen(false)}
+        />
       )}
     </div>
   );

@@ -1,8 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "font-awesome/css/font-awesome.min.css";
 import { FaArrowUp, FaClock, FaUniversity } from "react-icons/fa";
 
+import {useDispatch, useSelector} from "react-redux";
+import { GetSchoolAnalytics } from "../../Features/School_Features/SchoolSlice";
+import toast from "react-hot-toast";
+
 export function SchoolDashboardPage() {
+
+  const dispatch  = useDispatch();
+  const school_id = useSelector((state)=> state.authReducer.user_id);
+  const [analytics,setAnalytics] = useState();
+  
+  useEffect(()=>{
+    const id = toast.loading("Fetching Analytics");
+    dispatch(GetSchoolAnalytics(school_id)).unwrap().then((res)=>{
+      if(res){
+        toast.success("Fetched Analytics!",{id})
+        setAnalytics(res)
+      }
+    }).catch((e)=>{
+      toast.error("Error Fetching Analytics",{id})
+    })
+  },[])
+
   return (
     <div className="fade-in space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -10,7 +31,7 @@ export function SchoolDashboardPage() {
           <div className="text-slate-500 text-xs font-bold uppercase mb-1">
             Pending Verification
           </div>
-          <div className="text-3xl font-extrabold text-slate-900">2</div>
+          <div className="text-3xl font-extrabold text-slate-900">{analytics?.pending_verifications}</div>
           <div className="flex items-center text-xs text-orange-600 font-bold mt-2">
             <FaClock className="mr-1" />
             Action Required
@@ -21,7 +42,7 @@ export function SchoolDashboardPage() {
           <div className="text-slate-500 text-xs font-bold uppercase mb-1">
             Verified Students
           </div>
-          <div className="text-3xl font-extrabold text-slate-900">145</div>
+          <div className="text-3xl font-extrabold text-slate-900">{analytics?.verified_students}</div>
           <div className="flex items-center text-xs text-indigo-600 font-bold mt-2">
             <FaArrowUp className="mr-1" />
             12% vs last year
@@ -32,7 +53,7 @@ export function SchoolDashboardPage() {
           <div className="text-slate-500 text-xs font-bold uppercase mb-1">
             University Enrolled
           </div>
-          <div className="text-3xl font-extrabold text-slate-900">48</div>
+          <div className="text-3xl font-extrabold text-slate-900">{analytics?.university_enrolled}</div>
           <div className="flex items-center text-xs text-green-600 font-bold mt-2">
             <FaUniversity className="mr-1" />
 
@@ -44,7 +65,7 @@ export function SchoolDashboardPage() {
           <div className="text-indigo-100 text-xs font-bold uppercase mb-1">
             Total Revenue
           </div>
-          <div className="text-3xl font-extrabold text-white">$24,000</div>
+          <div className="text-3xl font-extrabold text-white">${analytics?.university_enrolled * 20}.00</div>
           <div className="text-xs text-indigo-100 font-bold mt-2 opacity-80">
             Lifetime Earnings
           </div>

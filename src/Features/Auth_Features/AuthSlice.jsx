@@ -3,6 +3,7 @@ import axios from "axios";
 import { SigninAdmin } from "../Admin_Features/adminSlice";
 import { SigninSchool } from "../School_Features/SchoolSlice";
 import {
+  GetFreeApplicationCount,
   SigninStudent,
   SignUpStudent,
 } from "../Students_Features/StudentAppSlice";
@@ -17,6 +18,7 @@ const initialState = {
   user_id: null,
   school_verified: "un-verified",
   csrf_token: "",
+  free_application_count:0,
 };
 
 const URL = import.meta.env.VITE_BACKEND_URL;
@@ -34,6 +36,7 @@ const authFeaturesSlice = createSlice({
       state.csrf_token = "";
       state.user_id = "";
       state.school_verified =  "un-verified"
+      state.free_application_count = 0
     },
   },
   extraReducers: (builder) => {
@@ -109,6 +112,15 @@ const authFeaturesSlice = createSlice({
         state.name = null;
         state.status = "in-active";
         state.user_id = null;
+      })
+      .addCase(GetFreeApplicationCount.pending, (state) => {})
+      .addCase(GetFreeApplicationCount.fulfilled, (state, action) => {
+        state.free_application_count = action.payload
+        
+      })
+      .addCase(GetFreeApplicationCount.rejected, (state) => {
+        state.free_application_count = 0
+        
       });
   },
 });

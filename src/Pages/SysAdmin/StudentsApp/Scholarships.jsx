@@ -1,19 +1,34 @@
-import { useEffect, useState } from "react";
-import { FaPlus, FaChevronRight, FaEdit, FaTrash, FaBell } from "react-icons/fa";
+import { useEffect, useRef, useState } from "react";
+import {
+  FaPlus,
+  FaChevronRight,
+  FaEdit,
+  FaTrash,
+  FaBell,
+} from "react-icons/fa";
 import { ScholarshipAddModal } from "../../../Components/SysAdmin/ScholarshipAddModal";
 import { useDispatch } from "react-redux";
-import { DeleteScholarship, FetchScholarships } from "../../../Features/Admin_Features/AdminSlice";
+import {
+  DeleteScholarship,
+  FetchScholarships,
+} from "../../../Features/Admin_Features/AdminSlice";
 import ScholarshipDetailsModal from "../../../Components/studentAppPortal/ScholarshipDetailModal";
+import * as XLSX from "xlsx";
+import { ConfirmUploadModal } from "../../../Components/SysAdmin/ConfimrScholarshipModal";
+import toast from "react-hot-toast";
 
 export function ScholarshipRegistryPage() {
   const [list, setList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const fileInputRef = useRef(null);
+  const [file, setFile] = useState({ fileName: "", fileData: [] });
+  const [showUploadModal, setShowUploadModal] = useState(false);
 
   const [activeScholarship, setActiveScholarship] = useState({
     title: "",
     country: "",
-    region: "",
-    level: "",
+    region: "Europe",
+    level: "Undergrad",
     funding: "",
     status: "Upcoming",
     opens: "",
@@ -26,16 +41,23 @@ export function ScholarshipRegistryPage() {
   const [openDetailModal, setOpenDetailModal] = useState(false);
 
   const [openAddModal, setOpenAddModal] = useState(false);
-  const [isEdit,setIsEdit] = useState(false);
+  const [refetch,setRefetch] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const id = toast.loading("Fetching Scholarships");
     dispatch(FetchScholarships())
       .unwrap()
-      .then((res) => setList(res || []))
-      .catch(() => setList([]));
-  }, [dispatch]);
+      .then((res) => {
+        if(res){
+          setList(res || []);
+        toast.success("Fetched Scholarships Succesfully", { id });
+        }
+      })
+      .catch((e) => {setList([]);toast.error("Fetching Scholarshiips Failed",{id})});
+  }, [dispatch,refetch]);
 
   const openDetail = (scholarship) => {
     setActiveScholarship(scholarship);
@@ -47,19 +69,44 @@ export function ScholarshipRegistryPage() {
   );
 
   const deleteScholarship = (scholarship_id) => {
-    dispatch(DeleteScholarship(scholarship_id)).unwrap().then((res)=>{
-      if (res){
-        dispatch(FetchScholarships())
+    const id = toast.loading(`Deleting Scholarship with Id ${scholarship_id}`)
+    dispatch(DeleteScholarship(scholarship_id))
       .unwrap()
-      .then((res) => setList(res || []))
-      .catch(() => setList([]));
-      }
-    })
-  }
+      .then((res) => {
+        if (res) {
+          toast.success("Scholarrship Deleted Succesfully",{id})
+          // dispatch(FetchScholarships())
+          //   .unwrap()
+          //   .then((res) => setList(res || []))
+          //   .catch(() => setList([]));
+          setRefetch(!refetch)
+        }
+      }).catch((e)=>{
+        toast.error("Scholarrship Deletion Failed",{id})
+      });
+  };
 
-  const sendRemindersToStudent = (scholarship_id) => {
+  const sendRemindersToStudent = (scholarship_id) => {};
 
-  }
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+
+    reader.onload = (event) => {
+      const buffer = event.target.result;
+
+      const workbook = XLSX.read(buffer, { type: "buffer" });
+
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+
+      const parsedData = XLSX.utils.sheet_to_json(sheet);
+      setFile({ fileName: file.name, fileData: parsedData });
+      setShowUploadModal(true);
+    };
+  };
   return (
     <div className="px-6 py-6 min-h-screen fade-in relative">
       {/* HEADER */}
@@ -85,6 +132,20 @@ export function ScholarshipRegistryPage() {
           </div>
 
           {/* ADD BUTTON */}
+          <input
+            type="file"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            onChange={handleFileUpload}
+            label="Add Programs"
+          />
+
+          <button
+            onClick={() => fileInputRef.current.click()}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-700 transition"
+          >
+            <FaPlus /> Upload Scholarship
+          </button>
           <button
             onClick={() => setOpenAddModal(true)}
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-700 transition"
@@ -106,6 +167,12 @@ export function ScholarshipRegistryPage() {
         </span>
       </div>
 
+      {showUploadModal && (
+        <ConfirmUploadModal
+          file={file}
+          onCancel={() => setShowUploadModal(false)}
+        />
+      )}
       {/* TABLE */}
       <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
         <table className="w-full text-left">
@@ -116,6 +183,8 @@ export function ScholarshipRegistryPage() {
               <th className="px-6 py-3 text-center">Level</th>
               <th className="px-6 py-3 text-center">Funding</th>
               <th className="px-6 py-3 text-center">Status</th>
+              <th className="px-6 py-3 text-center">Opening Date</th>
+              <th className="px-6 py-3 text-center">Closing Date</th>
               <th className="px-6 py-3 text-center">Actions</th>
               <th className="px-6 py-3"></th>
             </tr>
@@ -150,6 +219,8 @@ export function ScholarshipRegistryPage() {
                       {s.status}
                     </span>
                   </td>
+                  <td className="px-6 py-4 text-slate-500">{s.opens}</td>
+                  <td className="px-6 py-4 text-slate-500">{s.deadline}</td>
                   <td className="px-6 py-4 text-right flex gap-2 justify-center z-50">
                     <FaEdit
                       className="text-blue-500 cursor-pointer"
@@ -159,10 +230,16 @@ export function ScholarshipRegistryPage() {
                         setOpenAddModal(true);
                       }}
                     />
-                    <FaTrash onClick={()=>deleteScholarship(s.scholarship_id)} className="text-red-500 cursor-pointer" />
-                  <FaBell className="w-4 h-4 text-yellow-400" onClick={()=>sendRemindersToStudent(s.scholarship_id)} />
+                    <FaTrash
+                      onClick={() => deleteScholarship(s.scholarship_id)}
+                      className="text-red-500 cursor-pointer"
+                    />
+                    <FaBell
+                      className="w-4 h-4 text-yellow-400"
+                      onClick={() => sendRemindersToStudent(s.scholarship_id)}
+                    />
                   </td>
-                  
+
                   <td
                     className="px-6 py-4 text-right"
                     onClick={() => openDetail(s)}
@@ -190,7 +267,11 @@ export function ScholarshipRegistryPage() {
         <ScholarshipDetailsModal
           open={openDetailModal}
           scholarship={activeScholarship}
-          onClose={() => {setIsEdit(false);setActiveScholarship({});setOpenDetailModal(false)}}
+          onClose={() => {
+            setIsEdit(false);
+            setActiveScholarship({});
+            setOpenDetailModal(false);
+          }}
           isadmin={true}
         />
       )}
@@ -199,7 +280,12 @@ export function ScholarshipRegistryPage() {
       {openAddModal && (
         <ScholarshipAddModal
           open={openAddModal}
-          onClose={() => {setIsEdit(false);setActiveScholarship({});setOpenAddModal(false)}}
+          onClose={() => {
+            setIsEdit(false);
+            setActiveScholarship({});
+            setOpenAddModal(false);
+            setRefetch(!refetch)
+          }}
           scholarship={activeScholarship}
           isEdit={isEdit}
         />

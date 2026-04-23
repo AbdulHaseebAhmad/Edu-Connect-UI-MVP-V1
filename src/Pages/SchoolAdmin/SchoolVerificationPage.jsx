@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { SchoolStudentPanel } from "../../Components/SchoolAdmin/SchoolStudentPanel";
 import { FaShieldAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { GetUnProcessedStudents, VerifyStudentAccount } from "../../Features/School_Features/SchoolSlice";
+import {
+  GetUnProcessedStudents,
+  VerifyStudentAccount,
+} from "../../Features/School_Features/SchoolSlice";
+
+import toast from "react-hot-toast";
 
 export function SchoolVerificationPage() {
   const [studentPanelOpen, setStudentPanelOpen] = useState(false);
@@ -13,11 +18,22 @@ export function SchoolVerificationPage() {
   const dispatch = useDispatch();
 
   const verificationHandle = (school_id, student_id, status) => {
-    dispatch(VerifyStudentAccount({school_id,student_id,status})).unwrap().then((res)=>{
-      if(res){
-        setUnverifiedStudents((prev)=>prev.filter((each)=> each?.student_id !== student_id))
-      }
-    })
+    let studentStatus = status == "verified" ? "Verifying":"Rejecting"
+    
+    const id = toast.loading(`${studentStatus} Student with Id ${student_id}`)
+
+    dispatch(VerifyStudentAccount({ school_id, student_id, status }))
+      .unwrap()
+      .then((res) => {
+        if (res) {
+          toast.success(`Student Succesfully ${status}`,{id})
+          setUnverifiedStudents((prev) =>
+            prev.filter((each) => each?.student_id !== student_id),
+          );
+        }
+      }).catch((e)=>{
+        toast.error(`There was an error ${studentStatus} with Id ${student_id}`,{id})
+      });
   };
   const openStudentPanel = (student) => {
     setSelectedStudent(student);
@@ -25,13 +41,17 @@ export function SchoolVerificationPage() {
   };
 
   useEffect(() => {
+    const id = toast.loading("Fetching Unverified Students");
     dispatch(GetUnProcessedStudents(school_id))
       .unwrap()
       .then((res) => {
+        toast.success("Fetched Un Verified Students!",{id})
         if (res) {
           setUnverifiedStudents(res);
         }
-      });
+      }).catch((e)=>{
+        toast.error("Fetching Unverified Students failed!", { id });
+      });;
   }, []);
 
   const getInitials = (name) => {
@@ -72,7 +92,7 @@ export function SchoolVerificationPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-sm text-slate-600">
-              {unverifiedStudents.map((student,index) => (
+              {unverifiedStudents.map((student, index) => (
                 <tr
                   key={index}
                   className="hover:bg-slate-50 border-b border-slate-50 cursor-pointer"
@@ -85,7 +105,9 @@ export function SchoolVerificationPage() {
                         className="w-full h-full rounded-2xl object-cover"
                         onError={(e) => {
                           e.target.style.display = "none";
-                          e.currentTarget.innerHTML = getInitials(student.first_name);
+                          e.currentTarget.innerHTML = getInitials(
+                            student.first_name,
+                          );
                         }}
                       />
                     ) : (
@@ -114,7 +136,7 @@ export function SchoolVerificationPage() {
                           verificationHandle(
                             school_id,
                             student?.student_id,
-                            "verified"
+                            "verified",
                           )
                         }
                         className="px-4 py-1.5 bg-indigo-600 text-white text-xs font-bold rounded-lg hover:bg-indigo-700 shadow-sm"
@@ -126,7 +148,7 @@ export function SchoolVerificationPage() {
                           verificationHandle(
                             school_id,
                             student?.student_id,
-                            "rejected"
+                            "rejected",
                           )
                         }
                         className="px-4 py-1.5 text-xs font-semibold rounded-lg border border-red-300 text-red-600 bg-red-50 hover:bg-red-100 hover:border-red-400 hover:text-red-700 shadow-sm transition-colors"

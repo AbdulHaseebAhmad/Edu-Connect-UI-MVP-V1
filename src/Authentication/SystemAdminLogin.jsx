@@ -49,7 +49,7 @@
 //   const checkRole = (value) => {
 //     let parseEmail = value?.split("@")
 //     let parseRole = parseEmail?.[1]?.split(".");
-    
+
 //     if (parseRole?.includes("school")){
 //       setRole("school")
 //     } else {
@@ -57,11 +57,10 @@
 //     }
 //   }
 
-
 //   return (
 //     <div className="min-h-screen bg-pink-gradient pt-10 lg:pt-[100px] px-4">
 //   <div className="flex flex-col gap-6 w-full max-w-[500px] mx-auto min-h-[450px] border-4 border-white rounded-md bg-white bg-opacity-[30.5%] p-6">
-    
+
 //     <div className="w-full flex flex-col mt-6 text-center lg:text-left">
 //       <h2 className="text-2xl lg:text-3xl font-poppins font-bold text-[#404040]">
 //         System Administration
@@ -121,12 +120,12 @@
 //   );
 // }
 
-
 import { useState } from "react";
 import { FaUserShield, FaShieldAlt, FaUserCheck } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { SigninAdmin } from "../Features/Admin_Features/adminSlice";
 import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 export default function SystemAdminLogin() {
   const [formDetails, setFormDetails] = useState({});
@@ -143,12 +142,17 @@ export default function SystemAdminLogin() {
 
   const onSubmitHandle = (e) => {
     e.preventDefault();
+    const id = toast.loading("Signing in...");
     dispatch(SigninAdmin(formDetails))
       .unwrap()
       .then((res) => {
         if (res) {
+          toast.success("Signed in!", { id });
           navigate("/sysadmin/dashboard");
         }
+      })
+      .catch((e) => {
+        toast.error("Sign in failed!", { id });
       });
   };
 

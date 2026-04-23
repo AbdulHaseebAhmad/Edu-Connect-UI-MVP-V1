@@ -710,3 +710,30 @@ export const FetchUniversitiesCommisions = createAsyncThunk(
     }
   },
 );
+
+
+export const AddUniversity = createAsyncThunk(
+  "university/features/commisions/get",
+  async (university, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    try {
+      const response = await axios.post(
+        `${URL}/api/university/add/university`,
+        university,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
+        },
+      );
+      // console.log(response?.data);
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+);
+
+

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import {useSelector, useDispatch} from "react-redux"
 import { GetSchoolProfileData } from "../../Features/School_Features/SchoolSlice";
+import toast from "react-hot-toast";
+
 export default function SchoolProfile() {
   const [form, setForm] = useState({
     registration_code: "",
@@ -32,10 +34,15 @@ export default function SchoolProfile() {
   };
 
   useEffect(()=>{
+    const id = toast.loading("Fetching School Profile");
+
     dispatch(GetSchoolProfileData(school_id)).unwrap().then((res)=>{
       if(res){
+        toast.success("Fetched School Profile!",{id})
         setForm(res)
       }
+    }).catch((e)=>{
+      toast.error("Error Fetching School Profile",{id})
     })
   },[school_id])
 
@@ -69,7 +76,7 @@ export default function SchoolProfile() {
             <Input label="School Name" name="school_name" value={form.school_name} onChange={handleChange} />
             <Input label="Curriculum" name="school_curriculum" value={form.school_curriculum} onChange={handleChange} />
             <Input label="Branch" name="school_branch" value={form.school_branch} onChange={handleChange} />
-            <Select label="Status" name="status" value={form.status} onChange={handleChange} options={["Active", "Inactive", "Suspended"]} />
+            {/* <Select label="Status" name="status" value={form.status} onChange={handleChange} options={["Active", "Inactive", "Suspended"]} /> */}
           </Section>
 
           {/* Location & Contact */}

@@ -184,3 +184,72 @@ export const GetSchoolProfileData = createAsyncThunk(
   }
 );
 
+export const GetSchoolAnalytics = createAsyncThunk(
+  "school/features/get/profile",
+  async (school_id,{getState}) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    try {
+      const response = await axios.get(
+        `${URL}/api/schooladmin/statistics?school_id=${school_id}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
+        }
+      );
+      // console.log(response?.data);
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+);
+
+export const GetEnrolledStudents = createAsyncThunk(
+  "school/features/get/profile",
+  async (school_id,{getState}) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    try {
+      const response = await axios.get(
+        `${URL}/api/schooladmin/enrolled/students?school_id=${school_id}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
+        }
+      );
+      // console.log(response?.data);
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+);
+
+export const GetRejectededStudents = createAsyncThunk(
+  "school/features/get/profile",
+  async (school_id,{getState}) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    try {
+      const response = await axios.get(
+        `${URL}/api/schooladmin/rejected/students?school_id=${school_id}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
+        }
+      );
+      // console.log(response?.data);
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+);
+

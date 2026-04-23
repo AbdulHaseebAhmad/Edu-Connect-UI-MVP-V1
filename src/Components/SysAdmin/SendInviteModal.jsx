@@ -4,6 +4,7 @@ import { FaTimes } from "react-icons/fa";
 import SchoolInviteForm from "./InviteFormS";
 import InviteCardSucc from "./InviteCardSucc";
 import { createSchoolInvite } from "../../Features/Admin_Features/adminSlice";
+import toast from "react-hot-toast";
 
 export default function SchoolInviteModal({ isOpen, onClose }) {
   if (!isOpen) return null;
@@ -21,18 +22,20 @@ export default function SchoolInviteModal({ isOpen, onClose }) {
   const onGenerateLink = (data) => {
     if (!data) return;
 
-    dispatch(createSchoolInvite(formData)).then((res) => {
-      if (res?.payload) {
-        setResponseMessage(res.payload);
-        setCurrentScreen(1);
-      }
-    });
+    const id = toast.loading("Generating Invite");
+    dispatch(createSchoolInvite(formData))
+      .then((res) => {
+        if (res?.payload) {
+          toast.success("Invite Generated Succesffully", { id });
+          setResponseMessage(res.payload);
+          setCurrentScreen(1);
+        }
+      }).catch((e) =>{ toast.error("Invite Generation Failed", { id })});
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div className="w-full max-w-2xl bg-white rounded-xl shadow-lg relative">
-
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"

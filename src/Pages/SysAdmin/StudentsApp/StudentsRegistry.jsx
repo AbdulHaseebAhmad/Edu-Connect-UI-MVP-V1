@@ -9,6 +9,8 @@ import {
 } from "react-icons/fa";
 import { SchoolStudentPanel } from "../../../Components/SchoolAdmin/SchoolStudentPanel";
 import { GetProcessedStudents } from "../../../Features/School_Features/SchoolSlice";
+import toast from "react-hot-toast";
+
 
 export function StudentRegistryPage() {
   const dispatch = useDispatch();
@@ -18,14 +20,18 @@ export function StudentRegistryPage() {
   const [openModal, setOpenMoal] = useState(false);
 
   useEffect(() => {
+    const id = toast.loading("Fetching All Students");
     dispatch(getRegisteredStudents())
       .unwrap()
       .then((res) => {
+        toast.success("Fetched All Students Succesfully", {id})
         if (res) setListOfStudents(res);
-      });
+      }).catch((e)=>toast.error("Fetching Students Failed", {id}));
   }, []);
 
+
   const showDetailModal = (school_id, student_id) => {
+    
     dispatch(GetProcessedStudents({ school_id: school_id, status: "verified" }))
       .unwrap()
       .then((res) => {

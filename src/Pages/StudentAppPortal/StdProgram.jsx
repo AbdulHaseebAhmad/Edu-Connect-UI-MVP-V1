@@ -41,6 +41,8 @@ export default function StdProgram() {
   const [shortListedId, setShortlistId] = useState(null);
   const navigate = useNavigate();
 
+  const freeAppcount = useSelector((state)=>state.authReducer.free_application_count);
+
   const [receipt, setReceipt] = useState({
     data: "",
     name: "",
@@ -109,8 +111,14 @@ export default function StdProgram() {
       setShowMissingDocsModal(true);
     } else {
       if (selectedProg?.program_application_fee == "0.00") {
-        setShowApplyModal(true);
+        if(freeAppcount >= 3){
+          alert("Yo Can not apply to this university untill you pay the Application Fee")
+        }else{
+          
+          setShowApplyModal(true);
+        }
       } else {
+        
         setShowPaymentModal(true);
       }
     }
@@ -134,6 +142,8 @@ export default function StdProgram() {
   };
 
   const PaidApplyHandle = () => {
+    // console.log(receipt)
+    if (receipt.data == "") return 
     dispatch(
       UploadApplicationReceipt({
         receipt: receipt,

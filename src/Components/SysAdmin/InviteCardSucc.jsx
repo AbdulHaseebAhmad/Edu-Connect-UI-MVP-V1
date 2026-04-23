@@ -1,12 +1,14 @@
 import InviteOptiCard from "./InviteOptiCard";
 import { handleCopy } from "../../Utillities/helpFunctions";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function InviteCardSucc({ message }) {
   const [link, setLink] = useState("");
 
   const copyLink = () => {
     handleCopy(link);
+    toast.success("Link Copied")
   };
 
   useEffect(() => {

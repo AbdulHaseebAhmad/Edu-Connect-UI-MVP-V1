@@ -5,6 +5,7 @@ import {
   AddScholarships,
   UpdateScholarship,
 } from "../../Features/Admin_Features/AdminSlice";
+import toast from "react-hot-toast";
 
 const fields = [
   {
@@ -89,14 +90,24 @@ export function ScholarshipAddModal({
     };
 
     if (isEdit) {
+      const id = toast.loading("Updating Scholarship")
       dispatch(
         UpdateScholarship({
           scholarship_id: scholarship?.scholarship_id,
           data: payload,
         }),
-      );
+      ).unwrap().then((res)=>{
+        if(res){
+          toast.success("Scholarship Updated Successfully",{id})
+        }
+      }).catch((e)=>toast.error("Updating Scholarship failed",{id}));
     } else {
-      dispatch(AddScholarships(payload));
+      const id = toast.loading("Adding Scholarship")
+      dispatch(AddScholarships(payload)).unwrap().then((res)=>{
+        if(res){
+          toast.success("Added Scholarship Successfully",{id})
+        }
+      }).catch((e)=>toast.error("Adding Scholarship Failed",{id}));
     }
     onSubmit?.(payload);
     onClose();

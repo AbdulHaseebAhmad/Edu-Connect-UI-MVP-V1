@@ -13,7 +13,7 @@ import {
 
 const UniversityDetails = () => {
   const [level, setLevel] = useState(3);
-  const [profileTab, setProfileTab] = useState("overview");
+  const [profileTab, setProfileTab] = useState("life");
   const [university, setUniversity] = useState({});
   const showLevel = (n) => setLevel(n);
 
@@ -164,7 +164,7 @@ const UniversityDetails = () => {
                 {university?.Programs?.length}
               </span>
             </button>
-            {/* <button
+            <button
               onClick={() => setProfileTab("life")}
               id="tab-p-life"
               className={`border-b-2 py-4 text-sm font-bold transition ${
@@ -174,7 +174,7 @@ const UniversityDetails = () => {
               }`}
             >
               Campus Life
-            </button> */}
+            </button>
           </div>
 
           {/* TAB CONTENT */}
@@ -289,7 +289,7 @@ const UniversityDetails = () => {
 
                           {/* Application Fee placeholder */}
                           <div className="mt-2 inline-block rounded-full bg-yellow-100 px-2 py-1 text-xs font-semibold text-yellow-800 shadow-sm">
-                            Application Fee:  {prog?.application_fee}
+                            Application Fee:  $ {prog?.program_application_fee}
                           </div>
                         </div>
                       </div>

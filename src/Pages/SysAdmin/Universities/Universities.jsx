@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { FetchUniversities } from "../../../Features/Admin_Features/adminSlice";
 import { FaChevronRight, FaPlus } from "react-icons/fa";
 import UniProfile from "../../../Components/SysAdmin/UniProfile";
+import AddUniversityModal from "../../../Components/SysAdmin/AddUniversityPortal";
+import * as XLSX from "xlsx";
+import { ConfirmUniversityUploadModal } from "../../../Components/SysAdmin/ConfirmUniversityUploadModal";
 
 export function UniversityRegistryPage() {
   const dispatch = useDispatch();
@@ -10,6 +13,11 @@ export function UniversityRegistryPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [openPortal, setOpenPortal] = useState(false);
   const [activeUniversity, setActiveUniversity] = useState(null);
+  const [showUniHandle, setShowUniHandle] = useState(false);
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const [file, setFile] = useState({ fileName: "", fileData: [] });
+
+  const inputfileRef = useRef();
 
   useEffect(() => {
     dispatch(FetchUniversities())
@@ -36,6 +44,30 @@ export function UniversityRegistryPage() {
     setTimeout(() => setActiveUniversity(null), 250);
   };
 
+  const addUniversityHandle = () => {
+    setShowUniHandle(true);
+  };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+
+    reader.onload = (event) => {
+      const buffer = event.target.result;
+
+      const workbook = XLSX.read(buffer, { type: "buffer" });
+
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+
+      const parsedData = XLSX.utils.sheet_to_json(sheet);
+      setFile({ fileName: file.name, fileData: parsedData });
+      setShowUploadModal(true);
+    };
+  };
+
   return (
     <div className="fade-in px-6 py-6 relative min-h-screen bg-slate-50 overflow-hidden">
       {/* Header */}
@@ -59,8 +91,22 @@ export function UniversityRegistryPage() {
               className="w-56 pl-3 pr-3 py-1.5 text-[11px] rounded-full bg-slate-50 outline-none"
             />
           </div>
-
-          <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-700 transition">
+          <input
+            type="file"
+            ref={inputfileRef}
+            style={{ display: "none" }}
+            onChange={handleFileUpload}
+          />
+          <button
+            onClick={() => inputfileRef.current.click()}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-700 transition"
+          >
+            <FaPlus /> Bulk University Upload
+          </button>
+          <button
+            onClick={addUniversityHandle}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-700 transition"
+          >
             <FaPlus /> Add University
           </button>
         </div>
@@ -76,6 +122,19 @@ export function UniversityRegistryPage() {
         </span>
       </div>
 
+      {showUniHandle && (
+        <AddUniversityModal
+          isOpen={showUniHandle}
+          onClose={() => setShowUniHandle(false)}
+        />
+      )}
+
+      {showUploadModal && (
+        <ConfirmUniversityUploadModal
+          file={file}
+          onCancel={() => setShowUploadModal(false)}
+        />
+      )}
       {/* Table */}
       <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
         <table className="w-full text-right">
@@ -151,6 +210,7 @@ export function UniversityRegistryPage() {
       <UniProfile
         openPortal={openPortal}
         // activeUniversity={activeUniversity}
+        universityId={activeUniversity?.university_id}
         closeUniversityPortal={closeUniversityPortal}
       />
     </div>
