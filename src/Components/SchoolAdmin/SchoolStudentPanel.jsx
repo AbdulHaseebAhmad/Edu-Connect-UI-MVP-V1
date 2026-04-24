@@ -17,6 +17,7 @@ import {
 import { useDispatch } from "react-redux";
 import { RespondToApplication } from "../../Features/University_Features/UniversityAppSlice";
 import toast from "react-hot-toast";
+import { ViewStudentDocuments } from "../../Features/Students_Features/StudentAppSlice";
 export function SchoolStudentPanel({
   student,
   open,
@@ -302,15 +303,16 @@ export function SchoolStudentPanel({
               </span>
 
               {/* Action */}
-              {doc?.url ? (
-                <a
-                  href={doc.url}
-                  target="_blank"
-                  rel="noreferrer"
+              {true? (
+                <button
+                  // href={doc.url}
+                  // target="_blank"
+                  // rel="noreferrer"
+                  onClick={()=>dispatch(ViewStudentDocuments({document_id:doc?.document_id,student_id:student?.student_id}))}
                   className="text-sm font-semibold text-indigo-600 hover:text-indigo-700"
                 >
                   View
-                </a>
+                </button>
               ) : (
                 <span className="text-sm text-slate-400">Not available</span>
               )}

@@ -24,6 +24,7 @@ import {
   GetUniversityProfiile,
 } from "../../Features/University_Features/UniversityAppSlice";
 import { ConfirmProgramUploadModal } from "./ConfirmProgramUploadModal";
+import { hexToString } from "../../Utillities/helpFunctions";
 
 const defaultForm = {
   university_name: "",
@@ -190,13 +191,13 @@ export default function UniversityProfilePortal({
         }`}
       />
 
-        {showUploadModal && (
-      <div className="absolute left-0 ">
-        <ConfirmProgramUploadModal
-          file={file}
-          onCancel={() => setShowUploadModal(false)}
-        />
-      </div>
+      {showUploadModal && (
+        <div className="absolute left-0 ">
+          <ConfirmProgramUploadModal
+            file={file}
+            onCancel={() => setShowUploadModal(false)}
+          />
+        </div>
       )}
       {/* Drawer */}
       <div
@@ -506,8 +507,8 @@ export default function UniversityProfilePortal({
 
             {activeTab === "media" && (
               <>
-                <Section title="Primary Media" icon={<FaImage />}>
-                  <div className="space-y-4">
+                {/* <Section title="Primary Media" icon={<FaImage />}>
+                  {/* <div className="space-y-4">
                     <MediaInputCard
                       label="University Logo"
                       value={formData.universitylogo}
@@ -516,7 +517,7 @@ export default function UniversityProfilePortal({
                         handleChange("universitylogo", e.target.value)
                       }
                       disabled={!editMode}
-                    />
+                    /> 
 
                     <MediaInputCard
                       label="Profile Image"
@@ -528,7 +529,7 @@ export default function UniversityProfilePortal({
                       disabled={!editMode}
                     />
                   </div>
-                </Section>
+                </Section> */}
 
                 <Section title="All Media" icon={<FaImage />}>
                   {mediaItems.length > 0 ? (
@@ -541,7 +542,6 @@ export default function UniversityProfilePortal({
                           item?.image ||
                           item?.file ||
                           "";
-
                         return (
                           <div
                             key={item?.id || index}
@@ -549,11 +549,14 @@ export default function UniversityProfilePortal({
                           >
                             <div className="h-44 bg-slate-100 flex items-center justify-center overflow-hidden">
                               {mediaUrl ? (
-                                <img
-                                  //   src={mediaUrl}
-                                  alt={item?.media_file_name}
-                                  className="w-full h-full object-cover"
-                                />
+                                <div className="flex flex-col items-start justify-start gap-4 ">
+                                  <p className="">{item?.media_file_name}</p>
+                                  <img
+                                    src={hexToString(mediaUrl)}
+                                    alt={item?.media_tag_name}
+                                    className="w-full h-full  object-cover"
+                                  />
+                                </div>
                               ) : (
                                 <div className="text-slate-400 text-sm">
                                   No preview available
@@ -575,7 +578,7 @@ export default function UniversityProfilePortal({
 
             {activeTab === "programs" && (
               <>
-              <Section title="Programs" icon={<FaUserGraduate />}>
+                <Section title="Programs" icon={<FaUserGraduate />}>
                   <div className="space-y-3">
                     {formData.Programs?.length > 0 ? (
                       formData.Programs.map((program, index) => (
@@ -626,7 +629,7 @@ export default function UniversityProfilePortal({
                     )}
                   </div>
                 </Section>
-                </>
+              </>
             )}
           </div>
         </div>

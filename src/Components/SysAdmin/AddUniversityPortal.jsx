@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useDispatch } from "react-redux";
 import { AddUniversity } from "../../Features/Admin_Features/adminSlice";
-
+import toast from "react-hot-toast";
 export default function AddUniversityModal({ isOpen, onClose, onSubmit }) {
     
   const [formData, setFormData] = useState({
@@ -96,7 +96,7 @@ export default function AddUniversityModal({ isOpen, onClose, onSubmit }) {
       label: "University Website",
       name: "university_website",
       placeholder: "https://...",
-      type: "text",
+      type: "url",
     },
     {
       label: "Instagram",
@@ -108,7 +108,7 @@ export default function AddUniversityModal({ isOpen, onClose, onSubmit }) {
       label: "LinkedIn",
       name: "univerity_linkedin",
       placeholder: "https://...",
-      type: "text",
+      type: "url",
     },
     {
       label: "Twitter / X",
@@ -120,7 +120,7 @@ export default function AddUniversityModal({ isOpen, onClose, onSubmit }) {
       label: "Youtube",
       name: "university_youtube",
       placeholder: "https://...",
-      type: "text",
+      type: "url",
     },    
     {
       label: "Students Count",
@@ -165,7 +165,7 @@ export default function AddUniversityModal({ isOpen, onClose, onSubmit }) {
       type: "text",
     },
     {
-      label: "Graduuation Rate",
+      label: "Graduation Rate",
       name: "graduation_rate",
       placeholder: "Short description",
       type: "text",
@@ -176,6 +176,61 @@ export default function AddUniversityModal({ isOpen, onClose, onSubmit }) {
       placeholder: "Enter Employability Rate",
       type: "text",
     },
+    {
+      label: "University Logo",
+      name: "university_logo",
+      placeholder: "https://...",
+      type: "url",
+    },
+    {
+      label: "University Profile",
+      name: "university_profile",
+      placeholder: "https://...",
+      type: "url",
+    },
+    {
+      label: "University Banner",
+      name: "university_banner",
+      placeholder: "https://...",
+      type: "url",
+    },
+    {
+      label: "University Gallery Video",
+      name: "university_gallery_video",
+      placeholder: "https://...",
+      type: "url",
+    },
+    {
+      label: "University Gallery Main",
+      name: "university_gallery_main",
+      placeholder: "https://...",
+      type: "url",
+    },
+    {
+      label: "University Gallery Secondary One",
+      name: "university_secondary_one",
+      placeholder: "https://...",
+      type: "url",
+    },
+    {
+      label: "University Gallery Secondary Two",
+      name: "university_secondary_two",
+      placeholder: "https://...",
+      type: "url",
+    },
+    {
+      label: "University Gallery Secondary Three",
+      name: "university_secondary_three",
+      placeholder: "https://...",
+      type: "url",
+    },
+    {
+      label: "University Gallery Secondary Four",
+      name: "university_secondary_four",
+      placeholder: "https://...",
+      type: "url",
+    },
+
   ];
 
   const handleChange = (e) => {
@@ -187,12 +242,13 @@ export default function AddUniversityModal({ isOpen, onClose, onSubmit }) {
 
   const handleSubmit = () => {
     // onSubmit(formData);
+    const id = toast.loading("Adding University");
     dispatch(AddUniversity(formData)).unwrap().then((res)=>{
         if(res){
             onClose();
-
+            toast.success("University Added Successfully",{id})
         }
-    })
+    }).catch((e)=>toast.error("Adding University Failed"),{id})
   };
 
   if (!isOpen) return null;

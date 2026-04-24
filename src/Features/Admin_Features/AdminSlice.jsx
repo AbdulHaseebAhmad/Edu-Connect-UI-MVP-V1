@@ -713,7 +713,7 @@ export const FetchUniversitiesCommisions = createAsyncThunk(
 
 
 export const AddUniversity = createAsyncThunk(
-  "university/features/commisions/get",
+  "university/features/add/university",
   async (university, { getState }) => {
     const csrfToken = getState().authReducer.csrf_token;
     try {
