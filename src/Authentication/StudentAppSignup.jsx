@@ -9,6 +9,7 @@ import { fileToBase64 } from "../Utillities/helpFunctions";
 import VerificationLocked from "../Components/studentAppPortal/StepFour";
 import { useNavigate } from "react-router";
 import logo from "../assets/pgl.png"
+import toast from "react-hot-toast";
 
 export default function StudentAppSignup() {
   const [formData, setFormData] = useState({
@@ -35,7 +36,7 @@ export default function StudentAppSignup() {
       return;
     }
     setFormData((prev) => {
-      return { ...prev, [name]: value };
+      return { ...prev, [name]: name === "school_code" ? value.trim().toUpperCase() : value };
     });
   };
 
@@ -54,14 +55,16 @@ export default function StudentAppSignup() {
     formData.transcript_mime_type = formData.transcript.type;
     formData.passport = await fileToBase64(formData?.passport);
     formData.transcript = await fileToBase64(formData?.transcript);
+    const id = toast.loading("Signing you up!")
     dispatch(SignUpStudent(formData))
       .unwrap()
       .then((res) => {
         if (res) {
+          toast.success("Succesfully Signed up",{id})
           setSignupModal(true);
           setScreen(3);
         }
-      });
+      }).catch((e)=>toast.error("There was an error signing up! Refresh and try again",{id}));
   };
   return (
     <div className="min-h-screen bg-slate-900 flex items-center justify-center relative overflow-hidden">

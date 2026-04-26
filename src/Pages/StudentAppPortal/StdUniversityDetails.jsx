@@ -10,6 +10,7 @@ import {
   FaMapMarkerAlt,
   FaTrophy,
 } from "react-icons/fa";
+import { hexToString } from "../../Utillities/helpFunctions";
 
 const UniversityDetails = () => {
   const [level, setLevel] = useState(3);
@@ -368,15 +369,15 @@ const UniversityDetails = () => {
                     <div className="col-span-2 row-span-2 overflow-hidden rounded-xl shadow-sm">
                       <img
                         className="h-full w-full object-cover transition duration-700 hover:scale-110"
-                        src={"university?.gallery.main"}
+                        src={()=>hexToString(university?.Media?.[0]?.media)}
                         alt="Main campus"
                       />
                     </div>
                     <div className="overflow-hidden rounded-xl shadow-sm">
                       <img
                         className="h-full w-full object-cover transition duration-700 hover:scale-110"
-                        src={"university?.gallery.side1"}
-                        alt="Campus view 1"
+                        src={()=>hexToString(university?.Media?.[1]?.media)}
+                        alt={university?.Media?.[1]?.media_id}
                       />
                     </div>
                     <div className="overflow-hidden rounded-xl shadow-sm">

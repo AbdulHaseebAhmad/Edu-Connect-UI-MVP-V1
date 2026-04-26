@@ -35,14 +35,19 @@ function ScholarshipDetailsModal({ scholarship, onClose, onUnlock, isadmin }) {
   };
 
   useEffect(() => {
-    dispatch(ScholarshipReminderCheck({scholarship_id:scholarship?.scholarship_id, student_id }))
+    dispatch(
+      ScholarshipReminderCheck({
+        scholarship_id: scholarship?.scholarship_id,
+        student_id,
+      }),
+    )
       .unwrap()
       .then((res) => {
         if (res) {
           setIsReminder(res);
         }
       });
-  },[]);
+  }, []);
 
   const isUpcoming = scholarship.status === "Upcoming";
 
@@ -147,9 +152,7 @@ function ScholarshipDetailsModal({ scholarship, onClose, onUnlock, isadmin }) {
               ) : (
                 <button
                   // onClick={onUnlock}
-                  onClick={() =>
-                    (window.location.href = `${scholarship?.link}`)
-                  }
+                  onClick={() => window.open(scholarship?.link, "_blank")}
                   className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-center py-3 rounded-xl font-bold transition shadow-lg transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-sm"
                 >
                   View Scholarship

@@ -10,10 +10,10 @@ import {
   FaLifeRing,
 } from "react-icons/fa";
 import Cookies from "js-cookie";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
-    const SchoolName = useSelector((state)=> state.authReducer.name)
+  const SchoolName = useSelector((state) => state.authReducer.name);
 
   const navGroups = [
     {
@@ -42,7 +42,6 @@ const Sidebar = () => {
           label: "All Students",
           badge: null,
         },
-       
       ],
     },
     {
@@ -70,6 +69,7 @@ const Sidebar = () => {
           icon: FaLifeRing,
           label: "Help & Support",
           badge: null,
+          inactive:true,
         },
       ],
     },
@@ -102,17 +102,34 @@ const Sidebar = () => {
             <div className="px-6 mb-2 text-[10px] font-bold uppercase text-slate-400 tracking-wider">
               {group.label}
             </div>
+
             {group.items.map((item, itemIndex) => (
               <NavLink
                 key={itemIndex}
-                to={item.path}
-                className={getNavItemClasses}
+                to={item.inactive ? "#" : item.path}
+                className={({ isActive }) =>
+                  `${getNavItemClasses({ isActive })} ${
+                    item.inactive
+                      ? "opacity-60 cursor-not-allowed pointer-events-none"
+                      : ""
+                  }`
+                }
               >
                 <item.icon className="w-5 text-center" />
+
                 <span className="ml-3">{item.label}</span>
-                {item.badge && (
+
+                {/* existing badge */}
+                {item.badge && !item.inactive && (
                   <span className="ml-auto bg-orange-100 text-orange-600 text-[10px] font-bold px-2 py-0.5 rounded-full">
                     {item.badge}
+                  </span>
+                )}
+
+                {/* coming soon badge */}
+                {item.inactive && (
+                  <span className="ml-auto bg-slate-200 text-red-600 text-[10px] font-bold px-0 py-0 rounded-full">
+                    Coming Soon
                   </span>
                 )}
               </NavLink>
@@ -144,8 +161,8 @@ const Sidebar = () => {
         {/* Logout button */}
         <button
           onClick={() => {
-            Cookies.remove("csrf_token", { path: "/" }); 
-            Cookies.remove("session_token"); 
+            Cookies.remove("csrf_token", { path: "/" });
+            Cookies.remove("session_token");
             localStorage.clear();
             window.location.href = "/school/login";
           }}

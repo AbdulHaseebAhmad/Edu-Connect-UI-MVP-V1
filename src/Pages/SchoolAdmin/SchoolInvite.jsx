@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { validateSchoolInviteLink } from "../../Features/School_Features/SchoolSlice";
 import InviteForm from "./InviteForm";
-
+import logo from "../../assets/pgl.png";
 export default function SchoolInvite() {
   const location = useLocation();
   const [code, setCode] = useState();
@@ -32,7 +32,7 @@ export default function SchoolInvite() {
       .unwrap()
       .then((res) => {
         if (res) {
-          console.log(res)
+          console.log(res);
           setIsValid(true);
           setStatus(res);
         } else {
@@ -45,21 +45,29 @@ export default function SchoolInvite() {
   useEffect(() => {
     // check for the validity of the link
     setCode(location.pathname.split("/").filter(Boolean)[1] || "");
-    setEmail(location.pathname.split("/").filter(Boolean)[2] || "");
+    setEmail(
+  decodeURIComponent(
+    location.pathname.split("/").filter(Boolean)[2] || ""
+  )
+);
   });
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
       {/* Header */}
       <header className="bg-white shadow-md py-4">
-        <div className="container mx-auto px-6 flex justify-between items-center">
+        {/* <div className="container mx-auto px-6 flex justify-between items-center">
           <a
             href="/sysadmin"
             className="flex items-center gap-2 text-blue-600 font-bold text-2xl"
           >
-            <FaGraduationCap className="text-purple-500 text-3xl" />
-            EduAI
+            <img src={logo} className="w-[120px] h-12" />
           </a>
-        </div>
+        </div> */}
+        <span class="font-bold text-xl tracking-tight  text-slate-900">
+          <div class=" px-2 py-2 w-[150px] text-white h-8 rounded-xl flex items-center justify-center mr-3  ">
+            <img src="/src/assets/pgl.png" />
+          </div>
+        </span>
       </header>
 
       <main className="flex-1 py-10">
@@ -114,9 +122,22 @@ export default function SchoolInvite() {
 
               {isValid ? (
                 status == "completed" ? (
-                  <div className="flex items-center justify-center gap-2 text-yellow-600 font-semibold text-lg ">
-                    <FaHourglassHalf className="animate-spin text-2xl" />
-                    <span>Pending Application</span>
+                  <div className="flex items-start gap-4 bg-amber-50 border border-amber-100 rounded-2xl p-5 shadow-sm">
+                    <div className="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center">
+                      <FaHourglassHalf className="text-xl animate-spin" />
+                    </div>
+
+                    <div className="flex flex-col">
+                      <span className="text-base font-semibold text-amber-700">
+                        Application Under Review
+                      </span>
+                      <span className="text-sm text-amber-600 mt-1">
+                        Please wait while an admin verifies your credentials.
+                      </span>
+                      <span className="text-xs text-amber-500 mt-1">
+                        Expected time: 4–6 hours
+                      </span>
+                    </div>
                   </div>
                 ) : status == "approved" ? (
                   <div className="flex items-center justify-center gap-2 text-yellow-600 font-semibold text-lg ">
@@ -124,7 +145,10 @@ export default function SchoolInvite() {
                     <span>Application Approved</span>
                   </div>
                 ) : (
-                  <InviteForm token={code} statusChange={()=>setStatus('completed')}/>
+                  <InviteForm
+                    token={code}
+                    statusChange={() => setStatus("completed")}
+                  />
                 )
               ) : (
                 <div className="flex items-center justify-center gap-2 text-red-600 font-semibold text-lg ">

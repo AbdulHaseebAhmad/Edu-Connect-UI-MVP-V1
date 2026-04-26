@@ -11,6 +11,8 @@ export default function SchoolProfile() {
     school_branch: "",
     status: "",
 
+    school_code:"",
+
     school_country: "",
     school_city: "",
     school_phone: "",
@@ -19,6 +21,8 @@ export default function SchoolProfile() {
     admin_name: "",
     username: "",
     sys_email: "",
+
+
   });
 
   const school_id = useSelector((state)=> state.authReducer.user_id)
@@ -78,6 +82,11 @@ export default function SchoolProfile() {
             <Input label="Branch" name="school_branch" value={form.school_branch} onChange={handleChange} />
             {/* <Select label="Status" name="status" value={form.status} onChange={handleChange} options={["Active", "Inactive", "Suspended"]} /> */}
           </Section>
+
+          <Section title="School Refference ">
+            <Input label="Refference Code" name="school_refference_code" value={form.school_code} onChange={handleChange} />
+          </Section>
+          
 
           {/* Location & Contact */}
           <Section title="Location & Contact">
