@@ -20,7 +20,8 @@ export default function StudentAppLogin() {
     });
   };
 
-  const onsubmitHandle = () => {
+  const onsubmitHandle = (e) => {
+    e.preventDefault()
     console.log(formData);
     let user_id;
     dispatch(SigninStudent(formData))
@@ -114,7 +115,7 @@ export default function StudentAppLogin() {
               <p className="text-slate-500">Access your verified dashboard.</p>
             </div>
 
-            <form className="space-y-5">
+            <form className="space-y-5" onSubmit={(e)=>onsubmitHandle(e)}>
               <div>
                 <label className="text-xs font-bold text-slate-500 uppercase">
                   Email
@@ -159,9 +160,9 @@ export default function StudentAppLogin() {
               </div>
 
               <button
-                type="button"
+                type="submit"
                 className="w-full py-4 bg-slate-900 text-white font-bold rounded-xl hover:bg-blue-600 transition shadow-lg"
-                onClick={onsubmitHandle}
+                // onClick={onsubmitHandle}
               >
                 Sign In
               </button>

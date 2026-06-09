@@ -45,7 +45,7 @@ export function SchoolDashboardPage() {
           <div className="text-3xl font-extrabold text-slate-900">{analytics?.verified_students}</div>
           <div className="flex items-center text-xs text-indigo-600 font-bold mt-2">
             <FaArrowUp className="mr-1" />
-            12% vs last year
+            Updated in real time
           </div>
         </div>
 

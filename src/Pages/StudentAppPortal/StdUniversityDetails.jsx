@@ -14,11 +14,9 @@ import { hexToString } from "../../Utillities/helpFunctions";
 
 const UniversityDetails = () => {
   const [level, setLevel] = useState(3);
-  const [profileTab, setProfileTab] = useState("life");
+  const [profileTab, setProfileTab] = useState("overview");
   const [university, setUniversity] = useState({});
   const showLevel = (n) => setLevel(n);
-
-
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -70,7 +68,7 @@ const UniversityDetails = () => {
       {/* Level 3: University profile */}
       <div id="dd-lvl-3" className={level === 3 ? "" : "hidden"}>
         <button
-         onClick={() => navigate(-1)}
+          onClick={() => navigate(-1)}
           className="mb-6 flex items-center gap-2 rounded-lg border bg-white px-3 py-2 text-xs font-bold text-slate-500 shadow-sm transition hover:text-blue-600"
         >
           <FaArrowLeft />
@@ -266,69 +264,77 @@ const UniversityDetails = () => {
                   Programs at {university?.university_name}
                 </h3>
                 <div className="grid gap-6 md:grid-cols-2">
-                  {university?.Programs?.map((prog) => (
-                    <div
-                      key={prog.program_id}
-                      className="group flex cursor-pointer flex-col overflow-hidden rounded-2xl border-2 border-slate-100 bg-gradient-to-br from-indigo-50 via-white to-blue-50 p-5 shadow-md ring-1 ring-slate-100/50 backdrop-blur-sm transition-all duration-300 hover:border-indigo-300 hover:shadow-2xl hover:shadow-indigo-200/50 hover:-translate-y-2 hover:scale-[1.02]"
-                      onClick={() =>
-                        navigate(
-                          `/student/apply-to-university/programs/${university_id}/${prog?.program_id}`
-                        )
-                      }
-                    >
-                      <div className="flex items-start gap-3">
-                        <div className="flex items-center justify-center h-10 w-10 shrink-0 rounded-xl bg-gradient-to-br from-pink-500 to-blue-600 p-2 shadow-lg ring-1 ring-white/30">
-                          <FaGraduationCap className="h-5 w-5 text-white drop-shadow-sm" />
-                        </div>
-                        <div className="flex flex-1 flex-col">
-                          <div className="mb-1 inline-block rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 px-2 py-0.5 text-xs font-bold text-indigo-800">
-                            {prog.program_level}
+                  {university?.Programs?.length > 0 ? (
+                    university.Programs.map((prog) => (
+                      <div
+                        key={prog.program_id}
+                        className="group flex cursor-pointer flex-col overflow-hidden rounded-2xl border-2 border-slate-100 bg-gradient-to-br from-indigo-50 via-white to-blue-50 p-5 shadow-md ring-1 ring-slate-100/50 backdrop-blur-sm transition-all duration-300 hover:border-indigo-300 hover:shadow-2xl hover:shadow-indigo-200/50 hover:-translate-y-2 hover:scale-[1.02]"
+                        onClick={() =>
+                          navigate(
+                            `/student/apply-to-university/programs/${university_id}/${prog?.program_id}`,
+                          )
+                        }
+                      >
+                        <div className="flex items-start gap-3">
+                          <div className="flex items-center justify-center h-10 w-10 shrink-0 rounded-xl bg-gradient-to-br from-pink-500 to-blue-600 p-2 shadow-lg ring-1 ring-white/30">
+                            <FaGraduationCap className="h-5 w-5 text-white drop-shadow-sm" />
                           </div>
-                          <div className="truncate text-lg font-black text-slate-900 group-hover:text-indigo-700 group-hover:drop-shadow-sm">
-                            {prog.program_name}
+                          <div className="flex flex-1 flex-col">
+                            <div className="mb-1 inline-block rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 px-2 py-0.5 text-xs font-bold text-indigo-800">
+                              {prog.program_level}
+                            </div>
+                            <div className="min-w-0 max-w-[300px] truncate  text-lg font-black text-slate-900 group-hover:text-indigo-700 group-hover:drop-shadow-sm">
+                              {prog.program_name}
+                            </div>
+
+                            <div className="mt-2 inline-block rounded-full bg-yellow-100 px-2 py-1 text-xs font-semibold text-yellow-800 shadow-sm">
+                              Application Fee:{" "}
+                              {prog?.program_application_fee !== "Free" &&
+                                university?.university_currency}{" "}
+                              {prog?.program_application_fee}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="mt-4 flex items-center justify-between gap-4 pt-2">
+                          <div className="flex flex-1 flex-col items-center gap-1 p-1">
+                            <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                              Duration
+                            </div>
+                            <div className="rounded-full bg-emerald-100 px-2 py-1 text-xs font-bold text-emerald-800 shadow-sm">
+                              {prog.program_duration}
+                            </div>
                           </div>
 
-                          {/* Application Fee placeholder */}
-                          <div className="mt-2 inline-block rounded-full bg-yellow-100 px-2 py-1 text-xs font-semibold text-yellow-800 shadow-sm">
-                            Application Fee:  $ {prog?.program_application_fee}
+                          <div className="h-1 w-8 rounded-full bg-gradient-to-r from-slate-200 to-slate-300 shadow-inner" />
+
+                          <div className="flex flex-1 flex-col items-center gap-1 p-1">
+                            <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                              Tuition
+                            </div>
+                            <div className="rounded-full bg-orange-100 px-2 py-1 text-xs font-bold text-orange-800 shadow-sm">
+                              {prog.program_fee}
+                            </div>
+                          </div>
+
+                          <div className="h-1 w-8 rounded-full bg-gradient-to-r from-slate-200 to-slate-300 shadow-inner" />
+
+                          <div className="flex flex-1 flex-col items-center gap-1 p-1">
+                            <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                              Next Intake
+                            </div>
+                            <div className="rounded-full bg-blue-100 px-2 py-1 text-xs font-bold text-blue-800 shadow-sm">
+                              {prog.session_intake}
+                            </div>
                           </div>
                         </div>
                       </div>
-
-                      <div className="mt-4 flex items-center justify-between gap-4 pt-2">
-                        <div className="flex flex-1 flex-col items-center gap-1 p-1">
-                          <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                            Duration
-                          </div>
-                          <div className="rounded-full bg-emerald-100 px-2 py-1 text-xs font-bold text-emerald-800 shadow-sm">
-                            {prog.program_duration}
-                          </div>
-                        </div>
-
-                        <div className="h-1 w-8 rounded-full bg-gradient-to-r from-slate-200 to-slate-300 shadow-inner" />
-
-                        <div className="flex flex-1 flex-col items-center gap-1 p-1">
-                          <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                            Tuition
-                          </div>
-                          <div className="rounded-full bg-orange-100 px-2 py-1 text-xs font-bold text-orange-800 shadow-sm">
-                            {prog.program_fee}
-                          </div>
-                        </div>
-
-                        <div className="h-1 w-8 rounded-full bg-gradient-to-r from-slate-200 to-slate-300 shadow-inner" />
-
-                        <div className="flex flex-1 flex-col items-center gap-1 p-1">
-                          <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                            Next Intake
-                          </div>
-                          <div className="rounded-full bg-blue-100 px-2 py-1 text-xs font-bold text-blue-800 shadow-sm">
-                            {prog.session_intake}
-                          </div>
-                        </div>
-                      </div>
+                    ))
+                  ) : (
+                    <div className="col-span-full text-center text-slate-500 font-semibold py-10">
+                      No Programs
                     </div>
-                  ))}
+                  )}
                 </div>
               </div>
             )}
@@ -369,14 +375,14 @@ const UniversityDetails = () => {
                     <div className="col-span-2 row-span-2 overflow-hidden rounded-xl shadow-sm">
                       <img
                         className="h-full w-full object-cover transition duration-700 hover:scale-110"
-                        src={()=>hexToString(university?.Media?.[0]?.media)}
+                        src={() => hexToString(university?.Media?.[0]?.media)}
                         alt="Main campus"
                       />
                     </div>
                     <div className="overflow-hidden rounded-xl shadow-sm">
                       <img
                         className="h-full w-full object-cover transition duration-700 hover:scale-110"
-                        src={()=>hexToString(university?.Media?.[1]?.media)}
+                        src={() => hexToString(university?.Media?.[1]?.media)}
                         alt={university?.Media?.[1]?.media_id}
                       />
                     </div>

@@ -29,6 +29,6 @@ export const fileToBase64 = (file) => {
 export const hexToString = (hex) => {
   hex = hex.replace(/^\\x/, "");
   return new TextDecoder().decode(
-    new Uint8Array(hex.match(/.{1,2}/g).map(b => parseInt(b, 16)))
+    new Uint8Array(hex.match(/.{1,2}/g)?.map(b => parseInt(b, 16)))
   );
 };

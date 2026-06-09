@@ -52,7 +52,7 @@ const defaultForm = {
   university_x: "",
   university_youtube: "",
   Programs: [],
-  media: [],
+  Media: [],
 };
 
 export default function UniversityProfilePortal({
@@ -73,56 +73,32 @@ export default function UniversityProfilePortal({
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    let universityData = {};
-    let programs = [];
-    if (universityId) {
-      dispatch(GetUniversityProfiile(universityId))
-        .unwrap()
-        .then((res) => {
-          if (res) {
-            universityData = res;
-            dispatch(GetProgramsList(universityId))
-              .unwrap()
-              .then((res) => {
-                if (res) {
-                  programs = res;
-                  setFormData((prev) => {
-                    return { ...universityData, Programs: res };
-                  });
-                }
-              });
-          }
+    if (!universityId) return;
+
+    const fetchData = async () => {
+      try {
+        const universityData = await dispatch(
+          GetUniversityProfiile(universityId),
+        ).unwrap();
+
+        const programs = await dispatch(GetProgramsList(universityId)).unwrap();
+
+        setFormData({
+          ...universityData,
+          Programs: programs || [],
         });
-    }
-  }, [universityId]);
+      } catch (err) {
+        console.error("Error fetching data:", err);
+      }
+    };
+
+    fetchData();
+  }, [universityId, dispatch]);
 
   useEffect(() => {
     if (formData) {
-      console.log(formData);
+      // console.log(formData);
     }
-  }, [formData]);
-
-  const mediaItems = useMemo(() => {
-    const extraMedia = Array.isArray(formData.Media) ? formData.Media : [];
-
-    const baseMedia = [
-      formData.universitylogo
-        ? {
-            id: "logo",
-            type: "Logo",
-            url: formData.universitylogo,
-          }
-        : null,
-      formData.uniprofileimage
-        ? {
-            id: "profile",
-            type: "Profile",
-            url: formData.uniprofileimage,
-          }
-        : null,
-    ].filter(Boolean);
-
-    return [...baseMedia, ...extraMedia];
   }, [formData]);
 
   const handleChange = (field, value) => {
@@ -532,27 +508,20 @@ export default function UniversityProfilePortal({
                 </Section> */}
 
                 <Section title="All Media" icon={<FaImage />}>
-                  {mediaItems.length > 0 ? (
+                  {formData?.Media?.length > 0 ? (
                     <div className="grid grid-cols-1 gap-4">
-                      {mediaItems.map((item, index) => {
-                        const mediaUrl =
-                          item?.url ||
-                          item?.media ||
-                          item?.path ||
-                          item?.image ||
-                          item?.file ||
-                          "";
+                      {formData?.Media?.map((item, index) => {
                         return (
                           <div
                             key={item?.id || index}
                             className="rounded-2xl border border-slate-200 overflow-hidden bg-white"
                           >
                             <div className="h-44 bg-slate-100 flex items-center justify-center overflow-hidden">
-                              {mediaUrl ? (
+                              {item?.media ? (
                                 <div className="flex flex-col items-start justify-start gap-4 ">
                                   <p className="">{item?.media_file_name}</p>
                                   <img
-                                    src={hexToString(mediaUrl)}
+                                    src={hexToString(item?.media)}
                                     alt={item?.media_tag_name}
                                     className="w-full h-full  object-cover"
                                   />

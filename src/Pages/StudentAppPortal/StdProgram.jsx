@@ -110,15 +110,13 @@ export default function StdProgram() {
     } else if (missingDocList?.length > 0) {
       setShowMissingDocsModal(true);
     } else {
-      if (selectedProg?.program_application_fee == "0.00") {
+      if (selectedProg?.program_application_fee == "Free") {
         if(freeAppcount >= 3){
           alert("Yo Can not apply to this university untill you pay the Application Fee")
         }else{
-          
           setShowApplyModal(true);
         }
       } else {
-        
         setShowPaymentModal(true);
       }
     }
@@ -418,7 +416,7 @@ export default function StdProgram() {
                 Application Fee
               </span>
               <div className="text-4xl font-black bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent drop-shadow-lg">
-                ${selectedProg?.program_application_fee}
+                {selectedProg?.program_application_fee !== "Free" && selectedProg?.university_currency}{selectedProg?.program_application_fee}
               </div>
               {selectedProg?.program_application_fee === 0 && (
                 <p className="text-sm text-emerald-600 font-semibold mt-2 flex items-center justify-center gap-1">
@@ -437,7 +435,7 @@ export default function StdProgram() {
                 className="text-3xl font-black text-slate-900"
                 id="sidebar-fee"
               >
-                {selectedProg?.program_fee}
+                {selectedProg?.university_currency} {selectedProg?.program_fee}
               </div>
             </div>
 

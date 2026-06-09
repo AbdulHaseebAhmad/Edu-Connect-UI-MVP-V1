@@ -72,6 +72,27 @@ const documentsList = [
     icon: <FaEnvelope className="text-pink-500 text-lg" />,
     label: "Motivation Letter",
   },
+  {
+    name: "gmat",
+    labelname: "gmat",
+    requirement: "Optional",
+    icon: <FaEnvelope className="text-pink-500 text-lg" />,
+    label: "GMAT",
+  },
+  {
+    name: "turkish_language",
+    labelname: "turkish_language",
+    requirement: "Optional",
+    icon: <FaEnvelope className="text-pink-500 text-lg" />,
+    label: "Turkish Language",
+  },
+  {
+    name: "turkish_language",
+    labelname: "turkish_language",
+    requirement: "Optional",
+    icon: <FaEnvelope className="text-pink-500 text-lg" />,
+    label: "Turkish Language",
+  },
 ];
 
 export function DocumentsPage() {
@@ -91,6 +112,7 @@ export function DocumentsPage() {
       .unwrap()
       .then((res) => {
         if (res) {
+          console.log(res)
           setdocumentListfromDb(res);
           setLoading(false);
         }
@@ -101,15 +123,15 @@ export function DocumentsPage() {
     const uploadedList =
       documentListFromDb?.length > 0 &&
       documentListFromDb?.filter(
-        (eachDoc) => eachDoc?.document_status !== "uploaded",
+        (eachDoc,idx) => eachDoc?.document_status !== "uploaded" && documentsList?.[idx]?.requirement == "Mandatory",
       );
-    setReadiness(`${Math.round((uploadedList.length / 7) * 100)}%`);
+    setReadiness(`${Math.round((uploadedList.length / 4) * 100)}%`);
   }, [documentListFromDb]);
 
   const uploadDocuments = (e) => {
     e.stopPropagation();
-    console.log("hi");
-    setDocumentname(e.target.name);
+    // console.log("hi");
+    setDocumentname(e.target.name || e.target.value);
     fileInputRef.current.value = "";
     fileInputRef.current?.click();
   };
@@ -162,11 +184,40 @@ export function DocumentsPage() {
           </div>
         </div>
       )}
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-slate-900">Document Vault</h1>
-        <button className="px-6 py-3 bg-blue-600 text-white font-bold rounded-xl text-sm shadow hover:bg-blue-700 transition">
-          Upload New
-        </button>
+      <div className="flex items-center justify-between">
+        {/* Title */}
+        <div>
+          <h1 className="text-2xl font-semibold text-slate-900">
+            Document Vault
+          </h1>
+          <p className="text-sm text-slate-500">Manage and upload your files</p>
+        </div>
+
+        {/* Upload Dropdown */}
+        <div className="relative">
+          <select
+            defaultValue=""
+            className="appearance-none pl-4 pr-10 py-2.5 bg-white border border-slate-300 text-slate-700 text-sm font-medium rounded-lg shadow-sm hover:border-slate-400 focus:ring-2 focus:ring-blue-500 focus:outline-none cursor-pointer transition"
+            onChange={(e) => {
+              uploadDocuments(e)
+            }}
+          >
+            <option value="" disabled hidden>
+              Upload New
+            </option>
+            <option value="sat">📄 SAT</option>
+            <option value="gre">📄 GRE</option>
+            <option value="gmat">📄 GMAT </option>
+            <option value="letter_of_recommendation">📄 Letter of Recommendation </option>
+            <option value="turkish_language">🖼 Turkish Language</option>
+            <option value="spanish_language">📕 Spanish Language</option>
+          </select>
+
+          {/* Custom dropdown arrow */}
+          <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-slate-400">
+            ▼
+          </div>
+        </div>
       </div>
       <div className="bg-blue-50 border border-blue-100 rounded-2xl p-6 mb-6">
         <h3 className="font-bold text-blue-900 mb-4 flex items-center gap-2">
