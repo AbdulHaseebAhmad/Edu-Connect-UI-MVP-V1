@@ -14,6 +14,7 @@ import { useNavigate, useParams } from "react-router";
 import {
   ApplyToUniversity,
   DeleteShortlistPrograms,
+  GetFreeApplicationCount,
   GetProgramsList,
   GetShortlistPrograms,
   GetUniversityList,
@@ -41,7 +42,13 @@ export default function StdProgram() {
   const [shortListedId, setShortlistId] = useState(null);
   const navigate = useNavigate();
 
-  const freeAppcount = useSelector((state)=>state.authReducer.free_application_count);
+  const freeAppcount = useSelector(
+    (state) => state.authReducer.free_application_count,
+  );
+
+  useEffect(()=>{
+    dispatch(GetFreeApplicationCount(student_id))
+  },[student_id])
 
   const [receipt, setReceipt] = useState({
     data: "",
@@ -105,23 +112,32 @@ export default function StdProgram() {
   }, [university_id, program_id]);
 
   const applyToUniversity = () => {
-    if (school_verified === "un-verified" || school_verified == "rejected") {
+    if (school_verified === "un-verified" || school_verified === "rejected") {
       setIncompleteProfileModal(true);
-    } else if (missingDocList?.length > 0) {
-      setShowMissingDocsModal(true);
-    } else {
-      if (selectedProg?.program_application_fee == "Free") {
-        if(freeAppcount >= 3){
-          alert("Yo Can not apply to this university untill you pay the Application Fee")
-        }else{
-          setShowApplyModal(true);
-        }
-      } else {
-        setShowPaymentModal(true);
-      }
+      return;
     }
-  };
 
+    if (missingDocList?.length > 0) {
+      setShowMissingDocsModal(true);
+      return;
+    }
+
+    const isFreeApplication = selectedProg?.program_application_fee === "free";
+
+    if (isFreeApplication) {
+      if (freeAppcount >= 3) {
+        alert(
+          "You have already used your 3 free applications. Please pay the application fee to continue.",
+        );
+        return;
+      }
+
+      setShowApplyModal(true);
+      return;
+    }
+
+    setShowPaymentModal(true);
+  };
   const freeApplyhandle = () => {
     dispatch(
       ApplyToUniversity({
@@ -141,7 +157,7 @@ export default function StdProgram() {
 
   const PaidApplyHandle = () => {
     // console.log(receipt)
-    if (receipt.data == "") return 
+    if (receipt.data == "") return;
     dispatch(
       UploadApplicationReceipt({
         receipt: receipt,
@@ -191,14 +207,16 @@ export default function StdProgram() {
       .unwrap()
       .then((res) => {
         if (res) {
-          setShortlistId(res)
+          setShortlistId(res);
           setShortListed(true);
         }
       });
   };
 
   const removeShortlistProgram = () => {
-    dispatch(DeleteShortlistPrograms({ student_id, shortlist_id:shortListedId }))
+    dispatch(
+      DeleteShortlistPrograms({ student_id, shortlist_id: shortListedId }),
+    )
       .unwrap()
       .then((res) => {
         if (res) {
@@ -217,7 +235,7 @@ export default function StdProgram() {
               element.university_id == university_id &&
               element.program_id == program_id
             ) {
-              setShortlistId(element.id)
+              setShortlistId(element.id);
               setShortListed(true);
             }
             return false;
@@ -226,15 +244,15 @@ export default function StdProgram() {
       });
   }, [student_id, university_id, program_id, dispatch]);
 
-
   return (
     <div id="dd-lvl-4" className="space-y-8">
       {showPaymentModal && (
         <PaymentProofModal
           open={showPaymentModal}
-          onClose={() => setShowPaymentModal(false)}
+          onClose={() =>{ setReceipt({});setShowPaymentModal(false)}}
           handleFileUpload={(e) => handleFileUpload(e)}
           submitHandle={PaidApplyHandle}
+          uploadedFile={receipt?.name}
         />
       )}
       {showApplyModal && (
@@ -336,7 +354,7 @@ export default function StdProgram() {
               </div>
             </div>
 
-            <div className="bg-emerald-50 p-6 rounded-2xl border border-emerald-100 hover:shadow-md transition flex flex-col items-center justify-center h-full text-center">
+            {/* <div className="bg-emerald-50 p-6 rounded-2xl border border-emerald-100 hover:shadow-md transition flex flex-col items-center justify-center h-full text-center">
               <span className="text-xs font-bold text-emerald-500 uppercase tracking-wide mb-3">
                 Tuition{" "}
               </span>
@@ -345,7 +363,7 @@ export default function StdProgram() {
                   "" +
                   selectedProg?.program_fee}
               </div>
-            </div>
+            </div> */}
 
             <div className="bg-orange-50 p-6 rounded-2xl border border-orange-100 hover:shadow-md transition flex flex-col items-center justify-center h-full text-center">
               <span className="text-xs font-bold text-orange-500 uppercase tracking-wide mb-3">
@@ -415,15 +433,17 @@ export default function StdProgram() {
               <span className="text-xs font-bold text-orange-600 uppercase tracking-wider block mb-2 bg-white px-3 py-1 rounded-md inline-block shadow-sm">
                 Application Fee
               </span>
-              <div className="text-4xl font-black bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent drop-shadow-lg">
-                {selectedProg?.program_application_fee !== "Free" && selectedProg?.university_currency}{selectedProg?.program_application_fee}
+              <div className="capitalize text-4xl font-black bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent drop-shadow-lg">
+                {selectedProg?.program_application_fee !== "free" &&
+                  selectedProg?.university_currency}
+                {selectedProg?.program_application_fee}
               </div>
-              {selectedProg?.program_application_fee === 0 && (
+              {/* {selectedProg?.program_application_fee === "free" && (
                 <p className="text-sm text-emerald-600 font-semibold mt-2 flex items-center justify-center gap-1">
                   <FaCheckCircle className="w-4 h-4" />
-                  Free Application!
+                  free Application!
                 </p>
-              )}
+              )} */}
             </div>
 
             {/* Annual Tuition (secondary) */}

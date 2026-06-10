@@ -9,6 +9,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { GetFreeApplicationCount } from "../../Features/Students_Features/StudentAppSlice";
+import ConsultationModal from "../../Components/studentAppPortal/StudentConsultationModal";
 
 export default function StdDashboardPage() {
   const navigate = useNavigate();
@@ -168,6 +169,8 @@ export default function StdDashboardPage() {
               🚀 Coming Soon
             </div>
           </div>
+
+          <ConsultationModal/>
         </div>
       </div>
     </div>

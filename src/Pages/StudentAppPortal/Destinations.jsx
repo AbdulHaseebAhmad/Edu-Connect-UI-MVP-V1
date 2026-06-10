@@ -2,21 +2,24 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import { GetCountriesList } from "../../Features/Students_Features/StudentAppSlice";
+import {
+  GetCountriesList,
+  SearchPrograms,
+} from "../../Features/Students_Features/StudentAppSlice";
 import { FaSearch } from "react-icons/fa";
 
-const countries = ["All Countries", "UK", "USA", "Germany", "Netherlands"];
-
-
+const countries = ["All Countries", "Turkey", "United Kingdom", "Malaysia"];
 
 const ViewBrowse = () => {
   const [selectedCountry, setSelectedCountry] = useState();
   const [countriesList, setListOfCountries] = useState([]);
+  const [refetch, setRefetch] = useState(false);
 
   const [search, setSearch] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(GetCountriesList(""))
       .unwrap()
@@ -25,20 +28,49 @@ const ViewBrowse = () => {
           setListOfCountries(res || []);
         }
       });
-  }, []);
+  }, [refetch]);
 
-  const filteredDestinations = countriesList.filter((c) => {
+  const filteredDestinations = countriesList?.filter((c) => {
     const matchCountry =
       selectedCountry === "All Countries" ||
       c.code?.toLowerCase() === selectedCountry?.toLowerCase() ||
       c.name?.toLowerCase().includes(selectedCountry?.toLowerCase());
-    const matchSearch =
-      search.trim().length === 0 ||
-      c.name?.toLowerCase().includes(search?.toLowerCase()) ||
-      c.cityHighlights?.toLowerCase().includes(search?.toLowerCase());
-    return matchCountry && matchSearch;
+    // const matchSearch =
+    //   search.trim().length === 0 ||
+    //   c.name?.toLowerCase().includes(search?.toLowerCase()) ||
+    //   c.cityHighlights?.toLowerCase().includes(search?.toLowerCase()) ||
+    //   c.country_code?.toLowerCase().includes(search?.toLowerCase());
+
+    return matchCountry;
   });
 
+  const handleSearch = () => {
+    if(search.length == 0 || search == "" || search == undefined){
+      setRefetch(!refetch)
+      return
+    }
+    dispatch(SearchPrograms(search))
+      .unwrap()
+      .then((res) => {
+        if (res) {
+          const matchedCountryCodes = res;
+          setListOfCountries((prev) =>
+            prev.filter((country) =>
+              matchedCountryCodes.includes(country.country_code),
+            ),
+          );
+        }
+      });
+  };
+
+  const onChangeHandle = (e) => {
+    if(e.target.value.length == 0 || e.target.value == "" || e.target.value == undefined){
+      setRefetch(!refetch)
+      setSearch(e.target.value);
+      return
+    }
+    setSearch(e.target.value);
+  };
   return (
     <div className="space-y-6 fade-in ">
       {/* Top filters row */}
@@ -53,15 +85,34 @@ const ViewBrowse = () => {
           ))}
         </select>
 
-        <div className="relative flex-1">
-          <FaSearch className="absolute left-4 top-3.5 text-slate-400" />
-          <input
-            type="text"
-            placeholder="Search Program..."
-            className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 text-sm font-bold bg-white focus:ring-2 ring-blue-500 outline-none shadow-sm"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+        <div className="flex flex-1 gap-3">
+          <div className="relative flex-1">
+            <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+
+            <input
+              type="text"
+              placeholder="Search Program..."
+              className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 text-sm font-bold bg-white focus:ring-2 ring-blue-500 outline-none shadow-sm"
+              value={search}
+              onChange={(e) => onChangeHandle(e)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  // setRefetch(!refetch);
+                  handleSearch();
+                }
+              }}
+            />
+          </div>
+
+          <button
+            onClick={() => {
+              // setRefetch(!refetch);
+              handleSearch();
+            }}
+            className="px-6 py-3 rounded-xl bg-blue-600 text-white text-sm font-bold shadow-sm hover:bg-blue-700 transition-colors"
+          >
+            Search
+          </button>
         </div>
       </div>
 

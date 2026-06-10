@@ -268,62 +268,60 @@ const UniversityDetails = () => {
                     university.Programs.map((prog) => (
                       <div
                         key={prog.program_id}
-                        className="group flex cursor-pointer flex-col overflow-hidden rounded-2xl border-2 border-slate-100 bg-gradient-to-br from-indigo-50 via-white to-blue-50 p-5 shadow-md ring-1 ring-slate-100/50 backdrop-blur-sm transition-all duration-300 hover:border-indigo-300 hover:shadow-2xl hover:shadow-indigo-200/50 hover:-translate-y-2 hover:scale-[1.02]"
+                        className="border b-order-8 border-[#0F172A] group cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#0F172A]/30 hover:shadow-lg"
                         onClick={() =>
                           navigate(
                             `/student/apply-to-university/programs/${university_id}/${prog?.program_id}`,
                           )
                         }
                       >
-                        <div className="flex items-start gap-3">
-                          <div className="flex items-center justify-center h-10 w-10 shrink-0 rounded-xl bg-gradient-to-br from-pink-500 to-blue-600 p-2 shadow-lg ring-1 ring-white/30">
-                            <FaGraduationCap className="h-5 w-5 text-white drop-shadow-sm" />
-                          </div>
-                          <div className="flex flex-1 flex-col">
-                            <div className="mb-1 inline-block rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 px-2 py-0.5 text-xs font-bold text-indigo-800">
+                        <div className="bg-[#0F172A] px-5 py-4">
+                          <div className="mb-2 flex flex-wrap items-center gap-2">
+                            <span className="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-white">
                               {prog.program_level}
-                            </div>
-                            <div className="min-w-0 max-w-[300px] truncate  text-lg font-black text-slate-900 group-hover:text-indigo-700 group-hover:drop-shadow-sm">
-                              {prog.program_name}
-                            </div>
+                            </span>
 
-                            <div className="mt-2 inline-block rounded-full bg-yellow-100 px-2 py-1 text-xs font-semibold text-yellow-800 shadow-sm">
+                            <span className="capitalize rounded-full bg-amber-400/15 px-2.5 py-1 text-[11px] font-semibold text-amber-200">
                               Application Fee:{" "}
-                              {prog?.program_application_fee !== "Free" &&
+                              {prog?.program_application_fee !== "free" &&
                                 university?.university_currency}{" "}
                               {prog?.program_application_fee}
-                            </div>
+                            </span>
                           </div>
+
+                          <h3 className="min-h-[50px] line-clamp-2 text-base font-bold text-white">
+                            {prog.program_name}
+                          </h3>
                         </div>
 
-                        <div className="mt-4 flex items-center justify-between gap-4 pt-2">
-                          <div className="flex flex-1 flex-col items-center gap-1 p-1">
-                            <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                        <div className="grid grid-cols-3 gap-3 p-4">
+                          <div className="rounded-xl bg-slate-50 px-3 py-3 text-center">
+                            <div className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                               Duration
                             </div>
-                            <div className="rounded-full bg-emerald-100 px-2 py-1 text-xs font-bold text-emerald-800 shadow-sm">
-                              {prog.program_duration}
+                            <div className="mt-1 text-sm font-semibold text-[#0F172A]">
+                              {prog.program_duration
+                                ?.split(",")
+                                .map((each, index) => (
+                                  <div key={index}>{each.trim()}</div>
+                                ))}
                             </div>
                           </div>
 
-                          <div className="h-1 w-8 rounded-full bg-gradient-to-r from-slate-200 to-slate-300 shadow-inner" />
-
-                          <div className="flex flex-1 flex-col items-center gap-1 p-1">
-                            <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                          <div className="rounded-xl bg-slate-50 px-3 py-3 text-center">
+                            <div className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                               Tuition
                             </div>
-                            <div className="rounded-full bg-orange-100 px-2 py-1 text-xs font-bold text-orange-800 shadow-sm">
+                            <div className="mt-1 text-sm font-semibold text-[#0F172A]">
                               {prog.program_fee}
                             </div>
                           </div>
 
-                          <div className="h-1 w-8 rounded-full bg-gradient-to-r from-slate-200 to-slate-300 shadow-inner" />
-
-                          <div className="flex flex-1 flex-col items-center gap-1 p-1">
-                            <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                          <div className="rounded-xl bg-slate-50 px-3 py-3 text-center">
+                            <div className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                               Next Intake
                             </div>
-                            <div className="rounded-full bg-blue-100 px-2 py-1 text-xs font-bold text-blue-800 shadow-sm">
+                            <div className="mt-1 text-sm font-semibold text-[#0F172A]">
                               {prog.session_intake}
                             </div>
                           </div>

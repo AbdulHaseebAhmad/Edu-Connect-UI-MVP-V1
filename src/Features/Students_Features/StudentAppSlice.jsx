@@ -372,13 +372,16 @@ export const shortlistProgram = createAsyncThunk(
   async (data, { getState }) => {
     const csrfToken = getState().authReducer.csrf_token;
     try {
-      const response = await axios.get(`${URL}/api/students/app/programs/shortlist/add?student_id=${data?.student_id}&university_id=${data?.university_id}&program_id=${data?.program_id}`, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken,
+      const response = await axios.get(
+        `${URL}/api/students/app/programs/shortlist/add?student_id=${data?.student_id}&university_id=${data?.university_id}&program_id=${data?.program_id}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
         },
-      });
+      );
       // console.log(response?.data);
       return response?.data;
     } catch (e) {
@@ -392,13 +395,16 @@ export const GetShortlistPrograms = createAsyncThunk(
   async (data, { getState }) => {
     const csrfToken = getState().authReducer.csrf_token;
     try {
-      const response = await axios.get(`${URL}/api/students/app/programs/shortlist/list?student_id=${data?.student_id}`, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken,
+      const response = await axios.get(
+        `${URL}/api/students/app/programs/shortlist/list?student_id=${data?.student_id}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
         },
-      });
+      );
       // console.log(response?.data);
       return response?.data;
     } catch (e) {
@@ -412,13 +418,16 @@ export const DeleteShortlistPrograms = createAsyncThunk(
   async (data, { getState }) => {
     const csrfToken = getState().authReducer.csrf_token;
     try {
-      const response = await axios.get(`${URL}/api/students/app/programs/shortlist/delete?student_id=${data?.student_id}&shortlist_id=${data?.shortlist_id}`, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken,
+      const response = await axios.get(
+        `${URL}/api/students/app/programs/shortlist/delete?student_id=${data?.student_id}&shortlist_id=${data?.shortlist_id}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
         },
-      });
+      );
       // console.log(response?.data);
       return response?.data;
     } catch (e) {
@@ -432,13 +441,16 @@ export const RegisterForEvent = createAsyncThunk(
   async (data, { getState }) => {
     const csrfToken = getState().authReducer.csrf_token;
     try {
-      const response = await axios.get(`${URL}/api/students/app/events/register?student_id=${data?.student_id}&webinar_code=${data?.webinar_code}`, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken,
+      const response = await axios.get(
+        `${URL}/api/students/app/events/register?student_id=${data?.student_id}&webinar_code=${data?.webinar_code}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
         },
-      });
+      );
       // console.log(response?.data);
       return response?.data;
     } catch (e) {
@@ -452,13 +464,16 @@ export const EventRegisterationCheck = createAsyncThunk(
   async (data, { getState }) => {
     const csrfToken = getState().authReducer.csrf_token;
     try {
-      const response = await axios.get(`${URL}/api/students/app/events/registered?student_id=${data?.student_id}&webinar_code=${data?.webinar_code}`, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken,
+      const response = await axios.get(
+        `${URL}/api/students/app/events/registered?student_id=${data?.student_id}&webinar_code=${data?.webinar_code}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
         },
-      });
+      );
       // console.log(response?.data);
       return response?.data;
     } catch (e) {
@@ -472,13 +487,16 @@ export const SetScholarshipReminder = createAsyncThunk(
   async (data, { getState }) => {
     const csrfToken = getState().authReducer.csrf_token;
     try {
-      const response = await axios.get(`${URL}/api/students/app/scholarship/reminder?student_id=${data?.student_id}&scholarship_id=${data?.scholarship_id}`, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken,
+      const response = await axios.get(
+        `${URL}/api/students/app/scholarship/reminder?student_id=${data?.student_id}&scholarship_id=${data?.scholarship_id}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
         },
-      });
+      );
       // console.log(response?.data);
       return response?.data;
     } catch (e) {
@@ -486,21 +504,22 @@ export const SetScholarshipReminder = createAsyncThunk(
     }
   },
 );
-
-
 
 export const ScholarshipReminderCheck = createAsyncThunk(
   "students/app/events/register/check",
   async (data, { getState }) => {
     const csrfToken = getState().authReducer.csrf_token;
     try {
-      const response = await axios.get(`${URL}/api/students/app/scholarship/reminder/set?student_id=${data?.student_id}&scholarship_id=${data?.scholarship_id}`, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken,
+      const response = await axios.get(
+        `${URL}/api/students/app/scholarship/reminder/set?student_id=${data?.student_id}&scholarship_id=${data?.scholarship_id}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
         },
-      });
+      );
       // console.log(response?.data);
       return response?.data;
     } catch (e) {
@@ -508,18 +527,45 @@ export const ScholarshipReminderCheck = createAsyncThunk(
     }
   },
 );
+
 export const GetFreeApplicationCount = createAsyncThunk(
   "students/app/freeapp/count",
   async (student_id, { getState }) => {
     const csrfToken = getState().authReducer.csrf_token;
     try {
-      const response = await axios.get(`${URL}/api/students/app/freeapplication/check?student_id=${student_id}`, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken,
+      const response = await axios.get(
+        `${URL}/api/students/app/freeapplication/check?student_id=${student_id}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
         },
-      });
+      );
+      // console.log(response?.data);
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+);
+
+export const SearchPrograms = createAsyncThunk(
+  "students/app/freeapp/count",
+  async (search_term, { getState }) => {
+    const csrfToken = getState().authReducer.csrf_token;
+    try {
+      const response = await axios.get(
+        `${URL}/api/students/app/programs/search?search_term=${search_term}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
+        },
+      );
       // console.log(response?.data);
       return response?.data;
     } catch (e) {

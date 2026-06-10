@@ -11,7 +11,8 @@ export function PaymentProofModal({
   university,
   appFee,
   handleFileUpload,
-  submitHandle
+  submitHandle,
+  uploadedFile
 }) {
   if (!open) return null;
 
@@ -91,20 +92,44 @@ export function PaymentProofModal({
         </div>
 
         {/* File Upload */}
+        {/* File Upload */}
         <div className="px-6 py-4">
           <label className="block w-full text-center py-2 px-4 border-2 border-dashed border-slate-200 rounded-2xl hover:border-orange-400 hover:bg-orange-50/30 transition-all duration-200 cursor-pointer group">
             <FaUpload className="w-8 text-slate-400 mx-auto mb-3 group-hover:text-orange-500 transition" />
+
             <div className="space-y-1">
-              <p className="font-bold text-lg text-slate-900 group-hover:text-orange-600 transition">
-                Upload Payment Receipt
-              </p>
-              <p className="text-sm text-slate-500">PDF, JPG, PNG • Max 5MB</p>
+              {uploadedFile ? (
+                <>
+                  <p className="font-bold text-lg text-green-600">
+                    ✓ Receipt Uploaded
+                  </p>
+
+                  <p className="text-sm text-slate-600 break-all">
+                    {uploadedFile.name}
+                  </p>
+
+                  <p className="text-xs text-slate-500">
+                    Click here to replace the file
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="font-bold text-lg text-slate-900 group-hover:text-orange-600 transition">
+                    Upload Payment Receipt
+                  </p>
+
+                  <p className="text-sm text-slate-500">
+                    PDF, JPG, PNG • Max 5MB
+                  </p>
+                </>
+              )}
             </div>
+
             <input
               type="file"
               accept=".pdf,.jpg,.jpeg,.png"
               className="hidden"
-              onChange={(e) => handleFileUpload(e)}
+              onChange={handleFileUpload}
             />
           </label>
         </div>
@@ -117,7 +142,10 @@ export function PaymentProofModal({
           >
             Cancel
           </button>
-          <button onClick={submitHandle} className="px-8 py-2.5 bg-gradient-to-r from-orange-600 to-orange-700 text-white font-bold text-sm rounded-xl shadow-lg hover:shadow-xl hover:from-orange-700 hover:to-orange-800 hover:scale-[1.02] transition-all duration-200">
+          <button
+            onClick={submitHandle}
+            className="px-8 py-2.5 bg-gradient-to-r from-orange-600 to-orange-700 text-white font-bold text-sm rounded-xl shadow-lg hover:shadow-xl hover:from-orange-700 hover:to-orange-800 hover:scale-[1.02] transition-all duration-200"
+          >
             Submit Application
           </button>
         </div>

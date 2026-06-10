@@ -230,8 +230,63 @@ export default function RightSideBar({ onOpenWebinarModal }) {
           })}
       </div>
 
+      {/* Free Consultation */}
+      {/* <div>
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+            Free Consultation
+          </span>
+          <span className="bg-emerald-50 text-emerald-600 text-[9px] font-bold px-1.5 rounded border border-emerald-100">
+            1:1
+          </span>
+        </div>
+
+        <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm hover:shadow-md transition-all group">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <h3 className="text-sm font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
+                Book Your Free Consultation
+              </h3>
+              <p className="text-xs text-slate-500 mt-1 leading-snug">
+                Get guidance on universities, programs, and applications.
+              </p>
+            </div>
+
+            <div className="w-9 h-9 rounded-xl bg-emerald-50 flex items-center justify-center border border-emerald-100">
+              <FaVideo className="text-emerald-600 text-sm" />
+            </div>
+          </div>
+
+          <div className="mt-3 space-y-1">
+            <div className="flex items-center gap-2 text-xs text-slate-600">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              University shortlisting
+            </div>
+            <div className="flex items-center gap-2 text-xs text-slate-600">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              Application strategy
+            </div>
+            <div className="flex items-center gap-2 text-xs text-slate-600">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              Visa & document guidance
+            </div>
+          </div>
+
+          <button
+            onClick={() => navigate("/student/book-consultation")}
+            className="mt-4 w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 text-white text-sm font-bold shadow-sm hover:shadow-md hover:scale-[1.01] transition-all duration-200"
+          >
+            Book Free Session
+          </button>
+
+          <p className="text-[10px] text-slate-400 text-center mt-2">
+            No credit card required
+          </p>
+        </div>
+      </div> */}
+
       {/* Student Insights */}
-      <div>
+      {/* <div>
         <div className="flex items-center gap-2 mb-3">
           <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
             Student Insights
@@ -256,7 +311,7 @@ export default function RightSideBar({ onOpenWebinarModal }) {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
       {/* Spotlight */}
       {/* <div>
         <div className="flex items-center gap-2 mb-3">

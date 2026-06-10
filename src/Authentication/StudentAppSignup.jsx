@@ -8,7 +8,7 @@ import { SignUpStudent } from "../Features/Students_Features/StudentAppSlice";
 import { fileToBase64 } from "../Utillities/helpFunctions";
 import VerificationLocked from "../Components/studentAppPortal/StepFour";
 import { useNavigate } from "react-router";
-import logo from "../assets/pgl.png"
+import logo from "../assets/pgl.png";
 import toast from "react-hot-toast";
 
 export default function StudentAppSignup() {
@@ -36,7 +36,10 @@ export default function StudentAppSignup() {
       return;
     }
     setFormData((prev) => {
-      return { ...prev, [name]: name === "school_code" ? value.trim().toUpperCase() : value };
+      return {
+        ...prev,
+        [name]: name === "school_code" ? value.trim().toUpperCase() : value,
+      };
     });
   };
 
@@ -55,16 +58,21 @@ export default function StudentAppSignup() {
     formData.transcript_mime_type = formData.transcript.type;
     formData.passport = await fileToBase64(formData?.passport);
     formData.transcript = await fileToBase64(formData?.transcript);
-    const id = toast.loading("Signing you up!")
+    const id = toast.loading("Signing you up!");
     dispatch(SignUpStudent(formData))
       .unwrap()
       .then((res) => {
         if (res) {
-          toast.success("Succesfully Signed up",{id})
+          toast.success("Succesfully Signed up", { id });
           setSignupModal(true);
           setScreen(3);
         }
-      }).catch((e)=>toast.error("There was an error signing up! Refresh and try again",{id}));
+      })
+      .catch((e) =>
+        toast.error("There was an error signing up! Refresh and try again", {
+          id,
+        }),
+      );
   };
   return (
     <div className="min-h-screen bg-slate-900 flex items-center justify-center relative overflow-hidden">
@@ -75,16 +83,16 @@ export default function StudentAppSignup() {
       <div className="w-full max-w-6xl bg-white rounded-none sm:rounded-3xl shadow-2xl flex flex-col lg:flex-row overflow-hidden relative z-10 m-0 sm:m-4">
         <div className="w-full lg:w-1/3 bg-slate-50 flex flex-col justify-between p-6 sm:p-8 lg:p-12 border-b lg:border-b-0 lg:border-r border-slate-100">
           <div>
-              <div className="flex items-center gap-2 mb-8">
-                         {/* <div className="bg-blue-600 w-8 h-8 rounded-lg flex items-center justify-center text-white">
+            <div className="flex items-center gap-2 mb-8">
+              {/* <div className="bg-blue-600 w-8 h-8 rounded-lg flex items-center justify-center text-white">
                            <FaLayerGroup className="text-sm" />
                          </div> */}
-                         <span className="font-bold text-xl tracking-tight text-slate-900">
-                           <div className="bg-white py-2 w-[150px] text-white w-8 h-8 rounded-xl flex items-center justify-center mr-3 shadow-lg shadow-blue-900/50">
-                             <img src={logo} />
-                           </div>
-                         </span>
-                       </div>
+              <span className="font-bold text-xl tracking-tight text-slate-900">
+                <div className="bg-white py-2 w-[150px] text-white w-8 h-8 rounded-xl flex items-center justify-center mr-3 shadow-lg shadow-blue-900/50">
+                  <img src={logo} />
+                </div>
+              </span>
+            </div>
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3 sm:mb-4">
               Secure Student Portal
             </h2>
@@ -127,13 +135,15 @@ export default function StudentAppSignup() {
             <h2 className="text-lg sm:text-xl font-bold text-slate-900">
               Create Profile
             </h2>
-            {screen !== 3 && <button
-              type="button"
-              className="text-xs sm:text-sm text-slate-400 hover:text-slate-600"
-              onClick={()=> navigate("/student/login")}
-            >
-              Cancel
-            </button>}
+            {screen !== 3 && (
+              <button
+                type="button"
+                className="text-xs sm:text-sm text-slate-400 hover:text-slate-600"
+                onClick={() => navigate("/student/login")}
+              >
+                Cancel
+              </button>
+            )}
           </div>
 
           {/* Wizard indicators */}
