@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaLock, FaUnlock } from "react-icons/fa";
+import { FaCheckCircle, FaFilePdf, FaLock, FaUnlock } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import {
   GetStudentDetails,
@@ -134,14 +134,14 @@ export default function StdProfilePage() {
     });
   };
 
-  const onHandleBlur = (detail_type, student_id, e) => {
-    const { name, value } = e?.target;
+  const onHandleSave = (detail_type, student_id, name) => {
+    // const { name, value } = e?.target;
     dispatch(
       UpdateStudentDetails({
         detail_type: detail_type,
         student_id: student_id,
         field_name: name,
-        field_value: value,
+        field_value: updateFields?.[name],
       }),
     )
       .unwrap()
@@ -289,7 +289,7 @@ export default function StdProfilePage() {
                             <FaLock className="text-[8px] text-slate-400 ml-1" />
                           )}
                         </label>
-                        <input
+                        {/* <input
                           name={eachinput?.name}
                           type="text"
                           value={
@@ -306,8 +306,43 @@ export default function StdProfilePage() {
                           }
                           placeholder={`Enter ${eachinput?.placeHolder}`}
                           onChange={handleInputChange}
-                          onBlur={(e) => onHandleBlur("profile", user_id, e)}
-                        />
+                          onBlur={(e) => onHandleSave("profile", user_id, e)}
+                        /> */}
+                        <div className="relative">
+                          <input
+                            name={eachinput?.name}
+                            type="text"
+                            value={
+                              !isEmpty
+                                ? displayValue
+                                : updateFields?.[eachinput?.name]
+                            }
+                            disabled={!isEmpty}
+                            className={
+                              "w-full p-3 rounded-xl text-sm font-bold " +
+                              (isEmpty
+                                ? "border-2 border-blue-300 bg-white ring-1 ring-inset ring-blue-100 mt-2"
+                                : "input-locked bg-slate-50 border-2 border-slate-300 mt-2")
+                            }
+                            placeholder={`Enter ${eachinput?.placeHolder}`}
+                            onChange={handleInputChange}
+                            // onBlur={}
+                          />
+
+                          {isEmpty && (
+                            <button
+                              onClick={(e) =>
+                                onHandleSave(
+                                  "profile",
+                                  user_id,
+                                  eachinput?.name,
+                                )
+                              }
+                            >
+                              <FaCheckCircle className="absolute right-3 top-1/2 -translate-y-1/2 mt-1 text-emerald-500 text-sm" />
+                            </button>
+                          )}
+                        </div>
                       </div>
                     );
                   })}
@@ -338,7 +373,7 @@ export default function StdProfilePage() {
                           )}
                         </label>
 
-                        <input
+                        {/* <input
                           name={eachinput?.name}
                           type="text"
                           value={
@@ -355,8 +390,43 @@ export default function StdProfilePage() {
                           }
                           placeholder={`Enter ${eachinput?.placeHolder}`}
                           onChange={(e) => handleInputChange(e)}
-                          onBlur={(e) => onHandleBlur("profile", user_id, e)}
-                        />
+                          onBlur={(e) => onHandleSave("profile", user_id, e)}
+                        /> */}
+                        <div className="relative">
+                          <input
+                            name={eachinput?.name}
+                            type="text"
+                            value={
+                              !isEmpty
+                                ? displayValue
+                                : updateFields?.[eachinput?.name]
+                            }
+                            disabled={!isEmpty}
+                            className={
+                              "w-full p-3 rounded-xl text-sm font-bold " +
+                              (isEmpty
+                                ? "border-2 border-blue-300 bg-white ring-1 ring-inset ring-blue-100 mt-2"
+                                : "input-locked bg-slate-50 border-2 border-slate-300 mt-2")
+                            }
+                            placeholder={`Enter ${eachinput?.placeHolder}`}
+                            onChange={handleInputChange}
+                            // onBlur={}
+                          />
+
+                          {isEmpty && (
+                            <button
+                              onClick={(e) =>
+                                onHandleSave(
+                                  "profile",
+                                  user_id,
+                                  eachinput?.name,
+                                )
+                              }
+                            >
+                              <FaCheckCircle className="absolute right-3 top-1/2 -translate-y-1/2 mt-1 text-emerald-500 text-sm" />
+                            </button>
+                          )}
+                        </div>
                       </div>
                     );
                   })}
@@ -392,7 +462,7 @@ export default function StdProfilePage() {
                           )}
                         </label>
 
-                        <input
+                        {/* <input
                           name={eachinput?.name}
                           type="text"
                           value={
@@ -409,8 +479,43 @@ export default function StdProfilePage() {
                           }
                           placeholder={`Enter ${eachinput?.label}`}
                           onChange={(e) => handleInputChange(e)}
-                          onBlur={(e) => onHandleBlur("contact", user_id, e)}
-                        />
+                          onBlur={(e) => onHandleSave("contact", user_id, e)}
+                        /> */}
+                        <div className="relative">
+                          <input
+                            name={eachinput?.name}
+                            type="text"
+                            value={
+                              !isEmpty
+                                ? displayValue
+                                : updateFields?.[eachinput?.name]
+                            }
+                            disabled={!isEmpty}
+                            className={
+                              "w-full p-3 rounded-xl text-sm font-bold " +
+                              (isEmpty
+                                ? "border-2 border-blue-300 bg-white ring-1 ring-inset ring-blue-100 mt-2"
+                                : "input-locked bg-slate-50 border-2 border-slate-300 mt-2")
+                            }
+                            placeholder={`Enter ${eachinput?.placeHolder}`}
+                            onChange={handleInputChange}
+                            // onBlur={}
+                          />
+
+                          {isEmpty && (
+                            <button
+                              onClick={(e) =>
+                                onHandleSave(
+                                  "contact",
+                                  user_id,
+                                  eachinput?.name,
+                                )
+                              }
+                            >
+                              <FaCheckCircle className="absolute right-3 top-1/2 -translate-y-1/2 mt-1 text-emerald-500 text-sm" />
+                            </button>
+                          )}
+                        </div>
                       </div>
                     );
                   })}
@@ -441,7 +546,7 @@ export default function StdProfilePage() {
                           )}
                         </label>
 
-                        <input
+                        {/* <input
                           name={eachinput?.name}
                           type="text"
                           value={
@@ -458,8 +563,43 @@ export default function StdProfilePage() {
                           }
                           placeholder={`Enter ${eachinput?.label}`}
                           onChange={(e) => handleInputChange(e)}
-                          onBlur={(e) => onHandleBlur("contact", user_id, e)}
-                        />
+                          onBlur={(e) => onHandleSave("contact", user_id, e)}
+                        /> */}
+                        <div className="relative">
+                          <input
+                            name={eachinput?.name}
+                            type="text"
+                            value={
+                              !isEmpty
+                                ? displayValue
+                                : updateFields?.[eachinput?.name]
+                            }
+                            disabled={!isEmpty}
+                            className={
+                              "w-full p-3 rounded-xl text-sm font-bold " +
+                              (isEmpty
+                                ? "border-2 border-blue-300 bg-white ring-1 ring-inset ring-blue-100 mt-2"
+                                : "input-locked bg-slate-50 border-2 border-slate-300 mt-2")
+                            }
+                            placeholder={`Enter ${eachinput?.placeHolder}`}
+                            onChange={handleInputChange}
+                            // onBlur={}
+                          />
+
+                          {isEmpty && (
+                            <button
+                              onClick={(e) =>
+                                onHandleSave(
+                                  "contact",
+                                  user_id,
+                                  eachinput?.name,
+                                )
+                              }
+                            >
+                              <FaCheckCircle className="absolute right-3 top-1/2 -translate-y-1/2 mt-1 text-emerald-500 text-sm" />
+                            </button>
+                          )}
+                        </div>
                       </div>
                     );
                   })}
@@ -490,7 +630,7 @@ export default function StdProfilePage() {
                           )}
                         </label>
 
-                        <input
+                        {/* <input
                           name={eachinput?.name}
                           type="text"
                           value={
@@ -507,8 +647,43 @@ export default function StdProfilePage() {
                           }
                           placeholder={`Enter ${eachinput?.label}`}
                           onChange={(e) => handleInputChange(e)}
-                          onBlur={(e) => onHandleBlur("contact", user_id, e)}
-                        />
+                          onBlur={(e) => onHandleSave("contact", user_id, e)}
+                        /> */}
+                        <div className="relative">
+                          <input
+                            name={eachinput?.name}
+                            type="text"
+                            value={
+                              !isEmpty
+                                ? displayValue
+                                : updateFields?.[eachinput?.name]
+                            }
+                            disabled={!isEmpty}
+                            className={
+                              "w-full p-3 rounded-xl text-sm font-bold " +
+                              (isEmpty
+                                ? "border-2 border-blue-300 bg-white ring-1 ring-inset ring-blue-100 mt-2"
+                                : "input-locked bg-slate-50 border-2 border-slate-300 mt-2")
+                            }
+                            placeholder={`Enter ${eachinput?.placeHolder}`}
+                            onChange={handleInputChange}
+                            // onBlur={}
+                          />
+
+                          {isEmpty && (
+                            <button
+                              onClick={(e) =>
+                                onHandleSave(
+                                  "contact",
+                                  user_id,
+                                  eachinput?.name,
+                                )
+                              }
+                            >
+                              <FaCheckCircle className="absolute right-3 top-1/2 -translate-y-1/2 mt-1 text-emerald-500 text-sm" />
+                            </button>
+                          )}
+                        </div>
                       </div>
                     );
                   })}
@@ -544,7 +719,7 @@ export default function StdProfilePage() {
                           )}
                         </label>
 
-                        <input
+                        {/* <input
                           name={eachinput?.name}
                           type="text"
                           value={
@@ -561,8 +736,43 @@ export default function StdProfilePage() {
                           }
                           placeholder={`Enter ${eachinput?.label}`}
                           onChange={(e) => handleInputChange(e)}
-                          onBlur={(e) => onHandleBlur("education", user_id, e)}
-                        />
+                          onBlur={(e) => onHandleSave("education", user_id, e)}
+                        /> */}
+                        <div className="relative">
+                          <input
+                            name={eachinput?.name}
+                            type="text"
+                            value={
+                              !isEmpty
+                                ? displayValue
+                                : updateFields?.[eachinput?.name]
+                            }
+                            disabled={!isEmpty}
+                            className={
+                              "w-full p-3 rounded-xl text-sm font-bold " +
+                              (isEmpty
+                                ? "border-2 border-blue-300 bg-white ring-1 ring-inset ring-blue-100 mt-2"
+                                : "input-locked bg-slate-50 border-2 border-slate-300 mt-2")
+                            }
+                            placeholder={`Enter ${eachinput?.placeHolder}`}
+                            onChange={handleInputChange}
+                            // onBlur={}
+                          />
+
+                          {isEmpty && (
+                            <button
+                              onClick={(e) =>
+                                onHandleSave(
+                                  "education",
+                                  user_id,
+                                  eachinput?.name,
+                                )
+                              }
+                            >
+                              <FaCheckCircle className="absolute right-3 top-1/2 -translate-y-1/2 mt-1 text-emerald-500 text-sm" />
+                            </button>
+                          )}
+                        </div>
                       </div>
                     );
                   })}
@@ -660,7 +870,11 @@ export default function StdProfilePage() {
                             name="language_type"
                             onChange={(e) => handleInputChange(e)}
                             onBlur={(e) =>
-                              onHandleBlur("education", user_id, e)
+                              onHandleSave(
+                                "education",
+                                user_id,
+                                "language_type",
+                              )
                             }
                           >
                             <option value="IELTS">IELTS</option>
@@ -689,20 +903,51 @@ export default function StdProfilePage() {
                           )}
                         </label>
                         {isEmptyScore ? (
-                          <input
-                            name="language_overall_score"
-                            type="text"
-                            value={updateFields?.["language_overall_score"]}
-                            className={
-                              "w-full p-3 rounded-xl text-sm font-bold mt-2 " +
-                              "border-2 border-blue-300 bg-white ring-1 ring-inset ring-blue-100"
-                            }
-                            placeholder="Enter Overall Band Score"
-                            onChange={(e) => handleInputChange(e)}
-                            onBlur={(e) =>
-                              onHandleBlur("education", user_id, e)
-                            }
-                          />
+                          // <input
+                          //   name="language_overall_score"
+                          //   type="text"
+                          //   value={updateFields?.["language_overall_score"]}
+                          //   className={
+                          //     "w-full p-3 rounded-xl text-sm font-bold mt-2 " +
+                          //     "border-2 border-blue-300 bg-white ring-1 ring-inset ring-blue-100"
+                          //   }
+                          //   placeholder="Enter Overall Band Score"
+                          //   onChange={(e) => handleInputChange(e)}
+                          //   onBlur={(e) =>
+                          //     onHandleSave("education", user_id, "language_overall_score")
+                          //   }
+                          // />
+                          <div className="relative">
+                            <input
+                              name="language_overall_score"
+                              type="text"
+                              value={updateFields?.["language_overall_score"]}
+                              disabled={!isEmptyScore}
+                              className={
+                                "w-full p-3 rounded-xl text-sm font-bold " +
+                                (isEmptyScore
+                                  ? "border-2 border-blue-300 bg-white ring-1 ring-inset ring-blue-100 mt-2"
+                                  : "input-locked bg-slate-50 border-2 border-slate-300 mt-2")
+                              }
+                              placeholder="Enter Overall Band Score"
+                              onChange={handleInputChange}
+                              // onBlur={}
+                            />
+
+                            {isEmptyScore && (
+                              <button
+                                onClick={(e) =>
+                                  onHandleSave(
+                                    "education",
+                                    user_id,
+                                    "language_overall_score",
+                                  )
+                                }
+                              >
+                                <FaCheckCircle className="absolute right-3 top-1/2 -translate-y-1/2 mt-1 text-emerald-500 text-sm" />
+                              </button>
+                            )}
+                          </div>
                         ) : (
                           <input
                             disabled
@@ -714,8 +959,9 @@ export default function StdProfilePage() {
 
                       <div className="md:col-span-2 space-y-3 mt-6">
                         {languageSubScores.map((eachinput, index) => {
-                          const value = profileData?.[eachinput.name];
-                          const isEmpty = value === "" || value == null;
+                          const displayValue = profileData?.[eachinput.name];
+                          const isEmpty =
+                            displayValue === "" || displayValue == null;
 
                           return (
                             <div
@@ -734,7 +980,7 @@ export default function StdProfilePage() {
                                 }
                               >
                                 <FaLock className="text-[8px] text-slate-400" />
-                                <input
+                                {/* <input
                                   name={eachinput.name}
                                   type="text"
                                   value={
@@ -752,9 +998,44 @@ export default function StdProfilePage() {
                                   placeholder="0.0"
                                   onChange={(e) => handleInputChange(e)}
                                   onBlur={(e) =>
-                                    onHandleBlur("education", user_id, e)
+                                    onHandleSave("education", user_id, e)
                                   }
-                                />
+                                /> */}
+                                <div className="relative">
+                                  <input
+                                    name={eachinput?.name}
+                                    type="text"
+                                    value={
+                                      !isEmpty
+                                        ? displayValue
+                                        : updateFields?.[eachinput?.name]
+                                    }
+                                    disabled={!isEmpty}
+                                    className={
+                                      "w-full p-3 rounded-xl text-sm font-bold " +
+                                      (isEmpty
+                                        ? "border-2 border-blue-300 bg-white ring-1 ring-inset ring-blue-100 mt-2"
+                                        : "input-locked bg-slate-50 border-2 border-slate-300 mt-2")
+                                    }
+                                    placeholder={`Enter ${eachinput?.placeHolder}`}
+                                    onChange={handleInputChange}
+                                    // onBlur={}
+                                  />
+
+                                  {isEmpty && (
+                                    <button
+                                      onClick={(e) =>
+                                        onHandleSave(
+                                          "education",
+                                          user_id,
+                                          eachinput?.name,
+                                        )
+                                      }
+                                    >
+                                      <FaCheckCircle className="absolute right-3 top-1/2 -translate-y-1/2 mt-1 text-emerald-500 text-sm" />
+                                    </button>
+                                  )}
+                                </div>
                               </div>
                             </div>
                           );
@@ -772,18 +1053,18 @@ export default function StdProfilePage() {
                 </h3>
                 <div className="flex gap-3">
                   <div className="flex items-center gap-2 px-4 py-2 bg-green-50 border border-green-200 rounded-lg">
-                    <i className="fas fa-file-pdf text-green-600" />
+                    <FaFilePdf className="text-green-600" />
                     <span className="text-xs font-bold text-green-800">
                       Transcript.pdf
                     </span>
-                    <i className="fas fa-check-circle text-green-500 text-[10px] ml-2" />
+                    <FaCheckCircle className="text-green-500 text-[10px] ml-2" />
                   </div>
                   <div className="flex items-center gap-2 px-4 py-2 bg-green-50 border border-green-200 rounded-lg">
-                    <i className="fas fa-file-pdf text-green-600" />
+                    <FaFilePdf className="text-green-600" />
                     <span className="text-xs font-bold text-green-800">
                       Diploma.pdf
                     </span>
-                    <i className="fas fa-check-circle text-green-500 text-[10px] ml-2" />
+                    <FaCheckCircle className="text-green-500 text-[10px] ml-2" />
                   </div>
                 </div>
               </div>
@@ -803,8 +1084,9 @@ export default function StdProfilePage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {prefsFields.slice(0, 3).map((eachinput, index) => {
                         // First 3 fields
-                        const value = profileData?.[eachinput.name];
-                        const isEmpty = value === "" || value == null;
+                        const displayValue = profileData?.[eachinput.name];
+                        const isEmpty =
+                          displayValue === "" || displayValue == null;
 
                         return (
                           <div
@@ -823,7 +1105,7 @@ export default function StdProfilePage() {
                                 <FaLock className="text-[8px] text-slate-400 ml-1" />
                               )}
                             </label>
-                            <input
+                            {/* <input
                               name={eachinput.name}
                               type="text"
                               value={
@@ -841,9 +1123,44 @@ export default function StdProfilePage() {
                               placeholder={`Enter ${eachinput.label}`}
                               onChange={(e) => handleInputChange(e)}
                               onBlur={(e) =>
-                                onHandleBlur("preferences", user_id, e)
+                                onHandleSave("preferences", user_id, e)
                               }
-                            />
+                            /> */}
+                            <div className="relative">
+                              <input
+                                name={eachinput?.name}
+                                type="text"
+                                value={
+                                  !isEmpty
+                                    ? displayValue
+                                    : updateFields?.[eachinput?.name]
+                                }
+                                disabled={!isEmpty}
+                                className={
+                                  "w-full p-3 rounded-xl text-sm font-bold " +
+                                  (isEmpty
+                                    ? "border-2 border-blue-300 bg-white ring-1 ring-inset ring-blue-100 mt-2"
+                                    : "input-locked bg-slate-50 border-2 border-slate-300 mt-2")
+                                }
+                                placeholder={`Enter ${eachinput?.placeHolder}`}
+                                onChange={handleInputChange}
+                                // onBlur={}
+                              />
+
+                              {isEmpty && (
+                                <button
+                                  onClick={(e) =>
+                                    onHandleSave(
+                                      "preferences",
+                                      user_id,
+                                      eachinput?.name,
+                                    )
+                                  }
+                                >
+                                  <FaCheckCircle className="absolute right-3 top-1/2 -translate-y-1/2 mt-1 text-emerald-500 text-sm" />
+                                </button>
+                              )}
+                            </div>
                           </div>
                         );
                       })}
@@ -858,8 +1175,9 @@ export default function StdProfilePage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {prefsFields.slice(3, 5).map((eachinput, index) => {
                         // Last 2 fields
-                        const value = profileData?.[eachinput.name];
-                        const isEmpty = value === "" || value == null;
+                        const displayValue = profileData?.[eachinput.name];
+                        const isEmpty =
+                          displayValue === "" || displayValue == null;
 
                         return (
                           <div
@@ -874,7 +1192,7 @@ export default function StdProfilePage() {
                                 <FaLock className="text-[8px] text-slate-400 ml-1" />
                               )}
                             </label>
-                            <input
+                            {/* <input
                               name={eachinput.name}
                               type="text"
                               value={
@@ -892,9 +1210,44 @@ export default function StdProfilePage() {
                               placeholder={`Enter ${eachinput.label}`}
                               onChange={(e) => handleInputChange(e)}
                               onBlur={(e) =>
-                                onHandleBlur("preferences", user_id, e)
+                                onHandleSave("preferences", user_id, e)
                               }
-                            />
+                            /> */}
+                            <div className="relative">
+                              <input
+                                name={eachinput?.name}
+                                type="text"
+                                value={
+                                  !isEmpty
+                                    ? displayValue
+                                    : updateFields?.[eachinput?.name]
+                                }
+                                disabled={!isEmpty}
+                                className={
+                                  "w-full p-3 rounded-xl text-sm font-bold " +
+                                  (isEmpty
+                                    ? "border-2 border-blue-300 bg-white ring-1 ring-inset ring-blue-100 mt-2"
+                                    : "input-locked bg-slate-50 border-2 border-slate-300 mt-2")
+                                }
+                                placeholder={`Enter ${eachinput?.placeHolder}`}
+                                onChange={handleInputChange}
+                                // onBlur={}
+                              />
+
+                              {isEmpty && (
+                                <button
+                                  onClick={(e) =>
+                                    onHandleSave(
+                                      "preferences",
+                                      user_id,
+                                      eachinput?.name,
+                                    )
+                                  }
+                                >
+                                  <FaCheckCircle className="absolute right-3 top-1/2 -translate-y-1/2 mt-1 text-emerald-500 text-sm" />
+                                </button>
+                              )}
+                            </div>
                           </div>
                         );
                       })}

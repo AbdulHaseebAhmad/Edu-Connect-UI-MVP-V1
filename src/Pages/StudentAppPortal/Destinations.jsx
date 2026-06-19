@@ -122,7 +122,7 @@ const ViewBrowse = () => {
           Select Destination
         </h2>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {filteredDestinations?.map((d) => (
+          {filteredDestinations?.map((d) => ( d?.country_code !== "UK001" &&
             <button
               key={d.id}
               className="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white text-left shadow-sm transition hover:border-blue-500 hover:shadow-md"

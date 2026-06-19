@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   FaArrowLeft,
   FaBriefcase,
+  FaCalendarAlt,
   FaCheckCircle,
   FaFileAlt,
   FaGraduationCap,
@@ -46,9 +47,9 @@ export default function StdProgram() {
     (state) => state.authReducer.free_application_count,
   );
 
-  useEffect(()=>{
-    dispatch(GetFreeApplicationCount(student_id))
-  },[student_id])
+  useEffect(() => {
+    dispatch(GetFreeApplicationCount(student_id));
+  }, [student_id]);
 
   const [receipt, setReceipt] = useState({
     data: "",
@@ -249,7 +250,10 @@ export default function StdProgram() {
       {showPaymentModal && (
         <PaymentProofModal
           open={showPaymentModal}
-          onClose={() =>{ setReceipt({});setShowPaymentModal(false)}}
+          onClose={() => {
+            setReceipt({});
+            setShowPaymentModal(false);
+          }}
           handleFileUpload={(e) => handleFileUpload(e)}
           submitHandle={PaidApplyHandle}
           uploadedFile={receipt?.name}
@@ -335,7 +339,7 @@ export default function StdProgram() {
           </div>
 
           {/* Key Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 h-32">
+          <div className="grid grid-cols-3 md:grid-cols-3 gap-6 h-32">
             <div className="bg-blue-50 p-6 rounded-2xl border border-blue-100 hover:shadow-md transition flex flex-col items-center justify-center h-full text-center">
               <span className="text-xs font-bold text-blue-500 uppercase tracking-wide mb-3">
                 Duration
@@ -345,25 +349,25 @@ export default function StdProgram() {
               </div>
             </div>
 
-            <div className="bg-purple-50 p-6 rounded-2xl border border-purple-100 hover:shadow-md transition flex flex-col items-center justify-center h-full text-center">
+            {/* <div className="bg-purple-50 p-6 rounded-2xl border border-purple-100 hover:shadow-md transition flex flex-col items-center justify-center h-full text-center">
               <span className="text-xs font-bold text-purple-500 uppercase tracking-wide mb-3">
                 Intake
               </span>
               <div className="font-black text-2xl text-slate-900 whitespace-nowrap">
                 {selectedProg?.session_intake}
               </div>
-            </div>
+            </div> */}
 
-            {/* <div className="bg-emerald-50 p-6 rounded-2xl border border-emerald-100 hover:shadow-md transition flex flex-col items-center justify-center h-full text-center">
+            <div className="bg-emerald-50 p-6 rounded-2xl border border-emerald-100 hover:shadow-md transition flex flex-col items-center justify-center h-full text-center">
               <span className="text-xs font-bold text-emerald-500 uppercase tracking-wide mb-3">
                 Tuition{" "}
               </span>
               <div className="font-black text-2xl text-slate-900 whitespace-nowrap">
-                {(selectedUni?.currency ? selectedUni?.currency : "$") +
-                  "" +
+                {(selectedProg?.university_currency ? selectedProg?.university_currency : "$") +
+                  " " +
                   selectedProg?.program_fee}
               </div>
-            </div> */}
+            </div>
 
             <div className="bg-orange-50 p-6 rounded-2xl border border-orange-100 hover:shadow-md transition flex flex-col items-center justify-center h-full text-center">
               <span className="text-xs font-bold text-orange-500 uppercase tracking-wide mb-3">
@@ -375,23 +379,51 @@ export default function StdProgram() {
             </div>
           </div>
 
-          {/* Career Outcomes */}
+          {/*Prospective Intakes  */}
+
           <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
             <h3 className="font-bold text-sm mb-6 text-slate-900 uppercase tracking-wide flex items-center gap-3">
-              <FaBriefcase className="text-emerald-500" />
-              Career Outcomes
+              <FaCalendarAlt className="text-emerald-500" />
+              Prospective Intakes
             </h3>
-            {selectedProg?.possible_careers?.length > 0 &&
-              selectedProg?.possible_careers?.map((career, index) => (
-                <p
-                  className="text-slate-600 leading-relaxed mb-6 text-base"
-                  id="lvl4-careers"
-                  key={index}
+
+            <div className="flex flex-wrap gap-3">
+              {!selectedProg?.session_intake?.includes("," )? (
+                <div
+                  key={selectedProg?.session_intake}
+                  className="px-4 py-2 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-700 font-medium text-sm"
                 >
-                  {career}
-                </p>
-              ))}
+                  {selectedProg?.session_intake}
+                </div>
+              ) : (
+                selectedProg.session_intake.split(",").map((intake, index) => (
+                  <div
+                    key={index}
+                    className="px-4 py-2 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-700 font-medium text-sm"
+                  >
+                    {intake}
+                  </div>
+                ))
+              )}
+            </div>
           </div>
+
+          {/* Career Outcomes */}
+         <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+  <h3 className="font-bold text-sm mb-6 text-slate-900 uppercase tracking-wide flex items-center gap-3">
+    <FaBriefcase className="text-emerald-500" />
+    Career Outcomes
+  </h3>
+
+  <ul className="space-y-3 text-sm text-slate-600" id="lvl4-careers">
+    {selectedProg?.possible_careers?.map((career, index) => (
+      <li key={index} className="flex items-start gap-3">
+        <FaCheckCircle className="text-emerald-500 mt-1 w-4 h-4 flex-shrink-0" />
+        <span>{career}</span>
+      </li>
+    ))}
+  </ul>
+</div>
 
           {/* Requirements */}
           <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">

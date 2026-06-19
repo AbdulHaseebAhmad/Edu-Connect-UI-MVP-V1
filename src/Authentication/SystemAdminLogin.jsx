@@ -148,7 +148,11 @@ export default function SystemAdminLogin() {
       .then((res) => {
         if (res) {
           toast.success("Signed in!", { id });
-          navigate("/sysadmin/dashboard");
+          if(res?.role == "sysadmin"){
+            navigate("/sysadmin/dashboard");
+          } else if (res?.role == "dataentry"){
+            navigate("/dataentry/university/universities");
+          }
         }
       })
       .catch((e) => {

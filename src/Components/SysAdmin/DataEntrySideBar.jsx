@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
-import { SideBarLinks } from "./Constants";
+import { DataEntrySideBarLinks } from "./Constants";
 import logo from "../../assets/pgl.png";
-const Sidebar = () => {
+const DataEntrySideBar = () => {
   return (
     <aside className="w-64 bg-gray-900 text-white flex-shrink-0">
       <div className="flex items-center gap-2 px-6 py-4 border-b border-gray-700">
@@ -11,7 +11,7 @@ const Sidebar = () => {
       </div>
 
       <nav className="mt-6 flex flex-col gap-2">
-        {SideBarLinks.map((eachLink, index) => (
+        {DataEntrySideBarLinks.map((eachLink, index) => (
           <div key={index}>
             <NavLink
               to={`/sysadmin/${eachLink.link}`}
@@ -55,4 +55,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default DataEntrySideBar;

@@ -11,8 +11,8 @@ export function SchoolFinancePage() {
   useEffect(()=>{
     const id = toast.loading("Fetching Finances ");
     dispatch(GetEnrolledStudents(school_id)).unwrap().then((res)=>{
+      toast.success("Fetching Finances Succesfull",{id});
       if(res){
-        toast.success("Fetching Finances Succesfull",{id});
         setStudentsCount(res?.length);
       }
     }).catch((e)=>{

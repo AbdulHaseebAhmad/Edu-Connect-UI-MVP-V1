@@ -59,6 +59,7 @@ import FeaturedPartners from "../Pages/SysAdmin/StudentsApp/FeaturedPartners";
 import { UniversityRegistryPage } from "../Pages/SysAdmin/Universities/Universities";
 import MasterApplicationsManager from "../Pages/SysAdmin/Universities/MasterApplicationsManager";
 import UniversityCommissionsPage from "../Pages/SysAdmin/Universities/UniversityCommisions";
+import DataEntryRoot from "./DataEntryRoot";
 
 const router = createBrowserRouter([
   {
@@ -145,7 +146,7 @@ const router = createBrowserRouter([
                     children: [
                       {
                         path: "masa",
-                        element: <MasterApplicationsManager/>,
+                        element: <MasterApplicationsManager />,
                       },
                       {
                         path: "universities",
@@ -153,7 +154,7 @@ const router = createBrowserRouter([
                       },
                       {
                         path: "commissions",
-                        element: <UniversityCommissionsPage/>,
+                        element: <UniversityCommissionsPage />,
                       },
                     ],
                   },
@@ -313,6 +314,33 @@ const router = createBrowserRouter([
                   {
                     path: "settings",
                     element: <SettingsPage />,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            element: <DataEntryRoot />,
+            children: [
+              {
+                path: "dataentry",
+                children: [
+                  {
+                    path: "university",
+                    children: [
+                      // {
+                      //   path: "masa",
+                      //   element: <MasterApplicationsManager />,
+                      // },
+                      {
+                        path: "universities",
+                        element: <UniversityRegistryPage />,
+                      },
+                      // {
+                      //   path: "commissions",
+                      //   element: <UniversityCommissionsPage />,
+                      // },
+                    ],
                   },
                 ],
               },

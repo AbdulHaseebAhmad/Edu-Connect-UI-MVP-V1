@@ -205,7 +205,7 @@ export function VerificationPage() {
                     {app.fname + " " + app?.lname}
                   </td>
                   <td className="px-6 py-4 font-mono text-center">
-                    {app.slug}
+                    {app.email}
                   </td>
                   <td className="px-6 py-4 text-center">{app.created_at}</td>
                   <td className="px-6 py-4 text-center">{app.citizenship}</td>

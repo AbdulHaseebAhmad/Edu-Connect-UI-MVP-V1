@@ -18,21 +18,25 @@ export function SchoolVerificationPage() {
   const dispatch = useDispatch();
 
   const verificationHandle = (school_id, student_id, status) => {
-    let studentStatus = status == "verified" ? "Verifying":"Rejecting"
-    
-    const id = toast.loading(`${studentStatus} Student with Id ${student_id}`)
+    let studentStatus = status == "verified" ? "Verifying" : "Rejecting";
+
+    const id = toast.loading(`${studentStatus} Student with Id ${student_id}`);
 
     dispatch(VerifyStudentAccount({ school_id, student_id, status }))
       .unwrap()
       .then((res) => {
         if (res) {
-          toast.success(`Student Succesfully ${status}`,{id})
+          toast.success(`Student Succesfully ${status}`, { id });
           setUnverifiedStudents((prev) =>
             prev.filter((each) => each?.student_id !== student_id),
           );
         }
-      }).catch((e)=>{
-        toast.error(`There was an error ${studentStatus} with Id ${student_id}`,{id})
+      })
+      .catch((e) => {
+        toast.error(
+          `There was an error ${studentStatus} with Id ${student_id}`,
+          { id },
+        );
       });
   };
   const openStudentPanel = (student) => {
@@ -45,13 +49,14 @@ export function SchoolVerificationPage() {
     dispatch(GetUnProcessedStudents(school_id))
       .unwrap()
       .then((res) => {
-        toast.success("Fetched Un Verified Students!",{id})
+        toast.success("Fetched Un Verified Students!", { id });
         if (res) {
           setUnverifiedStudents(res);
         }
-      }).catch((e)=>{
+      })
+      .catch((e) => {
         toast.error("Fetching Unverified Students failed!", { id });
-      });;
+      });
   }, []);
 
   const getInitials = (name) => {
@@ -62,6 +67,13 @@ export function SchoolVerificationPage() {
       .map((n) => n[0]?.toUpperCase())
       .join("");
   };
+  const checkIfDisabled = (student) => {
+    const requiredFields = Object.values(student || {}).filter(
+      (field) => field === "" || field == null
+    );
+
+  return requiredFields.length <= 8;
+};
   return (
     <>
       <div className="fade-in space-y-6">
@@ -131,18 +143,27 @@ export function SchoolVerificationPage() {
                       >
                         Review
                       </button>
-                      <button
-                        onClick={() =>
-                          verificationHandle(
-                            school_id,
-                            student?.student_id,
-                            "verified",
-                          )
-                        }
-                        className="px-4 py-1.5 bg-indigo-600 text-white text-xs font-bold rounded-lg hover:bg-indigo-700 shadow-sm"
-                      >
-                        Approve
-                      </button>
+                      {checkIfDisabled(student) ? (
+                        <button
+                          onClick={() =>
+                            verificationHandle(
+                              school_id,
+                              student?.student_id,
+                              "verified",
+                            )
+                          }
+                          className="px-4 py-1.5 bg-indigo-600 text-white text-xs font-bold rounded-lg hover:bg-indigo-700 shadow-sm"
+                        >
+                          Approve
+                        </button>
+                      ) : (
+                        <button
+                          disabled
+                          className="px-4 py-1.5 bg-slate-100 text-slate-500 text-xs font-bold rounded-lg border border-slate-200 cursor-not-allowed"
+                        >
+                          Incomplete Profile
+                        </button>
+                      )}
                       <button
                         onClick={() =>
                           verificationHandle(

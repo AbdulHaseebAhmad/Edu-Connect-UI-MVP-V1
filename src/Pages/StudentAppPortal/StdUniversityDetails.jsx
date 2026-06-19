@@ -163,7 +163,7 @@ const UniversityDetails = () => {
                 {university?.Programs?.length}
               </span>
             </button>
-            <button
+            {/* <button
               onClick={() => setProfileTab("life")}
               id="tab-p-life"
               className={`border-b-2 py-4 text-sm font-bold transition ${
@@ -173,7 +173,7 @@ const UniversityDetails = () => {
               }`}
             >
               Campus Life
-            </button>
+            </button> */}
           </div>
 
           {/* TAB CONTENT */}
@@ -294,7 +294,7 @@ const UniversityDetails = () => {
                           </h3>
                         </div>
 
-                        <div className="grid grid-cols-3 gap-3 p-4">
+                        <div className="grid grid-cols-2 gap-3 p-4">
                           <div className="rounded-xl bg-slate-50 px-3 py-3 text-center">
                             <div className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                               Duration
@@ -317,14 +317,14 @@ const UniversityDetails = () => {
                             </div>
                           </div>
 
-                          <div className="rounded-xl bg-slate-50 px-3 py-3 text-center">
+                          {/* <div className="rounded-xl bg-slate-50 px-3 py-3 text-center">
                             <div className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                               Next Intake
                             </div>
                             <div className="mt-1 text-sm font-semibold text-[#0F172A]">
-                              {prog.session_intake}
+                              {prog.session_intake.split(",")?.[0]}
                             </div>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     ))

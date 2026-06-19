@@ -31,36 +31,46 @@ export const SideBarLinks = [
     name: "Students",
     subLinks: [
       // { name: "Dashboard", link:"/sysadmin/students/dashboard" },
-      { name: "Registered Students", link:"/sysadmin/students/registry" },
-      { name: "Verify Applications", link:"/sysadmin/students/verification" },
-      { name: "Verify Program Receipts", link:"/sysadmin/students/receipts" },
-      { name: "Scholarships", link:"/sysadmin/students/scholarships" },
-      { name: "Webinars", link:"/sysadmin/students/webinars" },
-      { name: "Featured Partners", link:"/sysadmin/students/featured-partners" },
-      { name: "Applications", link:"/sysadmin/students/applications" },
-    ], 
+      { name: "Registered Students", link: "/sysadmin/students/registry" },
+      { name: "Verify Applications", link: "/sysadmin/students/verification" },
+      { name: "Verify Program Receipts", link: "/sysadmin/students/receipts" },
+      { name: "Scholarships", link: "/sysadmin/students/scholarships" },
+      { name: "Webinars", link: "/sysadmin/students/webinars" },
+      {
+        name: "Featured Partners",
+        link: "/sysadmin/students/featured-partners",
+      },
+      { name: "Applications", link: "/sysadmin/students/applications" },
+    ],
   },
   {
-    link:"university",
-    name:"University",
-    subLinks:[
-      { name: "Universities", link:"/sysadmin/university/universities" },
-      { name: "MASA", link:"/sysadmin/university/masa" },
-      { name: "Commssions", link:"/sysadmin/university/commissions" },
-  
-    ]
-
+    link: "university",
+    name: "University",
+    subLinks: [
+      { name: "Universities", link: "/sysadmin/university/universities" },
+      { name: "MASA", link: "/sysadmin/university/masa" },
+      { name: "Commssions", link: "/sysadmin/university/commissions" },
+    ],
   },
   {
-    link:"platform",
-    name:"Platform",
-    subLinks:[
-      { name: "Commssions", link:"/sysadmin/platform/commissions" },
-      { name: "Platform Finance", link:"/sysadmin/platform/platform-finance" },
-
-    ]
+    link: "platform",
+    name: "Platform",
+    subLinks: [
+      { name: "Commssions", link: "/sysadmin/platform/commissions" },
+      { name: "Platform Finance", link: "/sysadmin/platform/platform-finance" },
+    ],
   },
   { link: "settings", name: "Settings" },
+];
+
+export const DataEntrySideBarLinks = [
+  {
+    link: "university",
+    name: "University",
+    subLinks: [
+      { name: "Universities", link: "/dataentry/university/universities" },
+    ],
+  },
 ];
 
 export const InviteFormFields = [
