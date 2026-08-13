@@ -53,12 +53,6 @@ const PendingInvite = () => {
             • Approved
           </span>
         );
-      case "completed":
-        return (
-          <span className={`${base} bg-blue-100 text-blue-700`}>
-            • Completed
-          </span>
-        );
       default:
         return (
           <span className={`${base} bg-pink-100 text-pink-600`}>
