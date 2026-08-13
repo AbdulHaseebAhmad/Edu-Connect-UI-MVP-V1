@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import SchoolInviteForm from "../../../Components/SysAdmin/InviteFormS";
 import InviteCardSucc from "../../../Components/SysAdmin/InviteCardSucc";
-import { createSchoolInvite } from "../../../Features/Admin_Features/adminSlice";
+import { createSchoolInvite } from "../../../Features/Admin_Features/AdminSlice";
 
 export default function SendInvitePage() {
   const [formData, setFormData] = useState({});
