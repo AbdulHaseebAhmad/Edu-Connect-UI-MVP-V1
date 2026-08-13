@@ -14,23 +14,23 @@ jobs:
         with:
           node-version: '20'
       - name: Install dependencies
-        run: npm install
-      - name: Build React app
-        run: npm run build
-      - name: Upload build artifact
+      - run : npm install
+      - name : Build React app
+      - run : npm run build
+      - name : Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: geos-frontend
-          path: dist
+          name : geos-frontend
+          path : dist
   transfer_code:
-    runs-on: ubuntu-latest
+    runs-on : ubuntu-latest
     steps:
-      - name: Download build artifact
+      - name : Download build artifact
         uses: actions/download-artifact@v4
         with:
-          name: geos-frontend
-          path: dist
-      - name: Copy to bastion server
+          name : geos-frontend
+          path : dist
+      - name : Copy to bastion server
       - run : |
           echo "${{ secrets.GEOS_BASTION_KEY_PAIR }}" > key.pem
           chmod 600 key.pem
