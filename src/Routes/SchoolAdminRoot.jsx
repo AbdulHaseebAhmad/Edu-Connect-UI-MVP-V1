@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import Sidebar from "../Components/SchoolAdmin/Sidebar";
-import Navbar from "../Components/SchoolAdmin/Navbar";
+import Sidebar from "../Components/SchoolAdmin/SideBar.jsx";
+import Navbar from "../Components/SchoolAdmin/Navbar.jsx";
 // import StudentPanel from "../Components/SchoolAdmin/StudentPanel";
 
 function SchoolAdminRoot() {
