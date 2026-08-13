@@ -22,7 +22,7 @@ jobs:
         with:
           name: geos-frontend
           path: dist
-  transfer-code:
+  transfer_code:
     runs-on: ubuntu-latest
     steps:
       - name: Copy to bastion server
