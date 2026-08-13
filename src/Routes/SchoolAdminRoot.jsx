@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import Sidebar from "../Components/SchoolAdmin/SideBar.jsx";
+import Sidebar from "../Components/SchoolAdmin/Sidebar.jsx";
 import Navbar from "../Components/SchoolAdmin/Navbar.jsx";
 // import StudentPanel from "../Components/SchoolAdmin/StudentPanel";
 
