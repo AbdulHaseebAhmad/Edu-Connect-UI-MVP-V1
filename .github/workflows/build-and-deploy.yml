@@ -21,4 +21,20 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: geos-frontend
-          path: build
+          path: dist
+  transfer-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Copy to bastion server
+      - run : |
+          echo "${{ secrets.GEOS_BASTION_KEY_PAIR }}" > key.pem
+          chmod 600 key.pem
+          scp -o StrictHostKeyChecking=no -i key.pem geos-frontend ubuntu@54.91.5.61:/home/ubuntu/
+      - name: SSH to Bastion and COPY app-server
+        run: |
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@54.91.5.61 \
+          "scp -o StrictHostKeyChecking=no -i ~/.ssh/production_app_server.pem /home/ubuntu/geos-frontend ubuntu@10.4.4.200:/var/www/geos-frontend && \
+           ssh -o StrictHostKeyChecking=no -i ~/.ssh/production_app_server.pem ubuntu@10.4.4.200"
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@54.91.5.61 \
+          "scp -o StrictHostKeyChecking=no -i ~/.ssh/production_app_server.pem /home/ubuntu/geos-frontend ubuntu@10.4.2.12:/var/www/geos-frontend && \
+           ssh -o StrictHostKeyChecking=no -i ~/.ssh/production_app_server.pem ubuntu@10.4.2.12"
