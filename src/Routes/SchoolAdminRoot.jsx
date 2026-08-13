@@ -15,7 +15,7 @@ function SchoolAdminRoot() {
   return (
     <div className="h-screen w-screen relative bg-[#f8fafc]">
       {/* Main app container (matches #app-container) */}
-      <div className="h-full flex overflow-hidden">
+      <div className="h-full flex overflow-hidden s">
         {/* Left sidebar */}
         <Sidebar />
 
