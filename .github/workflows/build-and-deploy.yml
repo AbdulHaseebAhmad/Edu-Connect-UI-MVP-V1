@@ -14,32 +14,32 @@ jobs:
         with:
           node-version: '20'
       - name: Install dependencies
-      - run : npm install
-      - name : Build React app
-      - run : npm run build
-      - name : Upload build artifact
+        run: npm install
+      - name: Build React app
+        run: npm run build
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name : geos-frontend
-          path : dist
+          name: geos-frontend
+          path: dist
+
   transfer_code:
-    runs-on : ubuntu-latest
+    runs-on: ubuntu-latest
+    needs: build
     steps:
-      - name : Download build artifact
+      - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
-          name : geos-frontend
-          path : dist
-      - name : Copy to bastion server
-      - run : |
+          name: geos-frontend
+          path: dist
+      - name: Copy to bastion server
+        run: |
           echo "${{ secrets.GEOS_BASTION_KEY_PAIR }}" > key.pem
           chmod 600 key.pem
-          scp -o StrictHostKeyChecking=no -i key.pem geos-frontend ubuntu@54.91.5.61:/home/ubuntu/
-      - name: SSH to Bastion and COPY app-server
-      - run : |
+          scp -o StrictHostKeyChecking=no -r -i key.pem dist ubuntu@54.91.5.61:/home/ubuntu/geos-frontend
+      - name: SSH to Bastion and COPY to app servers
+        run: |
           ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@54.91.5.61 \
-          "scp -o StrictHostKeyChecking=no -i ~/.ssh/production_app_server.pem /home/ubuntu/geos-frontend ubuntu@10.4.4.200:/var/www/geos-frontend && \
-           ssh -o StrictHostKeyChecking=no -i ~/.ssh/production_app_server.pem ubuntu@10.4.4.200"
+          "scp -o StrictHostKeyChecking=no -r -i ~/.ssh/production_app_server.pem /home/ubuntu/geos-frontend ubuntu@10.4.4.200:/var/www/geos-frontend"
           ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@54.91.5.61 \
-          "scp -o StrictHostKeyChecking=no -i ~/.ssh/production_app_server.pem /home/ubuntu/geos-frontend ubuntu@10.4.2.12:/var/www/geos-frontend && \
-           ssh -o StrictHostKeyChecking=no -i ~/.ssh/production_app_server.pem ubuntu@10.4.2.12"
+          "scp -o StrictHostKeyChecking=no -r -i ~/.ssh/production_app_server.pem /home/ubuntu/geos-frontend ubuntu@10.4.2.12:/var/www/geos-frontend"
