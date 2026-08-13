@@ -6,7 +6,7 @@ import {
   DeleteFeaturedPartner,
   FetchUniversities,
   GetfetchFeaturedPartners,
-} from "../../../Features/Admin_Features/adminSlice";
+} from "../../../Features/Admin_Features/AdminSlice";
 
 const LOCATIONS = [
   { code: "global", label: "Global" },

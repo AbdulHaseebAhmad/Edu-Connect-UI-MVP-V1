@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { FetchUniversities } from "../../../Features/Admin_Features/adminSlice";
+import { FetchUniversities } from "../../../Features/Admin_Features/AdminSlice";
 import { FaChevronRight, FaPlus } from "react-icons/fa";
 import UniProfile from "../../../Components/SysAdmin/UniProfile";
 import AddUniversityModal from "../../../Components/SysAdmin/AddUniversityPortal";

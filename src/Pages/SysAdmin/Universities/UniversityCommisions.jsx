@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { FaChevronRight, FaFilter, FaSearch } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { FetchUniversitiesCommisions } from "../../../Features/Admin_Features/adminSlice";
+import { FetchUniversitiesCommisions } from "../../../Features/Admin_Features/AdminSlice";
 
 export default function UniversityCommissionsPage() {
   const [searchTerm, setSearchTerm] = useState("");

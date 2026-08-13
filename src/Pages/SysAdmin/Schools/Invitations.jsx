@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FaSearch, FaTrash, FaBell } from "react-icons/fa";
 import SendInviteModal from "../../../Components/SysAdmin/SendInviteModal";
 import { useDispatch } from "react-redux";
-import { getAllInvites } from "../../../Features/Admin_Features/adminSlice";
+import { getAllInvites } from "../../../Features/Admin_Features/AdminSlice";
 import toast from "react-hot-toast";
 
 const PendingInvite = () => {

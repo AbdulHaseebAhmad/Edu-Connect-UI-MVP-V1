@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import {
   getSchoolApplications,
   respondToInvite,
-} from "../../../Features/Admin_Features/adminSlice";
+} from "../../../Features/Admin_Features/AdminSlice";
 import Modal from "../../../Modals/ModalContainer";
 import ReviewAppForm from "../../../Components/SysAdmin/ReviewAppForm";
 import toast from "react-hot-toast";

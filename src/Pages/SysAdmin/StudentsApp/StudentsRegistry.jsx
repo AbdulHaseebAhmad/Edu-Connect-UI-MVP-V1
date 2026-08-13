@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getRegisteredStudents } from "../../../Features/Admin_Features/adminSlice";
+import { getRegisteredStudents } from "../../../Features/Admin_Features/AdminSlice";
 import {
   FaChevronRight,
   FaPlus,

@@ -4,7 +4,7 @@ import {
   GetstudentsDocuments,
   GetStudentsRegistry,
   RespondToapplication,
-} from "../../../Features/Admin_Features/adminSlice";
+} from "../../../Features/Admin_Features/AdminSlice";
 import {
   FaCheck,
   FaChevronRight,

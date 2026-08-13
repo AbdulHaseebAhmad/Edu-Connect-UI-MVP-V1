@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { FaSearch, FaReceipt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import ReceiptPanel from "../../../Components/SysAdmin/ReceiptPanel";
-import { GetReceipts } from "../../../Features/Admin_Features/adminSlice";
+import { GetReceipts } from "../../../Features/Admin_Features/AdminSlice";
 import toast from "react-hot-toast";
 export function VerifyStudentReceipt() {
   const [receiptPanelOpen, setReceiptPanelOpen] = useState(false);
