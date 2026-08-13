@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { signupFormDetails } from "./Constants";
 import { useDispatch } from "react-redux";
-import { SignupAdmin } from "../Features/Admin_Features/adminSlice";
+import { SignupAdmin } from "../Features/Admin_Features/AdminSlice";
 import { Link, NavLink } from "react-router-dom";
 
 export default function Signup() {

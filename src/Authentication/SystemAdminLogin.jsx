@@ -123,7 +123,7 @@
 import { useState } from "react";
 import { FaUserShield, FaShieldAlt, FaUserCheck } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { SigninAdmin } from "../Features/Admin_Features/adminSlice";
+import { SigninAdmin } from "../Features/Admin_Features/AdminSlice";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 
