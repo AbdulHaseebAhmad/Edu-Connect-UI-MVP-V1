@@ -553,11 +553,11 @@ export const GetFreeApplicationCount = createAsyncThunk(
 
 export const SearchPrograms = createAsyncThunk(
   "students/app/freeapp/count",
-  async (search_term, { getState }) => {
+  async (search, { getState }) => {
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
-        `${URL}/api/students/app/programs/search?search_term=${search_term}`,
+        `${URL}/api/students/app/programs/search?search_term=${search.search_term}&country_id=${search.country_id}`,
         {
           withCredentials: true,
           headers: {

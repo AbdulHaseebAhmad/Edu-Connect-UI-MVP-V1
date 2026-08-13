@@ -7,13 +7,19 @@ import {
   SearchPrograms,
 } from "../../Features/Students_Features/StudentAppSlice";
 import { FaSearch } from "react-icons/fa";
+import ProgramList from "../../Components/studentAppPortal/SearchPrograms";
 
-const countries = ["All Countries", "Turkey", "United Kingdom", "Malaysia"];
+const countries = [
+  { name: "All Countries", country_id: "" },
+  { name: "Turkey", country_id: "TR001" },
+  { name: "Malaysia", country_id: "MY001" },
+];
 
 const ViewBrowse = () => {
-  const [selectedCountry, setSelectedCountry] = useState();
+  const [selectedCountry, setSelectedCountry] = useState({ name: "All Countries", country_id: "" });
   const [countriesList, setListOfCountries] = useState([]);
   const [refetch, setRefetch] = useState(false);
+  const [programs, setPrograms] = useState([]);
 
   const [search, setSearch] = useState("");
 
@@ -32,56 +38,80 @@ const ViewBrowse = () => {
 
   const filteredDestinations = countriesList?.filter((c) => {
     const matchCountry =
-      selectedCountry === "All Countries" ||
-      c.code?.toLowerCase() === selectedCountry?.toLowerCase() ||
-      c.name?.toLowerCase().includes(selectedCountry?.toLowerCase());
-    // const matchSearch =
-    //   search.trim().length === 0 ||
-    //   c.name?.toLowerCase().includes(search?.toLowerCase()) ||
-    //   c.cityHighlights?.toLowerCase().includes(search?.toLowerCase()) ||
-    //   c.country_code?.toLowerCase().includes(search?.toLowerCase());
+      selectedCountry?.country_id === "" ||
+      c.country_code?.toLowerCase() ===
+        selectedCountry?.country_id?.toLowerCase();
+    // ||c.name?.toLowerCase().includes(selectedCountry?.name?.toLowerCase());
 
     return matchCountry;
   });
 
-  const handleSearch = () => {
-    if(search.length == 0 || search == "" || search == undefined){
-      setRefetch(!refetch)
-      return
+  const handleSearch = (cid) => {
+    if (search.length == 0 || search == "" || search == undefined) {
+      setRefetch(!refetch);
+      return;
     }
-    dispatch(SearchPrograms(search))
+    dispatch(
+      SearchPrograms({
+        search_term: search,
+        country_id: cid == ""?selectedCountry?.country_id : cid,
+      }),
+    )
       .unwrap()
       .then((res) => {
         if (res) {
-          const matchedCountryCodes = res;
-          setListOfCountries((prev) =>
-            prev.filter((country) =>
-              matchedCountryCodes.includes(country.country_code),
-            ),
-          );
+          if (res?.length != 0) {
+            setPrograms(res);
+          } else {
+            setPrograms([]);
+          }
+          // const matchedCountryCodes = res;
+          // setListOfCountries((prev) =>
+          //   prev.filter((country) =>
+          //     matchedCountryCodes.includes(country.country_code),
+          //   ),
+          // );
+        } else {
+          setPrograms([])
         }
       });
   };
 
   const onChangeHandle = (e) => {
-    if(e.target.value.length == 0 || e.target.value == "" || e.target.value == undefined){
-      setRefetch(!refetch)
+    if (
+      e.target.value.length == 0 ||
+      e.target.value == "" ||
+      e.target.value == undefined
+    ) {
+      setRefetch(!refetch);
       setSearch(e.target.value);
-      return
+      setPrograms([]);
+      return;
     }
     setSearch(e.target.value);
   };
+
   return (
     <div className="space-y-6 fade-in ">
       {/* Top filters row */}
       <div className="flex gap-4 overflow-x-auto pb-2 pr-2 pt-4 px-2">
         <select
           className="px-4 py-3 rounded-xl border border-slate-200 text-sm font-bold bg-white focus:ring-2 ring-blue-500 outline-none shadow-sm"
-          value={selectedCountry}
-          onChange={(e) => setSelectedCountry(e.target.value)}
+          value={selectedCountry?.country_id || ""}
+          onChange={(e) => {
+            const selected = countries.find(
+              (c) => c.country_id === e.target.value,
+            );
+            setSelectedCountry(selected);
+            // setRefetch(!refetch)
+            setTimeout(()=>{handleSearch(selected?.country_id)},200)
+          }}
         >
+
           {countries.map((c) => (
-            <option key={c}>{c}</option>
+            <option key={c.country_id} value={c.country_id}>
+              {c.name}
+            </option>
           ))}
         </select>
 
@@ -97,8 +127,7 @@ const ViewBrowse = () => {
               onChange={(e) => onChangeHandle(e)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  // setRefetch(!refetch);
-                  handleSearch();
+                  handleSearch("");
                 }
               }}
             />
@@ -106,8 +135,7 @@ const ViewBrowse = () => {
 
           <button
             onClick={() => {
-              // setRefetch(!refetch);
-              handleSearch();
+              handleSearch("");
             }}
             className="px-6 py-3 rounded-xl bg-blue-600 text-white text-sm font-bold shadow-sm hover:bg-blue-700 transition-colors"
           >
@@ -116,48 +144,54 @@ const ViewBrowse = () => {
         </div>
       </div>
 
-      {/* Destination section */}
-      <div>
-        <h2 className="mb-6 text-xl font-bold text-slate-900">
-          Select Destination
-        </h2>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {filteredDestinations?.map((d) => ( d?.country_code !== "UK001" &&
-            <button
-              key={d.id}
-              className="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white text-left shadow-sm transition hover:border-blue-500 hover:shadow-md"
-              onClick={() => navigate(`${d?.country_code}`)}
-            >
-              {/* Image */}
-              <div className="h-28 w-full overflow-hidden">
-                <img
-                  src={d.image_url}
-                  alt={d.name}
-                  className="h-full w-full object-cover transition duration-500 hover:scale-105"
-                />
-              </div>
+      {search && search !== "" ? (
+        <ProgramList programs={programs} />
+      ) : (
+        <div>
+          <h2 className="mb-6 text-xl font-bold text-slate-900">
+            Select Destination
+          </h2>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {filteredDestinations?.map(
+              (d) =>
+                d?.country_code !== "UK001" && (
+                  <button
+                    key={d.id}
+                    className="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white text-left shadow-sm transition hover:border-blue-500 hover:shadow-md"
+                    onClick={() => navigate(`${d?.country_code}`)}
+                  >
+                    {/* Image */}
+                    <div className="h-28 w-full overflow-hidden">
+                      <img
+                        src={d.image_url}
+                        alt={d.name}
+                        className="h-full w-full object-cover transition duration-500 hover:scale-105"
+                      />
+                    </div>
 
-              <div className="flex flex-1 flex-col p-4">
-                <span className="text-sm font-bold text-slate-900">
-                  {d.name}
-                </span>
-                <span className="mt-1 text-xs text-slate-500">
-                  {d.program_count} programs
-                </span>
-                <span className="mt-2 text-[11px] font-medium text-slate-600">
-                  {d.cityHighlights}
-                </span>
-                <p className="mt-2 text-[11px] leading-snug text-slate-500">
-                  {d.blurb}
-                </p>
-                <span className="mt-3 inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-blue-700">
-                  {d.badge}
-                </span>
-              </div>
-            </button>
-          ))}
+                    <div className="flex flex-1 flex-col p-4">
+                      <span className="text-sm font-bold text-slate-900">
+                        {d.name}
+                      </span>
+                      <span className="mt-1 text-xs text-slate-500">
+                        {d.program_count} programs
+                      </span>
+                      <span className="mt-2 text-[11px] font-medium text-slate-600">
+                        {d.cityHighlights}
+                      </span>
+                      <p className="mt-2 text-[11px] leading-snug text-slate-500">
+                        {d.blurb}
+                      </p>
+                      <span className="mt-3 inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-blue-700">
+                        {d.badge}
+                      </span>
+                    </div>
+                  </button>
+                ),
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

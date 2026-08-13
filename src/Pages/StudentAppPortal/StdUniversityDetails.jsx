@@ -313,7 +313,7 @@ const UniversityDetails = () => {
                               Tuition
                             </div>
                             <div className="mt-1 text-sm font-semibold text-[#0F172A]">
-                              {prog.program_fee}
+                              {university?.university_currency + " "}{prog.program_fee}
                             </div>
                           </div>
 
