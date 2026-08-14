@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { FaTimes } from "react-icons/fa";
 import SchoolInviteForm from "./InviteFormS";
 import InviteCardSucc from "./InviteCardSucc";
-import { createSchoolInvite } from "../../Features/Admin_Features/adminSlice";
+import { createSchoolInvite } from "../../Features/Admin_Features/AdminSlice";
 import toast from "react-hot-toast";
 
 export default function SchoolInviteModal({ isOpen, onClose }) {
