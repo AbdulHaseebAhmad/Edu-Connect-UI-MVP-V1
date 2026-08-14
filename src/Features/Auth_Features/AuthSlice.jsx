@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { SigninAdmin } from "../Admin_Features/adminSlice";
+import { SigninAdmin } from "../Admin_Features/AdminSlice";
 import { SigninSchool } from "../School_Features/SchoolSlice";
 import {
   GetFreeApplicationCount,
