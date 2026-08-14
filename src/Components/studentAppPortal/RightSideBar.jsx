@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import {
   GetfetchFeaturedPartners,
   GetWebinars,
-} from "../../Features/Admin_Features/adminSlice";
+} from "../../Features/Admin_Features/AdminSlice";
 import { useNavigate } from "react-router";
 import { FaClock, FaVideo } from "react-icons/fa";
 

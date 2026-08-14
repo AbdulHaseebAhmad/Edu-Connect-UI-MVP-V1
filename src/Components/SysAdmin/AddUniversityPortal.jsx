@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useDispatch } from "react-redux";
-import { AddUniversity } from "../../Features/Admin_Features/adminSlice";
+import { AddUniversity } from "../../Features/Admin_Features/AdminSlice";
 import toast from "react-hot-toast";
 export default function AddUniversityModal({ isOpen, onClose, onSubmit }) {
     

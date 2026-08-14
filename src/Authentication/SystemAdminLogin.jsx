@@ -1,4 +1,4 @@
-// import { SigninAdmin } from "../Features/Admin_Features/adminSlice";
+// import { SigninAdmin } from "../Features/Admin_Features/AdminSlice";
 // import { loginFormDetails } from "./Constants";
 // import { Link } from "react-router-dom";
 // import { useDispatch } from "react-redux";

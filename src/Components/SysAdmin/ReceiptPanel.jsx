@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import {
   GetStudentReceipt,
   RespondToReceipt,
-} from "../../Features/Admin_Features/adminSlice";
+} from "../../Features/Admin_Features/AdminSlice";
 import toast from "react-hot-toast";
 import { ApplyToUniversity } from "../../Features/Students_Features/StudentAppSlice";
 

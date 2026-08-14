@@ -6,7 +6,7 @@ import { reviewFormFieldGenerator } from "../../Utillities/helpFunctions";
 import {
   getSchoolApplicationDetail,
   respondToInvite,
-} from "../../Features/Admin_Features/adminSlice";
+} from "../../Features/Admin_Features/AdminSlice";
 
 export default function ReviewAppForm({ appId,status }) {
   const fields = [
