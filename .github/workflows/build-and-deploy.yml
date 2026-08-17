@@ -16,7 +16,9 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Build React app
-        run: npm run build
+        run: |
+          rm -rf dist \
+          npm run build 
         env:
           VITE_BACKEND_URL: /api
       - name: Upload build artifact
@@ -24,13 +26,6 @@ jobs:
         with:
           name: geos-frontend
           path: dist 
-  check_prod_env:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Debug env file
-        run: cat ../.env.production
-      - name: Debug built output for /api or undefined
-        run: grep -o "undefined/api\|\"/api\"" dist/assets/*.js || echo "no match found"
   transfer_code:
     runs-on: ubuntu-latest
     needs: build
