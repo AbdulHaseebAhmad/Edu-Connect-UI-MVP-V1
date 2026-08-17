@@ -17,7 +17,7 @@ jobs:
         run: npm install
       - name: Build React app
         run: |
-          npm run build \
+          npm run build 
           grep -R "/api" dist/assets/
 
         env:
