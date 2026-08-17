@@ -16,7 +16,10 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Build React app
-        run:  npm run build 
+        run: |
+          npm run build \
+          grep -R "/api" dist/assets/
+
         env:
           VITE_BACKEND_URL: /api
       - name: Upload build artifact
