@@ -31,6 +31,7 @@ export default adminFeaturesSlice.reducer;
 export const SignupAdmin = createAsyncThunk(
   "admin/features/signup",
   async (credentials) => {
+    const URL = import.meta.env.VITE_BACKEND_URL;
     try {
       const response = await axios.post(
         `${URL}/api/sysadmin/signup`,
