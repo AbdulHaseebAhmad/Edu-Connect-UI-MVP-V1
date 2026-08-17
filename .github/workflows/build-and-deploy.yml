@@ -18,9 +18,12 @@ jobs:
       - name: Build React app
         run: |
           npm run build 
-          grep -R "import.meta.env" src/
-          grep -R "undefined" src/
-          grep -R "api/sysadmin" dist/assets/
+          echo "echoing .env.prod"
+          echo .env.production || true
+          echo "echoing greps"
+          grep -R "import.meta.env" src/ || true
+          grep -R "undefined" src/ || true
+          grep -R "api/sysadmin" dist/assets/ || true
         env:
           VITE_BACKEND_URL: /api
       - name: Upload build artifact
