@@ -23,6 +23,8 @@ jobs:
           name: geos-frontend
           path: dist 
   check_prod_env:
+    runs-on: ubuntu-latest
+    steps:
       - name: Debug env file
         run: cat .env.production
       - name: Debug built output for /api or undefined
