@@ -7,6 +7,7 @@ const initialState = {
 };
 
 const URL = import.meta.env.VITE_BACKEND_URL;
+console.log("BACKEND URL IS:", URL);
 const adminFeaturesSlice = createSlice({
   name: "admin/features",
   initialState,
@@ -30,9 +31,7 @@ export default adminFeaturesSlice.reducer;
 
 export const SignupAdmin = createAsyncThunk(
   "admin/features/signup",
-  async (credentials) => {
-    console.log("BACKEND URL IS:", URL);
-    const URL = import.meta.env.VITE_BACKEND_URL;
+  async (credentials) => {    
     try {
       const response = await axios.post(
         `/api/sysadmin/signup`,
