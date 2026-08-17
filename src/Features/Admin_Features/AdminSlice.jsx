@@ -33,7 +33,7 @@ export const SignupAdmin = createAsyncThunk(
   async (credentials) => {
     try {
       const response = await axios.post(
-        `${URL}/api/sysadmin/signup`,
+        `/api/sysadmin/signup`,
         credentials,
         {
           withCredentials: true,
@@ -54,7 +54,7 @@ export const SigninAdmin = createAsyncThunk(
   async (credentials) => {
     try {
       const response = await axios.post(
-        `${URL}/api/sysadmin/login`,
+        `/api/sysadmin/login`,
         credentials,
         {
           withCredentials: true,
@@ -77,7 +77,7 @@ export const createSchoolInvite = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.post(
-        `${URL}/api/sysadmin/invite/create`,
+        `/api/sysadmin/invite/create`,
         schooldata,
         {
           withCredentials: true,
@@ -100,7 +100,7 @@ export const sendSchoolInvite = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.post(
-        `${URL}/api/sysadmin/invite/send/${token}`,
+        `/api/sysadmin/invite/send/${token}`,
         link,
         {
           withCredentials: true,
@@ -122,7 +122,7 @@ export const getInviteAnalytics = createAsyncThunk(
   async (data, { getState }) => {
     const csrfToken = getState().authReducer.csrf_token;
     try {
-      const response = await axios.get(`${URL}/api/sysadmin/invite/analytics`, {
+      const response = await axios.get(`/api/sysadmin/invite/analytics`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -142,7 +142,7 @@ export const getAnalyticsList = createAsyncThunk(
   async (data, { getState }) => {
     const csrfToken = getState().authReducer.csrf_token;
     try {
-      const response = await axios.get(`${URL}/api/sysadmin/invite/lists`, {
+      const response = await axios.get(`/api/sysadmin/invite/lists`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -163,7 +163,7 @@ export const getAllInvites = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
-        `${URL}/api/sysadmin/schools/get/invites`,
+        `/api/sysadmin/schools/get/invites`,
         {
           withCredentials: true,
           headers: {
@@ -186,7 +186,7 @@ export const getSchoolApplications = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
-        `${URL}/api/sysadmin/invite/applications?limit=${limit}&offlimit=${offlimit}`,
+        `/api/sysadmin/invite/applications?limit=${limit}&offlimit=${offlimit}`,
         {
           withCredentials: true,
           headers: {
@@ -208,7 +208,7 @@ export const getSchoolApplicationDetail = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
-        `${URL}/api/sysadmin/invite/application?application_id=${application_id}`,
+        `/api/sysadmin/invite/application?application_id=${application_id}`,
         {
           withCredentials: true,
           headers: {
@@ -231,7 +231,7 @@ export const respondToInvite = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
-        `${URL}/api/sysadmin/invite/respond?application_id=${appid}&status=${status}`,
+        `/api/sysadmin/invite/respond?application_id=${appid}&status=${status}`,
         {
           withCredentials: true,
           headers: {
@@ -254,7 +254,7 @@ export const GetStudentsRegistry = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
-        `${URL}/api/sysadmin/student/app/registry?status=${status}`,
+        `/api/sysadmin/student/app/registry?status=${status}`,
         {
           withCredentials: true,
           headers: {
@@ -278,7 +278,7 @@ export const RespondToapplication = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
-        `${URL}/api/sysadmin/student/app/respond?action=${data.action}&id=${data.slug}`,
+        `/api/sysadmin/student/app/respond?action=${data.action}&id=${data.slug}`,
         {
           withCredentials: true,
           headers: {
@@ -300,7 +300,7 @@ export const GetstudentsDocuments = createAsyncThunk(
 
     try {
       const response = await axios.get(
-        `${URL}/api/sysadmin/student/documents?docname=${docData?.docname}&docmime=${docData?.docmime}&studentId=${docData?.slug}`,
+        `/api/sysadmin/student/documents?docname=${docData?.docname}&docmime=${docData?.docmime}&studentId=${docData?.slug}`,
         {
           withCredentials: true,
           responseType: "blob",
@@ -330,7 +330,7 @@ export const GetReceipts = createAsyncThunk(
   async (data, { getState }) => {
     const csrfToken = getState().authReducer.csrf_token;
     try {
-      const response = await axios.get(`${URL}/api/sysadmin/get/receipts`, {
+      const response = await axios.get(`/api/sysadmin/get/receipts`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -352,7 +352,7 @@ export const GetStudentReceipt = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
-        `${URL}/api/sysadmin/get/receipts?student_id=${student_id}`,
+        `/api/sysadmin/get/receipts?student_id=${student_id}`,
         {
           withCredentials: true,
           headers: {
@@ -376,7 +376,7 @@ export const RespondToReceipt = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
-        `${URL}/api/sysadmin/update/receipt/status?receipt_id=${data?.receipt_id}&status=${data?.status}`,
+        `/api/sysadmin/update/receipt/status?receipt_id=${data?.receipt_id}&status=${data?.status}`,
         {
           withCredentials: true,
           headers: {
@@ -399,7 +399,7 @@ export const getRegisteredStudents = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
-        `${URL}/api/sysadmin/student/get/registered`,
+        `/api/sysadmin/student/get/registered`,
         {
           withCredentials: true,
           headers: {
@@ -421,7 +421,7 @@ export const FetchScholarships = createAsyncThunk(
   async (data, { getState }) => {
     const csrfToken = getState().authReducer.csrf_token;
     try {
-      const response = await axios.get(`${URL}/api/sysadmin/scholarships/get`, {
+      const response = await axios.get(`/api/sysadmin/scholarships/get`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -442,7 +442,7 @@ export const AddScholarships = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.post(
-        `${URL}/api/sysadmin/scholarships/add`,
+        `/api/sysadmin/scholarships/add`,
         data,
         {
           withCredentials: true,
@@ -465,7 +465,7 @@ export const UpdateScholarship = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.put(
-        `${URL}/api/sysadmin/scholarships/update?scholarship_id=${data?.scholarship_id}`,
+        `/api/sysadmin/scholarships/update?scholarship_id=${data?.scholarship_id}`,
         data?.data,
         {
           withCredentials: true,
@@ -488,7 +488,7 @@ export const DeleteScholarship = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.delete(
-        `${URL}/api/sysadmin/scholarships/delete?scholarship_id=${scholarship_id}`,
+        `/api/sysadmin/scholarships/delete?scholarship_id=${scholarship_id}`,
         {
           withCredentials: true,
           headers: {
@@ -512,7 +512,7 @@ export const CreateWebinar = createAsyncThunk(
 
     try {
       const response = await axios.post(
-        `${URL}/api/sysadmin/webinar/create`,
+        `/api/sysadmin/webinar/create`,
         data,
         {
           withCredentials: true,
@@ -536,7 +536,7 @@ export const GetWebinars = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
 
     try {
-      const response = await axios.get(`${URL}/api/sysadmin/webinar/get`, {
+      const response = await axios.get(`/api/sysadmin/webinar/get`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -557,7 +557,7 @@ export const UpdateWebinar = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.put(
-        `${URL}/api/sysadmin/webinar/update?webinar_id=${data?.webinar_code}`,
+        `/api/sysadmin/webinar/update?webinar_id=${data?.webinar_code}`,
         data,
         {
           withCredentials: true,
@@ -581,7 +581,7 @@ export const DeleteWebinar = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.delete(
-        `${URL}/api/sysadmin/webinar/delete?webinar_id=${data}`,
+        `/api/sysadmin/webinar/delete?webinar_id=${data}`,
         {
           withCredentials: true,
           headers: {
@@ -603,7 +603,7 @@ export const FetchUniversities = createAsyncThunk(
   async (_, { getState }) => {
     const csrfToken = getState().authReducer.csrf_token;
     try {
-      const response = await axios.get(`${URL}/api/sysadmin/universities/get`, {
+      const response = await axios.get(`/api/sysadmin/universities/get`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -624,7 +624,7 @@ export const AddFeaturedPartners = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.post(
-        `${URL}/api/sysadmin/featured-partners/add`,
+        `/api/sysadmin/featured-partners/add`,
         data,
         {
           withCredentials: true,
@@ -648,7 +648,7 @@ export const GetfetchFeaturedPartners = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
-        `${URL}/api/sysadmin/featured-partners/get`,
+        `/api/sysadmin/featured-partners/get`,
         {
           withCredentials: true,
           headers: {
@@ -671,7 +671,7 @@ export const DeleteFeaturedPartner = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.delete(
-        `${URL}/api/sysadmin/featured-partners/delete?partner_id=${partner_id}`,
+        `/api/sysadmin/featured-partners/delete?partner_id=${partner_id}`,
         {
           withCredentials: true,
           headers: {
@@ -694,7 +694,7 @@ export const FetchUniversitiesCommisions = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
-        `${URL}/api/sysadmin/universities/commisions/get`,
+        `/api/sysadmin/universities/commisions/get`,
         {
           withCredentials: true,
           headers: {
@@ -718,7 +718,7 @@ export const AddUniversity = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.post(
-        `${URL}/api/university/add/university`,
+        `/api/university/add/university`,
         university,
         {
           withCredentials: true,
