@@ -34,7 +34,7 @@ export const SignupAdmin = createAsyncThunk(
   async (credentials) => {    
     try {
       const response = await axios.post(
-        `/api/sysadmin/signup`,
+        `api/sysadmin/signup`,
         credentials,
         {
           withCredentials: true,
