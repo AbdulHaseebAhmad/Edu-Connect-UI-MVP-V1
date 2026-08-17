@@ -33,7 +33,7 @@ export const SigninSchool = createAsyncThunk(
   async (credentials) => {
     try {
       const response = await axios.post(
-        `${URL}/api/schooladmin/login`,
+        `${URL}/schooladmin/login`,
         credentials,
         {
           withCredentials: true,
@@ -54,7 +54,7 @@ export const validateSchoolInviteLink = createAsyncThunk(
   async (token) => {
     try {
       const response = await axios.get(
-        `${URL}/api/schooladmin/invite/validate?invitation_id=${token}`,
+        `${URL}/schooladmin/invite/validate?invitation_id=${token}`,
         {
           withCredentials: true,
           headers: {
@@ -74,7 +74,7 @@ export const submitSchoolInfo = createAsyncThunk(
   async ({ formData, token }) => {
     try {
       const response = await axios.post(
-        `${URL}/api/schooladmin/invite/${token}/accept`,
+        `${URL}/schooladmin/invite/${token}/accept`,
         formData,
         {
           headers: {
@@ -95,7 +95,7 @@ export const GetUnProcessedStudents = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
-        `${URL}/api/schooladmin/unprocessed/students?school_id=${school_id}`,
+        `${URL}/schooladmin/unprocessed/students?school_id=${school_id}`,
         {
           withCredentials: true,
           headers: {
@@ -120,7 +120,7 @@ export const VerifyStudentAccount = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
-        `${URL}/api/schooladmin/verify/students?school_id=${data?.school_id}&student_id=${data?.student_id}&status=${data?.status}`,
+        `${URL}/schooladmin/verify/students?school_id=${data?.school_id}&student_id=${data?.student_id}&status=${data?.status}`,
         {
           withCredentials: true,
           headers: {
@@ -143,7 +143,7 @@ export const GetProcessedStudents = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
-        `${URL}/api/schooladmin/processed/students?school_id=${data?.school_id}&status=${data?.status}`,
+        `${URL}/schooladmin/processed/students?school_id=${data?.school_id}&status=${data?.status}`,
         {
           withCredentials: true,
           headers: {
@@ -167,7 +167,7 @@ export const GetSchoolProfileData = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
-        `${URL}/api/schooladmin/profile?school_id=${school_id}`,
+        `${URL}/schooladmin/profile?school_id=${school_id}`,
         {
           withCredentials: true,
           headers: {
@@ -190,7 +190,7 @@ export const GetSchoolAnalytics = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
-        `${URL}/api/schooladmin/statistics?school_id=${school_id}`,
+        `${URL}/schooladmin/statistics?school_id=${school_id}`,
         {
           withCredentials: true,
           headers: {
@@ -213,7 +213,7 @@ export const GetEnrolledStudents = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
-        `${URL}/api/schooladmin/enrolled/students?school_id=${school_id}`,
+        `${URL}/schooladmin/enrolled/students?school_id=${school_id}`,
         {
           withCredentials: true,
           headers: {
@@ -236,7 +236,7 @@ export const GetRejectededStudents = createAsyncThunk(
     const csrfToken = getState().authReducer.csrf_token;
     try {
       const response = await axios.get(
-        `${URL}/api/schooladmin/rejected/students?school_id=${school_id}`,
+        `${URL}/schooladmin/rejected/students?school_id=${school_id}`,
         {
           withCredentials: true,
           headers: {
