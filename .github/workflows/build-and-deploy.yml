@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Debug env file
-        run: cat .env.production
+        run: cat ../.env.production
       - name: Debug built output for /api or undefined
         run: grep -o "undefined/api\|\"/api\"" dist/assets/*.js || echo "no match found"
   transfer_code:
