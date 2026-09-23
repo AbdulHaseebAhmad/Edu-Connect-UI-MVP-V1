@@ -44,10 +44,10 @@ jobs:
         run: |
           echo "${{ secrets.GEOS_BASTION_KEY_PAIR }}" > key.pem
           chmod 600 key.pem
-          scp -o StrictHostKeyChecking=no -r -i key.pem dist ubuntu@18.170.213.188:/home/ubuntu/geos-frontend
+          scp -o StrictHostKeyChecking=no -r -i key.pem dist ubuntu@35.178.174.173:/home/ubuntu/geos-frontend
       - name: SSH to Bastion and COPY to app servers
         run: |
-           ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@18.170.213.188 \
-           "scp -o StrictHostKeyChecking=no -r -i ~/.ssh/geos_app_server.pem /home/ubuntu/geos-frontend ubuntu@10.0.12.30:/var/www/"
-           ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@18.170.213.188  \
-           "scp -o StrictHostKeyChecking=no -r -i ~/.ssh/geos_app_server.pem /home/ubuntu/geos-frontend ubuntu@10.0.11.111:/var/www/"
+           ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@35.178.174.173 \
+           "scp -o StrictHostKeyChecking=no -r -i ~/.ssh/geos_app_server.pem /home/ubuntu/geos-frontend ubuntu@10.1.12.236:/var/www/"
+           ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@35.178.174.173  \
+           "scp -o StrictHostKeyChecking=no -r -i ~/.ssh/geos_app_server.pem /home/ubuntu/geos-frontend ubuntu@10.1.11.103:/var/www/"
